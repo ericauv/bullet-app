@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Activities from './Activities';
+import GridMonthly from './GridMonthly';
 
 class App extends React.Component {
   state = {
@@ -20,7 +22,13 @@ class App extends React.Component {
       })
     )
   };
-  render() {}
+
+  render() {
+    const activities = new Activities();
+    // Get Activities Data
+    const activitiesList = [...activities.state.activitiesList];
+    return <GridMonthly activities={activitiesList} />;
+  }
 }
 
 export default App;
