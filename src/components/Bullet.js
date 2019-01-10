@@ -1,25 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
 class Bullet extends React.Component {
   static propTypes = {
     name: PropTypes.string,
-    date: PropTypes.number,
+    date: PropTypes.instanceOf(Date),
     colour: PropTypes.string,
     quantPercentFilled: PropTypes.number
   };
 
   render() {
-    const { name, date, colour, quantPercentFilled } = { ...this.props };
-    const divStyle = {
-      background: colour
-    };
-    return (
-      <div class="bullet" style={divStyle}>
-        name:{name} | date: {date} | colour: {colour} | fill:{' '}
-        {quantPercentFilled}{' '}
-      </div>
-    );
+    const BulletTag = styled.div`
+      background: ${this.props.colour};
+      opacity: ${this.props.quantPercentFilled};
+      width: 50px;
+      height: 50px;
+      border: 1px solid;
+      border-radius: 2px 2px 2px 2px;
+    `;
+    return <BulletTag />;
   }
 }
 export default Bullet;

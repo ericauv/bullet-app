@@ -10,15 +10,24 @@ class Activities extends React.Component {
         quantTarget: 2,
         unit: 'lessons',
         category: 'Intellectual',
-        dateCreated: Date.now(),
+        dateCreated: new Date('2019/01/03'),
         colour: 'yellow',
         days: [
           {
-            date: Date.now(),
+            date: new Date('2019/01/4'),
             notes: 'notehaha1',
             quantFilled: 1
           },
-          { date: Date.now(), notes: 'notehaha1', quantFilled: 2 }
+          {
+            date: new Date(),
+            notes: 'notehaha1',
+            quantFilled: 2
+          },
+          {
+            date: new Date(),
+            notes: 'notehahassd1',
+            quantFilled: 0.5
+          }
         ]
       },
       {
@@ -27,16 +36,16 @@ class Activities extends React.Component {
         quantTarget: 6,
         unit: 'lessons',
         category: 'Intellectual',
-        dateCreated: Date.now(),
+        dateCreated: new Date('2018/01/30'),
         colour: 'orange',
         days: [
           {
-            date: Date.now(),
+            date: new Date(),
             notes: 'nddderotehaha1',
             quantFilled: 5
           },
           {
-            date: Date.now(),
+            date: new Date(),
             notes: 'notehaha123123',
             quantFilled: 2
           }
@@ -48,16 +57,16 @@ class Activities extends React.Component {
         quantTarget: 3,
         unit: 'lessons',
         category: 'Intellectual',
-        dateCreated: Date.now(),
+        dateCreated: new Date('2019/01/05'),
         colour: 'red',
         days: [
           {
-            date: Date.now(),
+            date: new Date(),
             notes: 'notehaha3',
             quantFilled: 1
           },
           {
-            date: Date.now(),
+            date: new Date(),
             notes: '123213notehaha111',
             quantFilled: 3
           }
