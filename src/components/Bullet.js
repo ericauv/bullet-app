@@ -4,22 +4,23 @@ import styled from 'styled-components';
 
 class Bullet extends React.Component {
   static propTypes = {
-    name: PropTypes.string,
     date: PropTypes.instanceOf(Date),
     colour: PropTypes.string,
-    quantPercentFilled: PropTypes.number
+    quantPercentFilled: PropTypes.number,
+    isBeforeCreationDate: PropTypes.bool,
+    isAfterToday: PropTypes.bool
   };
 
   render() {
+    console.log(`background-color: rbga(${this.props.colour}, 1)`);
+
     const BulletTag = styled.div`
-      background: ${this.props.colour};
-      opacity: ${this.props.quantPercentFilled};
-      width: 50px;
-      height: 50px;
-      border: 1px solid;
-      border-radius: 2px 2px 2px 2px;
+      background-color: rgba(
+        ${this.props.colour},
+        ${this.props.quantPercentFilled}
+      );
     `;
-    return <BulletTag />;
+    return <BulletTag className="bullet" />;
   }
 }
 export default Bullet;

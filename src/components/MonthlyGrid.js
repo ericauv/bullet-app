@@ -24,7 +24,7 @@ class MonthlyGrid extends React.Component {
     const activities = this.props.activities;
     const MonthlyGridTag = styled.div`
       display: grid;
-      grid-gap: 8px;
+      grid-gap: 5px;
     `;
 
     return (
