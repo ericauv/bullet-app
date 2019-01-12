@@ -34,13 +34,10 @@ class App extends React.Component {
   updateDay = (activityIndex, day, quantToFill) => {
     // Make a copy of state
     const activities = this.state.activities;
-
     // Make a copy of the activity
     const activity = activities.find(
       activityItem => activityItem.index === activityIndex
     );
-    console.log(activity.name, activity.colour);
-
     const dayToFill = activity.days.find(dayItem => {
       return dayItem.date.toDateString() === day.toDateString();
     });
@@ -52,8 +49,9 @@ class App extends React.Component {
       return;
     } else {
       // Fill or unfill the day
-      dayToFill.quantFilled = quantToFill == 0 ? 0 : activity.quantTarget;
+      dayToFill.quantFilled = quantToFill === 0 ? 0 : activity.quantTarget;
     }
+    // Set the state
     this.setState({ activities });
   };
 

@@ -19,7 +19,7 @@ class Bullet extends React.Component {
     // Do NOTHING if not a bullet that can be clicked
     if (this.props.isBeforeCreationDate || this.props.isAfterToday) return;
     // Determine whether filling or unfilling day
-    const quantToFill = this.props.quantPercentFilled > 0 ? 0 : 1;
+    const quantToFill = this.props.quantFilled > 0 ? 0 : 1;
     // Update the day that corresponds to the clicked bullet
     this.props.updateDay(
       this.props.activityIndex,
@@ -27,6 +27,8 @@ class Bullet extends React.Component {
       quantToFill
     );
   };
+
+  handleMouseOver = () => {};
 
   styleBullet() {
     // return styled
@@ -47,7 +49,11 @@ class Bullet extends React.Component {
       background-color: rgba(
         ${this.props.colour},
         ${(this.props.quantFilled / this.props.quantTarget) * 1.5}
-    );`;
+    );
+      &:hover {
+        cursor: pointer;
+      }
+      `;
 
     // Dead Bullet (before creation date)
     const bullet_dead = styled.div`
@@ -90,7 +96,12 @@ class Bullet extends React.Component {
   render() {
     // Style the bullet tag based on if it is dead, future, or live bullet
     const BulletTag = this.styleBullet();
-    return <BulletTag onClick={this.handleClick} />;
+    return (
+      <BulletTag
+        onClick={this.handleClick}
+        onMouseOver={this.handleMouseOver}
+      />
+    );
   }
 }
 export default Bullet;
