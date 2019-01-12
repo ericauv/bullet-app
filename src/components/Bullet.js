@@ -28,8 +28,6 @@ class Bullet extends React.Component {
     );
   };
 
-  handleMouseOver = () => {};
-
   styleBullet() {
     // return styled
     let bulletTag;
@@ -96,12 +94,7 @@ class Bullet extends React.Component {
   render() {
     // Style the bullet tag based on if it is dead, future, or live bullet
     const BulletTag = this.styleBullet();
-    return (
-      <BulletTag
-        onClick={this.handleClick}
-        onMouseOver={this.handleMouseOver}
-      />
-    );
+    return <BulletTag onClick={this.handleClick} />;
   }
 }
 export default Bullet;
