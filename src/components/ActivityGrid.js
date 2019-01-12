@@ -34,13 +34,20 @@ class ActivityGrid extends React.Component {
   }
 
   generateFutureBullets(dateForGrid) {
-    const numDaysInMonth = daysInMonth(
-      dateForGrid.getMonth(),
-      dateForGrid.getFullYear()
-    );
+    const gridYear = dateForGrid.getFullYear();
+    const gridMonth = dateForGrid.getMonth();
+    const numDaysInMonth = daysInMonth(gridMonth, gridYear);
     const bullets = [];
     for (let i = dateForGrid.getDate(); i < numDaysInMonth; i++) {
-      bullets.push(<div key={i} className="bullet bullet--future" />);
+      bullets.push(
+        <Bullet
+          date={new Date(`'${gridYear}/${gridMonth}/${i}'`)}
+          colour="rbga(0,0,0,0)"
+          quantPercentFilled={0}
+          isBeforeCreationDate={false}
+          isAfterToday={true}
+        />
+      );
     }
     return bullets;
   }
@@ -48,14 +55,7 @@ class ActivityGrid extends React.Component {
     /* Styling */
     const ActivityGridTag = styled.div`
       display: grid;
-      grid-template-columns: repeat(
-        ${daysInMonth(
-          // Number of columns in grid = number of days in this month
-          this.props.dateForGrid.getMonth(),
-          this.props.dateForGrid.getFullYear()
-        )},
-        minmax(20px, 1fr)
-      );
+      grid-template-columns: repeat(auto-fit, minmax(20px, 1fr));
       grid-gap: 5px;
       max-width: 100%;
     `;

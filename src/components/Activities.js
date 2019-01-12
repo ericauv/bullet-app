@@ -10,26 +10,26 @@ class Activities extends React.Component {
         quantTarget: 2,
         unit: 'lessons',
         category: 'Intellectual',
-        dateCreated: new Date('2019/01/03'),
+        dateCreated: new Date('2019/1/1'),
         colour: '255,0,0',
         days: [
           {
-            date: new Date('2019/01/4'),
+            date: new Date('2019/1/1'),
             notes: 'notehaha1',
             quantFilled: 1
           },
           {
-            date: new Date('2019/01/5'),
+            date: new Date('2019/1/2'),
             notes: 'notehaha1',
             quantFilled: 2
           },
           {
-            date: new Date('2019/01/6'),
+            date: new Date('2019/1/3'),
             notes: 'notehahassd1',
             quantFilled: 0.5
           },
           {
-            date: new Date('2019/01/7'),
+            date: new Date('2019/1/4'),
             notes: 'notehahassd1',
             quantFilled: 0.5
           }
@@ -41,7 +41,7 @@ class Activities extends React.Component {
         quantTarget: 6,
         unit: 'lessons',
         category: 'Intellectual',
-        dateCreated: new Date('2018/01/30'),
+        dateCreated: new Date('2018/12/31'),
         colour: '0,255,0',
         days: [
           {
@@ -80,29 +80,23 @@ class Activities extends React.Component {
     ]
   };
 
-  generateFillableDays() {
+  generateDaysUntilToday() {
     // generate empty 'day' objects between last 'day' object and current date
     const activitiesList = [...this.state.activitiesList];
 
     activitiesList.map(activity => {
-      // Get latest day object from activity [NOTE: ASSUMES ACTIVITY DAYS ARE SORTED IN CHRONOLOGICAL ORDER!]
-      // !!! TODO SORT ACTIVITY DAYS IN CHRONOLOGICAL ORDER
+      // Sort activity.days to be in chronological order
+      activity.days.sort((a, b) => (a.date > b.date ? 1 : -1));
+      // Get latest day object from activity.days
       const latestDayObj = activity.days[activity.days.length - 1].date;
       const today = new Date();
       // Don't generate any days if latest day is today
       if (latestDayObj.toDateString() === today.toDateString()) return;
-      // start generating days at first day of this month unless there are already days data in this month
-      let latestDay = 0;
-      if (
-        latestDayObj.getYear() === today.getYear() &&
-        latestDayObj.getMonth() === today.getMonth()
-      ) {
-        latestDay = latestDayObj.getDate();
-      }
       let nextDay = new Date(latestDayObj);
+      // Create newDays array to store generated days
       const newDays = [];
-      // Build new days array
-      for (let i = 1; i <= today.getDate() - latestDay; i++) {
+      // Build newDays array
+      for (let i = 1; i <= dateDiff('d', latestDayObj, today); i++) {
         nextDay.setDate(nextDay.getDate() + 1);
         const nextDayObj = {
           date: new Date(nextDay),
@@ -111,10 +105,11 @@ class Activities extends React.Component {
         };
         newDays.push(nextDayObj);
       }
-      // Append new days to activity
+      // Append newDays to activity.days
       activity.days.push(...newDays);
     });
-    this.state = { activitiesList };
+    // Update state
+    this.setState(activitiesList);
   }
 }
 

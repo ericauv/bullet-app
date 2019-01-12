@@ -25,7 +25,7 @@ class App extends React.Component {
 
   render() {
     const activities = new Activities();
-    activities.generateFillableDays();
+    activities.generateDaysUntilToday();
     // Get Activities Data
     const activitiesList = [...activities.state.activitiesList];
     return <MonthlyGrid activities={activitiesList} dateForGrid={new Date()} />;

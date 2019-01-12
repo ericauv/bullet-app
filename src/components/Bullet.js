@@ -12,15 +12,19 @@ class Bullet extends React.Component {
   };
 
   render() {
-    console.log(`background-color: rbga(${this.props.colour}, 1)`);
-
+    let className;
+    if(this.props.isBeforeCreationDate === true){
+      className = 'bullet--dead';
+    }else if(this.props.isAfterToday === true){
+      className = 'bullet--future';
+    };
     const BulletTag = styled.div`
       background-color: rgba(
         ${this.props.colour},
         ${this.props.quantPercentFilled}
       );
     `;
-    return <BulletTag className="bullet" />;
+    return <BulletTag  className = {`bullet ${className}`}/>;
   }
 }
 export default Bullet;
