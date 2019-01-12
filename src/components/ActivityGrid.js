@@ -5,13 +5,9 @@ import Bullet from './Bullet';
 import { daysInMonth } from './Helper';
 
 class ActivityGrid extends React.Component {
-  state = {
-    activity: {},
-    dateForGrid: null
-  };
-
   static propTypes = {
     activity: PropTypes.shape({
+      index: PropTypes.string,
       name: PropTypes.string,
       desc: PropTypes.string,
       quantTarget: PropTypes.number,
@@ -21,14 +17,27 @@ class ActivityGrid extends React.Component {
       colour: PropTypes.string,
       days: PropTypes.array
     }),
-    dateForGrid: PropTypes.instanceOf(Date)
+    dateForGrid: PropTypes.instanceOf(Date),
+    updateDay: PropTypes.func
   };
 
-  generateDeadBullets(startDay = 1) {
+  generateDeadBullets(dateForGrid, startDay = 1) {
     if (startDay <= 1) return; // Don't generate dead bullets, since all bullets for the month will be live
+    const gridYear = dateForGrid.getFullYear();
+    const gridMonth = dateForGrid.getMonth();
     const bullets = [];
     for (let i = 1; i <= startDay; i++) {
-      bullets.push(<div key={i} className="bullet bullet--dead" />);
+      const dateString = `'${gridYear}/${gridMonth}/${i}'`;
+      bullets.push(
+        <Bullet
+          key={`${this.props.activity.name}_${dateString}_dead`}
+          date={new Date(dateString)}
+          colour="rbga(0,0,0,0)"
+          quantPercentFilled={0}
+          isBeforeCreationDate={true}
+          isAfterToday={false}
+        />
+      );
     }
     return bullets;
   }
@@ -39,9 +48,11 @@ class ActivityGrid extends React.Component {
     const numDaysInMonth = daysInMonth(gridMonth, gridYear);
     const bullets = [];
     for (let i = dateForGrid.getDate(); i < numDaysInMonth; i++) {
+      const dateString = `'${gridYear}/${gridMonth}/${i}'`;
       bullets.push(
         <Bullet
-          date={new Date(`'${gridYear}/${gridMonth}/${i}'`)}
+          key={`${this.props.activity.name}_${dateString}_future`}
+          date={new Date(dateString)}
           colour="rbga(0,0,0,0)"
           quantPercentFilled={0}
           isBeforeCreationDate={false}
@@ -86,12 +97,12 @@ class ActivityGrid extends React.Component {
     return (
       <ActivityGridTag>
         {// Generate 'dead' bullets prior to activity's start date
-        this.generateDeadBullets(startDay)}
+        this.generateDeadBullets(this.props.dateForGrid, startDay)}
         {activity.days.map((day, i) => {
           // Render Bullet for current day
           return (
             <Bullet
-              key={`${activity.name}-${day.date}`}
+              key={`${activity.name}_${day.date.toDateString()}_dead`}
               name={activity.name}
               date={day.date}
               colour={activity.colour}

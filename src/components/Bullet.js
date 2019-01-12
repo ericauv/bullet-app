@@ -4,27 +4,85 @@ import styled from 'styled-components';
 
 class Bullet extends React.Component {
   static propTypes = {
+    activityIndex: PropTypes.string,
     date: PropTypes.instanceOf(Date),
     colour: PropTypes.string,
     quantPercentFilled: PropTypes.number,
     isBeforeCreationDate: PropTypes.bool,
-    isAfterToday: PropTypes.bool
+    isAfterToday: PropTypes.bool,
+    updateDay: PropTypes.func
   };
 
-  render() {
-    let className;
-    if(this.props.isBeforeCreationDate === true){
-      className = 'bullet--dead';
-    }else if(this.props.isAfterToday === true){
-      className = 'bullet--future';
-    };
-    const BulletTag = styled.div`
+  handleClick() {
+    // Do NOTHING if not a bullet that can be clicked
+    if (this.props.isBeforeCreationDate || this.props.isAfterToday) return;
+    // Update the day that corresponds to the clicked bullet
+    this.props.updateDay(this.props.activityIndex, this.props.date);
+  }
+
+  styleBullet() {
+    // return styled
+    let bulletTag;
+
+    // All Bullet
+    const bullet = `
+    width:22px;
+    height:22px;
+    max-width:100%;
+    max-height:100%;
+    border: 1px solid;
+    border-radius: 2px 2px 2px 2px;`;
+
+    // Live Bullet
+    const bullet_live = styled.div`
+      ${bullet}
       background-color: rgba(
         ${this.props.colour},
         ${this.props.quantPercentFilled}
+    );`;
+
+    // Dead Bullet (before creation date)
+    const bullet_dead = styled.div`
+      ${bullet}
+      background:   /* On "top" */
+      repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        #ccc 10px,
+        #ccc 20px
+      ),
+      /* on "bottom" */
+      linear-gradient(
+        to bottom,
+        black,
+        #999
       );
+      opacity: 0.2;
     `;
-    return <BulletTag  className = {`bullet ${className}`}/>;
+
+    // Future Bullet (after today)
+    const bullet_future = styled.div`
+      ${bullet}
+      background: transparent;
+      border: dashed 0.5px;
+      opacity: 0.3;
+    `;
+
+    if (this.props.isBeforeCreationDate === true) {
+      bulletTag = bullet_dead;
+    } else if (this.props.isAfterToday === true) {
+      bulletTag = bullet_future;
+    } else {
+      bulletTag = bullet_live;
+    }
+    return bulletTag;
+  }
+
+  render() {
+    // Style the bullet tag based on if it is dead, future, or live bullet
+    const BulletTag = this.styleBullet();
+    return <BulletTag onClick={this.handleClick} />;
   }
 }
 export default Bullet;

@@ -23,12 +23,28 @@ class App extends React.Component {
     )
   };
 
+  componentWillMount() {
+    // Populate Activities Data before mounting
+    const activitiesObj = new Activities();
+    activitiesObj.generateDaysUntilToday();
+    const activities = [...activitiesObj.state];
+    this.setState({ activities });
+  }
+
+  updateDay(activity, day) {}
+
   render() {
-    const activities = new Activities();
-    activities.generateDaysUntilToday();
-    // Get Activities Data
-    const activitiesList = [...activities.state.activitiesList];
-    return <MonthlyGrid activities={activitiesList} dateForGrid={new Date()} />;
+    // const activities = new Activities();
+    // activities.generateDaysUntilToday();
+    // // Get Activities Data
+    // const activitiesList = [...activities.state.activitiesList];
+    return (
+      <MonthlyGrid
+        activities={this.state.activities}
+        dateForGrid={new Date()}
+        updateDay={this.updateDay}
+      />
+    );
   }
 }
 

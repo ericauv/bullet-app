@@ -5,6 +5,7 @@ class Activities extends React.Component {
     // Test Activities Data
     activitiesList: [
       {
+        index: `activity${new Date().getMilliseconds()}`,
         name: 'React/ES6',
         desc: 'Do the lessons',
         quantTarget: 2,
@@ -36,6 +37,7 @@ class Activities extends React.Component {
         ]
       },
       {
+        index: `activity${new Date().getMilliseconds()}`,
         name: 'JS30',
         desc: 'Do the lessons',
         quantTarget: 6,
@@ -57,6 +59,7 @@ class Activities extends React.Component {
         ]
       },
       {
+        index: `activity${new Date().getMilliseconds()}`,
         name: 'CSS GRID',
         desc: 'Do the lessons!!!! CSS GRID MAN',
         quantTarget: 3,
@@ -91,7 +94,7 @@ class Activities extends React.Component {
       const latestDayObj = activity.days[activity.days.length - 1].date;
       const today = new Date();
       // Don't generate any days if latest day is today
-      if (latestDayObj.toDateString() === today.toDateString()) return;
+      if (latestDayObj.toDateString() === today.toDateString()) return activity;
       let nextDay = new Date(latestDayObj);
       // Create newDays array to store generated days
       const newDays = [];
@@ -107,9 +110,10 @@ class Activities extends React.Component {
       }
       // Append newDays to activity.days
       activity.days.push(...newDays);
+      return activity;
     });
     // Update state
-    this.setState(activitiesList);
+    this.state = activitiesList;
   }
 }
 
