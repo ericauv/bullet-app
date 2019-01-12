@@ -7,18 +7,26 @@ class Bullet extends React.Component {
     activityIndex: PropTypes.string,
     date: PropTypes.instanceOf(Date),
     colour: PropTypes.string,
-    quantPercentFilled: PropTypes.number,
+    quantFilled: PropTypes.number,
+    quantTarget: PropTypes.number,
+    quantUnit: PropTypes.string,
     isBeforeCreationDate: PropTypes.bool,
     isAfterToday: PropTypes.bool,
     updateDay: PropTypes.func
   };
 
-  handleClick() {
+  handleClick = () => {
     // Do NOTHING if not a bullet that can be clicked
     if (this.props.isBeforeCreationDate || this.props.isAfterToday) return;
+    // Determine whether filling or unfilling day
+    const quantToFill = this.props.quantPercentFilled > 0 ? 0 : 1;
     // Update the day that corresponds to the clicked bullet
-    this.props.updateDay(this.props.activityIndex, this.props.date);
-  }
+    this.props.updateDay(
+      this.props.activityIndex,
+      this.props.date,
+      quantToFill
+    );
+  };
 
   styleBullet() {
     // return styled
@@ -38,7 +46,7 @@ class Bullet extends React.Component {
       ${bullet}
       background-color: rgba(
         ${this.props.colour},
-        ${this.props.quantPercentFilled}
+        ${(this.props.quantFilled / this.props.quantTarget) * 1.5}
     );`;
 
     // Dead Bullet (before creation date)

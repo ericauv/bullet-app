@@ -7,6 +7,7 @@ class MonthlyGrid extends React.Component {
   static propTypes = {
     activities: PropTypes.arrayOf(
       PropTypes.shape({
+        index: PropTypes.string,
         name: PropTypes.string,
         desc: PropTypes.string,
         quantTarget: PropTypes.number,
@@ -17,24 +18,30 @@ class MonthlyGrid extends React.Component {
         days: PropTypes.array
       })
     ),
-    dateForGrid: PropTypes.instanceOf(Date)
+    dateForGrid: PropTypes.instanceOf(Date),
+    updateDay: PropTypes.func
   };
 
-  render() {
-    const activities = this.props.activities;
-    const MonthlyGridTag = styled.div`
+  styleMonthlyGrid() {
+    const monthlyGridTag = styled.div`
       display: grid;
       grid-gap: 5px;
     `;
+    return monthlyGridTag;
+  }
 
+  render() {
+    // Styling
+    const MonthlyGridTag = this.styleMonthlyGrid();
     return (
       <MonthlyGridTag>
-        {activities.map(activity => {
+        {this.props.activities.map(activity => {
           return (
             <ActivityGrid
               key={activity.name}
               activity={activity}
               dateForGrid={this.props.dateForGrid}
+              updateDay={this.props.updateDay}
             />
           );
         })}

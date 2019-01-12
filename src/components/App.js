@@ -31,7 +31,31 @@ class App extends React.Component {
     this.setState({ activities });
   }
 
-  updateDay(activity, day) {}
+  updateDay = (activityIndex, day, quantToFill) => {
+    // Make a copy of state
+    const activities = this.state.activities;
+
+    // Make a copy of the activity
+    const activity = activities.find(
+      activityItem => activityItem.index === activityIndex
+    );
+    console.log(activity.name, activity.colour);
+
+    const dayToFill = activity.days.find(dayItem => {
+      return dayItem.date.toDateString() === day.toDateString();
+    });
+    // Don't try to update the day if it didn't exist
+    if (!(activity && dayToFill)) {
+      console.error(
+        `Could not find day with activityIndex: ${activityIndex} and day: ${day.toDateString()}`
+      );
+      return;
+    } else {
+      // Fill or unfill the day
+      dayToFill.quantFilled = quantToFill == 0 ? 0 : activity.quantTarget;
+    }
+    this.setState({ activities });
+  };
 
   render() {
     // const activities = new Activities();

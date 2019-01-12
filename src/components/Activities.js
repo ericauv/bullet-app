@@ -5,7 +5,7 @@ class Activities extends React.Component {
     // Test Activities Data
     activitiesList: [
       {
-        index: `activity${new Date().getMilliseconds()}`,
+        index: `activity1`,
         name: 'React/ES6',
         desc: 'Do the lessons',
         quantTarget: 2,
@@ -37,7 +37,7 @@ class Activities extends React.Component {
         ]
       },
       {
-        index: `activity${new Date().getMilliseconds()}`,
+        index: `activity2`,
         name: 'JS30',
         desc: 'Do the lessons',
         quantTarget: 6,
@@ -59,7 +59,7 @@ class Activities extends React.Component {
         ]
       },
       {
-        index: `activity${new Date().getMilliseconds()}`,
+        index: `activity3`,
         name: 'CSS GRID',
         desc: 'Do the lessons!!!! CSS GRID MAN',
         quantTarget: 3,
