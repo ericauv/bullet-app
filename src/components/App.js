@@ -113,7 +113,12 @@ class App extends React.Component {
           dateForGrid={new Date()}
           updateDay={this.updateDay}
         />
-        <button onClick={this.loadSampleDays} />
+        <button onClick={this.loadSampleDays}>Load Sample Activities</button>
+        <form>
+          <input type="text" default="Activity Name" />
+          <input type="number" />
+          <button onClick={this.addActivity}>Add Activity</button>
+        </form>
       </React.Fragment>
     );
   }
