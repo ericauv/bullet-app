@@ -13,7 +13,7 @@ class ActivityGrid extends React.Component {
       quantTarget: PropTypes.number,
       unit: PropTypes.string,
       category: PropTypes.string,
-      dateCreated: PropTypes.instanceOf(Date),
+      dateCreated: PropTypes.string,
       colour: PropTypes.string,
       days: PropTypes.object
     }),
@@ -94,7 +94,7 @@ class ActivityGrid extends React.Component {
 
     const activity = this.props.activity;
     const startDay = this.getStartDayForActivityGrid(
-      activity.dateCreated,
+      new Date(activity.dateCreated),
       this.props.dateForGrid
     );
     const sortedDays = Object.keys(activity.days).sort((a, b) =>

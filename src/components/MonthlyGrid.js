@@ -14,7 +14,7 @@ class MonthlyGrid extends React.Component {
         quantTarget: PropTypes.number,
         unit: PropTypes.string,
         category: PropTypes.string,
-        dateCreated: PropTypes.instanceOf(Date),
+        dateCreated: PropTypes.string,
         colour: PropTypes.string,
         days: PropTypes.object
       })

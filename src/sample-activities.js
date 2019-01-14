@@ -6,7 +6,7 @@ const sampleActivities = {
     quantTarget: 2,
     unit: 'lessons',
     category: 'Intellectual',
-    dateCreated: new Date('2019/1/1'),
+    dateCreated: new Date('2019/1/1').toDateString(),
     colour: '255,0,0',
     days: {
       [new Date('2019/1/1').toDateString()]: {
@@ -34,7 +34,7 @@ const sampleActivities = {
     quantTarget: 6,
     unit: 'lessons',
     category: 'Intellectual',
-    dateCreated: new Date('2018/12/31'),
+    dateCreated: new Date('2018/12/31').toDateString(),
     colour: '0,255,0',
     days: {
       [new Date('2019/01/01').toDateString()]: {
@@ -54,7 +54,7 @@ const sampleActivities = {
     quantTarget: 3,
     unit: 'lessons',
     category: 'Intellectual',
-    dateCreated: new Date('2019/01/07'),
+    dateCreated: new Date('2019/01/07').toDateString(),
     colour: '0,0,255',
     days: {
       [new Date('2019/01/08').toDateString()]: {

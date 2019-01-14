@@ -79,7 +79,7 @@ class App extends React.Component {
       quantTarget: 0,
       unit: '',
       category: '',
-      dateCreated: new Date(id),
+      dateCreated: new Date(id).toDateString(),
       colour: '0,0,0',
       days: {
         [new Date().toDateString()]: {
