@@ -4,8 +4,8 @@ import styled from 'styled-components';
 
 class Bullet extends React.Component {
   static propTypes = {
-    activityIndex: PropTypes.string,
-    date: PropTypes.instanceOf(Date),
+    activityId: PropTypes.number,
+    date: PropTypes.string,
     colour: PropTypes.string,
     quantFilled: PropTypes.number,
     quantTarget: PropTypes.number,
@@ -14,62 +14,50 @@ class Bullet extends React.Component {
     isAfterToday: PropTypes.bool,
     updateDay: PropTypes.func
   };
-
-  handleClick = () => {
-    // Do NOTHING if not a bullet that can be clicked
-    if (this.props.isBeforeCreationDate || this.props.isAfterToday) return;
-    // Determine whether filling or unfilling day
-    const quantToFill = this.props.quantFilled > 0 ? 0 : 1;
-    // Update the day that corresponds to the clicked bullet
-    this.props.updateDay(
-      this.props.activityIndex,
-      this.props.date,
-      quantToFill
-    );
-  };
-
   styleBullet() {
     // return styled
     let bulletTag;
 
     // All Bullet
     const bullet = `
-    width:22px;
-    height:22px;
-    max-width:100%;
-    max-height:100%;
-    border: 1px solid;
-    border-radius: 2px 2px 2px 2px;`;
+                          width:22px;
+                          height:22px;
+                          max-width:100%;
+                          max-height:100%;
+                          border: 1px solid;
+                          border-radius: 2px 2px 2px 2px;`;
 
     // Live Bullet
     const bullet_live = styled.div`
-      ${bullet}
-      background-color: rgba(
-        ${this.props.colour},
-        ${(this.props.quantFilled / this.props.quantTarget) * 1.5}
-    );
-      &:hover {
-        cursor: pointer;
-      }
-      `;
+                            ${bullet}
+                            background-color: rgba(
+                              ${this.props.colour},
+                              ${(this.props.quantFilled /
+                                this.props.quantTarget) *
+                                1.5}
+                          );
+                            &:hover {
+                              cursor: pointer;
+                            }
+                            `;
 
     // Dead Bullet (before creation date)
     const bullet_dead = styled.div`
       ${bullet}
       background:   /* On "top" */
-      repeating-linear-gradient(
-        45deg,
-        transparent,
-        transparent 10px,
-        #ccc 10px,
-        #ccc 20px
-      ),
-      /* on "bottom" */
-      linear-gradient(
-        to bottom,
-        black,
-        #999
-      );
+                            repeating-linear-gradient(
+                              45deg,
+                              transparent,
+                              transparent 10px,
+                              #ccc 10px,
+                              #ccc 20px
+                            ),
+                            /* on "bottom" */
+                            linear-gradient(
+                              to bottom,
+                              black,
+                              #999
+                            );
       opacity: 0.2;
     `;
 
@@ -90,6 +78,15 @@ class Bullet extends React.Component {
     }
     return bulletTag;
   }
+
+  handleClick = () => {
+    // Do NOTHING if not a bullet that can be clicked
+    if (this.props.isBeforeCreationDate || this.props.isAfterToday) return;
+    // Determine whether filling or unfilling day
+    const quantToFill = this.props.quantFilled > 0 ? 0 : 1;
+    // Update the day that corresponds to the clicked bullet
+    this.props.updateDay(this.props.activityId, this.props.date, quantToFill);
+  };
 
   render() {
     // Style the bullet tag based on if it is dead, future, or live bullet

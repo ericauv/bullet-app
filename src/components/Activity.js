@@ -10,13 +10,7 @@ class Activity extends React.Component {
     category: null,
     dateCreated: null,
     colour: null,
-    days: [
-      {
-        date: Date.now(),
-        notes: null,
-        quantFilled: null
-      }
-    ]
+    days: {}
   };
 
   static propTypes = {
@@ -27,9 +21,8 @@ class Activity extends React.Component {
     category: PropTypes.string,
     dateCreated: PropTypes.string,
     colour: PropTypes.string,
-    days: PropTypes.arrayOf(
+    days: PropTypes.shape(
       PropTypes.shape({
-        date: PropTypes.number,
         notes: PropTypes.string,
         quantFilled: PropTypes.number
       })

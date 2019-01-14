@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import DateHeaderGrid from './DateHeaderGrid';
 import ActivityGrid from './ActivityGrid';
 
 class MonthlyGrid extends React.Component {
   static propTypes = {
-    activities: PropTypes.arrayOf(
+    activities: PropTypes.shape(
       PropTypes.shape({
-        index: PropTypes.string,
+        id: PropTypes.number,
         name: PropTypes.string,
         desc: PropTypes.string,
         quantTarget: PropTypes.number,
@@ -15,7 +16,7 @@ class MonthlyGrid extends React.Component {
         category: PropTypes.string,
         dateCreated: PropTypes.instanceOf(Date),
         colour: PropTypes.string,
-        days: PropTypes.array
+        days: PropTypes.object
       })
     ),
     dateForGrid: PropTypes.instanceOf(Date),
@@ -35,7 +36,15 @@ class MonthlyGrid extends React.Component {
     const MonthlyGridTag = this.styleMonthlyGrid();
     return (
       <MonthlyGridTag>
-        {this.props.activities.map(activity => {
+        <DateHeaderGrid
+          monthName={this.props.dateForGrid.toLocaleString('en-us', {
+            month: 'long'
+          })}
+          month={this.props.dateForGrid.getMonth()}
+          year={this.props.dateForGrid.getFullYear()}
+        />
+        {Object.keys(this.props.activities).map(id => {
+          const activity = this.props.activities[id];
           return (
             <ActivityGrid
               key={activity.name}

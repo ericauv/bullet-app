@@ -7,7 +7,7 @@ import { daysInMonth } from './Helper';
 class ActivityGrid extends React.Component {
   static propTypes = {
     activity: PropTypes.shape({
-      index: PropTypes.string,
+      id: PropTypes.number,
       name: PropTypes.string,
       desc: PropTypes.string,
       quantTarget: PropTypes.number,
@@ -15,7 +15,7 @@ class ActivityGrid extends React.Component {
       category: PropTypes.string,
       dateCreated: PropTypes.instanceOf(Date),
       colour: PropTypes.string,
-      days: PropTypes.array
+      days: PropTypes.object
     }),
     dateForGrid: PropTypes.instanceOf(Date),
     updateDay: PropTypes.func
@@ -47,7 +47,7 @@ class ActivityGrid extends React.Component {
       const dateString = `'${gridYear}/${gridMonth}/${i}'`;
       bullets.push(
         <Bullet
-          key={`${this.props.activity.name}_${dateString}_dead`}
+          key={`${this.props.activity.id}_${dateString}_dead`}
           date={new Date(dateString)}
           isBeforeCreationDate={true}
           isAfterToday={false}
@@ -66,7 +66,7 @@ class ActivityGrid extends React.Component {
       const dateString = `'${gridYear}/${gridMonth}/${i}'`;
       bullets.push(
         <Bullet
-          key={`${this.props.activity.name}_${dateString}_future`}
+          key={`${this.props.activity.id}_${dateString}_future`}
           date={new Date(dateString)}
           isBeforeCreationDate={false}
           isAfterToday={true}
@@ -79,7 +79,10 @@ class ActivityGrid extends React.Component {
   styleActivityGrid() {
     const activityGridTag = styled.div`
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(20px, 1fr));
+      grid-template-columns: minmax(100px, 5fr) repeat(
+          auto-fit,
+          minmax(20px, 1fr)
+        );
       grid-gap: 5px;
       max-width: 100%;
     `;
@@ -94,20 +97,24 @@ class ActivityGrid extends React.Component {
       activity.dateCreated,
       this.props.dateForGrid
     );
+    const sortedDays = Object.keys(activity.days).sort((a, b) =>
+      new Date(a) > new Date(b) ? 1 : -1
+    );
     return (
       <ActivityGridTag>
+        <div>{this.props.activity.name}</div>
         {// Render 'dead' bullets prior to activity's start date
         this.generateDeadBullets(this.props.dateForGrid, startDay)}
         {// Render Bullets for fillable days
-        activity.days.map(day => {
+        sortedDays.map(dayId => {
           return (
             <Bullet
-              key={`${activity.name}_${day.date.toDateString()}`}
-              activityIndex={activity.index}
+              key={`${activity.id}_${dayId}`}
+              activityId={activity.id}
               name={activity.name}
-              date={day.date}
+              date={dayId}
               colour={activity.colour}
-              quantFilled={day.quantFilled}
+              quantFilled={activity.days[dayId].quantFilled}
               quantTarget={activity.quantTarget}
               quantUnit={activity.unit}
               isBeforeCreationDate={false}

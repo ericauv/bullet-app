@@ -1,4 +1,7 @@
-export function daysInMonth(month, year) {
+export function daysInMonth(
+  month = new Date().getMonth(),
+  year = new Date().getFullYear()
+) {
   // Input month is 0-based (i.e. is same as output from a .getMonth())
   return new Date(year, month + 1, 0).getDate();
 }
