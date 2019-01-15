@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Bullet from './Bullet';
-import { daysInMonth } from './Helper';
+import { daysInMonth, sortedDaysArrayFromObjectKeys } from './Helper';
 
 class ActivityGrid extends React.Component {
   static propTypes = {
@@ -97,8 +97,8 @@ class ActivityGrid extends React.Component {
       new Date(activity.dateCreated),
       this.props.dateForGrid
     );
-    const sortedDays = Object.keys(activity.days).sort((a, b) =>
-      new Date(a) > new Date(b) ? 1 : -1
+    const sortedDays = sortedDaysArrayFromObjectKeys(
+      Object.keys(activity.days)
     );
     return (
       <ActivityGridTag>
