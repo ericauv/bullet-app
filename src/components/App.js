@@ -102,7 +102,6 @@ class App extends React.Component {
           activities={this.state.activities}
           dateForGrid={new Date()}
           updateDay={this.updateDay}
-          generateDaysUntilToday={this.generateDaysUntilToday}
         />
         <AddActivityForm addActivity={this.addActivity} />
         <button onClick={this.loadSampleDays}>Load Sample Activities</button>

@@ -118,7 +118,6 @@ class ActivityGrid extends React.Component {
               isBeforeCreationDate={false}
               isAfterToday={false}
               updateDay={this.props.updateDay}
-              generateDaysUntilToday={this.props.generateDaysUntilToday}
             />
           );
         })}

@@ -51,7 +51,6 @@ class MonthlyGrid extends React.Component {
               activity={activity}
               dateForGrid={this.props.dateForGrid}
               updateDay={this.props.updateDay}
-              generateDaysUntilToday={this.props.generateDaysUntilToday}
             />
           );
         })}
