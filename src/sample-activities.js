@@ -57,6 +57,10 @@ const sampleActivities = {
     dateCreated: new Date('2019/01/07').toDateString(),
     colour: '0,0,255',
     days: {
+      [new Date('2019/01/07').toDateString()]: {
+        notes: 'notehaha3',
+        quantFilled: 1
+      },
       [new Date('2019/01/08').toDateString()]: {
         notes: 'notehaha3',
         quantFilled: 1

@@ -22,7 +22,7 @@ class ActivityGrid extends React.Component {
   };
 
   getStartDayForActivityGrid(
-    // Return first day that activity should have fillable bullets in GridMonthly for month of passed dateCheck date
+    // Return first day that activity should have fillable bullets in GridMonthly
     activityDateCreated = new Date(),
     dateForGrid = new Date()
   ) {
@@ -43,7 +43,7 @@ class ActivityGrid extends React.Component {
     const gridYear = dateForGrid.getFullYear();
     const gridMonth = dateForGrid.getMonth();
     const bullets = [];
-    for (let i = 1; i <= startDay; i++) {
+    for (let i = 1; i < startDay; i++) {
       const dateString = `'${gridYear}/${gridMonth}/${i}'`;
       bullets.push(
         <Bullet
@@ -62,7 +62,7 @@ class ActivityGrid extends React.Component {
     const gridMonth = dateForGrid.getMonth();
     const numDaysInMonth = daysInMonth(gridMonth, gridYear);
     const bullets = [];
-    for (let i = dateForGrid.getDate(); i <= numDaysInMonth; i++) {
+    for (let i = dateForGrid.getDate() + 1; i <= numDaysInMonth; i++) {
       const dateString = `'${gridYear}/${gridMonth}/${i}'`;
       bullets.push(
         <Bullet

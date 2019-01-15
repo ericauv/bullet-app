@@ -66,7 +66,7 @@ class Bullet extends React.Component {
     const bullet_future = styled.div`
       ${bullet}
       background: transparent;
-      border: dashed 0.5px;
+      border: dashed 1px;
       opacity: 0.3;
     `;
 

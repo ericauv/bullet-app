@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import base from '../base';
 import sampleActivities from '../sample-activities';
 import MonthlyGrid from './MonthlyGrid';
+import AddActivityForm from './AddActivityForm';
 import { dateDiff } from './Helper';
 class App extends React.Component {
   state = {
@@ -65,31 +66,19 @@ class App extends React.Component {
         };
       }
       activitiesList[id] = activity;
+      console.log(activity);
+
       return activity;
     });
     return { ...activitiesList };
   }
-  addActivity = name => {
+  addActivity = activity => {
+    // Make a copy of state
     const activities = { ...this.state.activities };
-    const id = Date.now();
-    activities[id] = {
-      id: id,
-      name: name,
-      desc: '',
-      quantTarget: 0,
-      unit: '',
-      category: '',
-      dateCreated: new Date(id).toDateString(),
-      colour: '0,0,0',
-      days: {
-        [new Date().toDateString()]: {
-          date: new Date().toDateString(),
-          quantfilled: 0,
-          notes: ''
-        }
-      }
-    };
-    this.setState(...activities);
+    // Add activity to activities
+    activities[activity.id] = activity;
+    // Update state
+    this.setState({ activities });
   };
 
   updateDay = (activityId, dayId, quantToFill) => {
@@ -113,12 +102,8 @@ class App extends React.Component {
           dateForGrid={new Date()}
           updateDay={this.updateDay}
         />
+        <AddActivityForm addActivity={this.addActivity} />
         <button onClick={this.loadSampleDays}>Load Sample Activities</button>
-        <form>
-          <input type="text" default="Activity Name" />
-          <input type="number" />
-          <button onClick={this.addActivity}>Add Activity</button>
-        </form>
       </React.Fragment>
     );
   }
