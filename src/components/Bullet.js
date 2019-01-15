@@ -14,6 +14,11 @@ class Bullet extends React.Component {
     isAfterToday: PropTypes.bool,
     updateDay: PropTypes.func
   };
+
+  componentDidMount() {
+    if (!(this.props.isBeforeCreationDate || this.props.isAfterToday))
+      this.props.generateDaysUntilToday();
+  }
   styleBullet() {
     // return styled
     let bulletTag;

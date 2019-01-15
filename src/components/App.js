@@ -44,7 +44,8 @@ class App extends React.Component {
     });
   };
 
-  generateDaysUntilToday(activitiesList = {}) {
+  generateDaysUntilToday = () => {
+    const activitiesList = { ...this.state.activities };
     Object.keys(activitiesList).map(id => {
       const activity = activitiesList[id];
       // Sort activity.days to be in chronological order
@@ -66,12 +67,13 @@ class App extends React.Component {
         };
       }
       activitiesList[id] = activity;
-      console.log(activity);
-
       return activity;
     });
+    if (this.state.activities !== activitiesList) {
+      this.setState({ activities: activitiesList });
+    }
     return { ...activitiesList };
-  }
+  };
   addActivity = activity => {
     // Make a copy of state
     const activities = { ...this.state.activities };
@@ -80,7 +82,6 @@ class App extends React.Component {
     // Update state
     this.setState({ activities });
   };
-
   updateDay = (activityId, dayId, quantToFill) => {
     // Make a copy of state
     const activities = this.state.activities;
@@ -101,6 +102,7 @@ class App extends React.Component {
           activities={this.state.activities}
           dateForGrid={new Date()}
           updateDay={this.updateDay}
+          generateDaysUntilToday={this.generateDaysUntilToday}
         />
         <AddActivityForm addActivity={this.addActivity} />
         <button onClick={this.loadSampleDays}>Load Sample Activities</button>
