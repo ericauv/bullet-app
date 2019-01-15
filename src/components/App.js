@@ -4,7 +4,7 @@ import base from '../base';
 import sampleActivities from '../sample-activities';
 import MonthlyGrid from './MonthlyGrid';
 import AddActivityForm from './AddActivityForm';
-import { dateDiff, sortedDaysArrayFromObjectKeys } from './Helper';
+import { dateDiff, sortedDaysArrayFromDaysKeys } from './Helper';
 class App extends React.Component {
   state = {
     activities: {}
@@ -48,7 +48,7 @@ class App extends React.Component {
     Object.keys(activitiesList).map(id => {
       const activity = activitiesList[id];
       // Sort activity.days to be in chronological order
-      const sortedDays = sortedDaysArrayFromObjectKeys(
+      const sortedDays = sortedDaysArrayFromDaysKeys(
         Object.keys(activity.days)
       );
       // Get latest day object from activity.days

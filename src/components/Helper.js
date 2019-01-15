@@ -15,7 +15,7 @@ export function dateDiff(datepart, fromdate, todate) {
   return Math.floor(diff / divideBy[datepart]);
 }
 
-export function sortedDaysArrayFromObjectKeys(keys) {
+export function sortedDaysArrayFromDaysKeys(keys) {
   const sorted = keys.sort((a, b) => (new Date(a) > new Date(b) ? 1 : -1));
   return sorted;
 }
