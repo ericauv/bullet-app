@@ -20,12 +20,13 @@ class Bullet extends React.Component {
 
     // All Bullet
     const bullet = `
-                          width:22px;
-                          height:22px;
-                          max-width:100%;
-                          max-height:100%;
-                          border: 1px solid;
-                          border-radius: 2px 2px 2px 2px;`;
+      width:22px;
+      height:22px;
+      max-width:100%;
+      max-height:100%;
+      border: 1px solid;
+      border-radius: 2px 2px 2px 2px;
+    `;
 
     // Live Bullet
     const bullet_live = styled.div`

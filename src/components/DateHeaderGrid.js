@@ -19,7 +19,8 @@ const DateHeaderGrid = ({ monthName, month, year }) => {
     max-width: 100%;
     max-height: 100%;
     display: grid;
-    align-items: center;
+    align-self: end;
+    align-content: end;
     justify-content: center;
   `;
   // Populate array of day numbers for this month
@@ -30,7 +31,7 @@ const DateHeaderGrid = ({ monthName, month, year }) => {
   //Return Tags
   return (
     <DateHeaderGridTag>
-      <div>{monthName}</div>
+      <h4 style={{ marginBottom: 0 }}>{monthName}</h4>
       {dayNumbers.map(dayNumber => (
         <DayTag key={dayNumber}>{dayNumber}</DayTag>
       ))}
