@@ -62,7 +62,7 @@ class ActivityGrid extends React.Component {
     const gridMonth = dateForGrid.getMonth();
     const numDaysInMonth = daysInMonth(gridMonth, gridYear);
     const bullets = [];
-    for (let i = dateForGrid.getDate(); i <= numDaysInMonth; i++) {
+    for (let i = dateForGrid.getDate(); i < numDaysInMonth; i++) {
       const dateString = `'${gridYear}/${gridMonth}/${i}'`;
       bullets.push(
         <Bullet
