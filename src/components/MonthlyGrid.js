@@ -4,6 +4,11 @@ import styled from 'styled-components';
 import DateHeaderGrid from './DateHeaderGrid';
 import ActivityGrid from './ActivityGrid';
 
+/* Styling */
+const MonthlyGridTag = styled.div`
+  display: grid;
+  grid-gap: 5px;
+`;
 class MonthlyGrid extends React.Component {
   static propTypes = {
     activities: PropTypes.shape(
@@ -23,17 +28,7 @@ class MonthlyGrid extends React.Component {
     updateDay: PropTypes.func
   };
 
-  styleMonthlyGrid() {
-    const monthlyGridTag = styled.div`
-      display: grid;
-      grid-gap: 5px;
-    `;
-    return monthlyGridTag;
-  }
-
   render() {
-    // Styling
-    const MonthlyGridTag = this.styleMonthlyGrid();
     return (
       <MonthlyGridTag>
         <DateHeaderGrid
@@ -47,7 +42,7 @@ class MonthlyGrid extends React.Component {
           const activity = this.props.activities[id];
           return (
             <ActivityGrid
-              key={activity.name}
+              key={activity.id}
               activity={activity}
               dateForGrid={this.props.dateForGrid}
               updateDay={this.props.updateDay}
