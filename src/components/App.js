@@ -5,6 +5,7 @@ import sampleActivities from '../sample-activities';
 import MonthlyGrid from './MonthlyGrid';
 import AddActivityForm from './AddActivityForm';
 import { dateDiff, sortedDaysArrayFromDaysKeys } from './Helper';
+import EditActivity from './Dialogs/EditActivity';
 class App extends React.Component {
   state = {
     activities: {}
@@ -74,7 +75,8 @@ class App extends React.Component {
     }
     return { ...activitiesList };
   };
-  addActivity = activity => {
+
+  handleActivitySubmit = activity => {
     // Make a copy of state
     const activities = { ...this.state.activities };
     // Add activity to activities
@@ -82,15 +84,15 @@ class App extends React.Component {
     // Update state
     this.setState({ activities });
   };
+
   updateDay = (activityId, dayId, quantToFill) => {
     // Make a copy of state
     const activities = this.state.activities;
     // Make a copy of the activity
     const activity = activities[activityId];
-    // Make a copy of the day
-    const dayToFill = activity.days[dayId];
     // Fill or unfill the day
-    dayToFill.quantFilled = quantToFill === 0 ? 0 : activity.quantTarget;
+    activity.days[dayId].quantFilled =
+      quantToFill === 0 ? 0 : activity.quantTarget;
     // Set the state
     this.setState({ activities });
   };
@@ -102,9 +104,12 @@ class App extends React.Component {
           activities={this.state.activities}
           dateForGrid={new Date()}
           updateDay={this.updateDay}
+          handleActivitySubmit={this.handleActivitySubmit}
         />
-        <AddActivityForm addActivity={this.addActivity} />
-        <button onClick={this.loadSampleDays}>Load Sample Activities</button>
+        <EditActivity
+          buttonText="Add Activity"
+          handleActivitySubmit={this.handleActivitySubmit}
+        />
       </React.Fragment>
     );
   }

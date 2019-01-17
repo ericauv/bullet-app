@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Bullet from './Bullet';
 import ToolTip from './Tooltip';
+import EditActivity from './Dialogs/EditActivity';
 import { daysInMonth, sortedDaysArrayFromDaysKeys } from './Helper';
 
 /* Styling */
@@ -12,18 +13,16 @@ const ActivityGridTag = styled.div`
   grid-gap: 5px;
   max-width: 100%;
 `;
-const ActivityNameTag = styled.div`
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  &:hover {
-  }
-`;
+// const ActivityNameTag = styled.EditActivity`
+//   text-overflow: ellipsis;
+//   white-space: nowrap;
+//   overflow: hidden;
+//   &:hover {
+//   }
+// `;
 
 class ActivityGrid extends React.Component {
-  state = {
-    showTooltip: false
-  };
+  state = {};
 
   static propTypes = {
     activity: PropTypes.shape({
@@ -38,7 +37,8 @@ class ActivityGrid extends React.Component {
       days: PropTypes.object
     }),
     dateForGrid: PropTypes.instanceOf(Date),
-    updateDay: PropTypes.func
+    updateDay: PropTypes.func,
+    handleActivitySubmit: PropTypes.func
   };
 
   getStartDayForActivityGrid(
@@ -95,25 +95,6 @@ class ActivityGrid extends React.Component {
     }
     return bullets;
   }
-
-  showTooltip = () => {
-    this.setState({ showTooltip: true }, () => {
-      console.log(
-        `entered ${this.props.activity.name}, showToolTip is ${
-          this.state.showTooltip
-        }`
-      );
-    });
-  };
-
-  hideTooltip = () => {
-    this.setState({ showTooltip: false });
-    console.log(
-      `Left ${this.props.activity.name}, showToolTip is ${
-        this.state.showTooltip
-      }`
-    );
-  };
   render() {
     const activity = this.props.activity;
     const startDay = this.getStartDayForActivityGrid(
@@ -123,13 +104,11 @@ class ActivityGrid extends React.Component {
     const sortedDays = sortedDaysArrayFromDaysKeys(Object.keys(activity.days));
     return (
       <ActivityGridTag>
-        <ActivityNameTag
-          onMouseEnter={this.showTooltip}
-          onMouseOutCapture={this.hideTooltip}
-        >
-          {activity.name}
-          <ToolTip show={this.state.showTooltip} text={activity.name} />
-        </ActivityNameTag>
+        <EditActivity
+          buttonText={this.props.activity.name}
+          activity={this.props.activity}
+          handleActivitySubmit={this.props.handleActivitySubmit}
+        />
         {// Render 'dead' bullets prior to activity's start date
         this.generateDeadBullets(this.props.dateForGrid, startDay)}
         {// Render Bullets for fillable days

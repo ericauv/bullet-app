@@ -3,9 +3,12 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import DateHeaderGrid from './DateHeaderGrid';
 import ActivityGrid from './ActivityGrid';
+import EditActivity from './Dialogs/EditActivity';
 
 /* Styling */
 const MonthlyGridTag = styled.div`
+  border: 1px solid black;
+  padding: 20px;
   display: grid;
   grid-gap: 5px;
 `;
@@ -25,7 +28,8 @@ class MonthlyGrid extends React.Component {
       })
     ),
     dateForGrid: PropTypes.instanceOf(Date),
-    updateDay: PropTypes.func
+    updateDay: PropTypes.func,
+    handleActivitySubmit: PropTypes.func
   };
 
   render() {
@@ -46,6 +50,7 @@ class MonthlyGrid extends React.Component {
               activity={activity}
               dateForGrid={this.props.dateForGrid}
               updateDay={this.props.updateDay}
+              handleActivitySubmit={this.props.handleActivitySubmit}
             />
           );
         })}
