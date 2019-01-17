@@ -13,7 +13,7 @@ const ActivityGridTag = styled.div`
   grid-gap: 5px;
   max-width: 100%;
 `;
-// const ActivityNameTag = styled.EditActivity`
+// const ActivityNameTag = styled.div`
 //   text-overflow: ellipsis;
 //   white-space: nowrap;
 //   overflow: hidden;

@@ -88,6 +88,10 @@ class EditActivity extends React.Component {
   }
 
   render() {
+    const { name, quantTarget, unit, category, description } = this.props
+      .activity
+      ? { ...this.props.activity }
+      : '';
     return (
       <div>
         <Button color="primary" onClick={this.handleClickOpen}>
@@ -96,9 +100,9 @@ class EditActivity extends React.Component {
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
-          aria-labelledby="form-add-activity"
+          aria-labelledby="form-edit-activity"
         >
-          <DialogTitle id="form-add-activity">
+          <DialogTitle id="form-edit-activity">
             {// If the user clears the input field, display the original Activity Name
             this.state.activity.name || this.state.nameOriginal}
           </DialogTitle>
@@ -110,13 +114,16 @@ class EditActivity extends React.Component {
               type="text"
               fullWidth
               onChange={this.handleChange('name')}
+              defaultValue={name}
             />
             <TextField
               label="Target"
               margin="dense"
               type="number"
+              inputProps={{ min: '0' }}
               fullWidth
               onChange={this.handleChange('quantTarget')}
+              defaultValue={quantTarget}
             />
             <TextField
               label="Unit"
@@ -124,6 +131,7 @@ class EditActivity extends React.Component {
               type="text"
               fullWidth
               onChange={this.handleChange('unit')}
+              defaultValue={unit}
             />
             <TextField
               label="Category"
@@ -132,6 +140,7 @@ class EditActivity extends React.Component {
               type="text"
               fullWidth
               onChange={this.handleChange('category')}
+              defaultValue={category}
             />
             <TextField
               id="activity-description"
@@ -141,9 +150,9 @@ class EditActivity extends React.Component {
               type="text"
               multiline
               rows="3"
-              min="0"
               fullWidth
               onChange={this.handleChange('description')}
+              defaultValue={description}
             />
           </DialogContent>
           <DialogActions>

@@ -33,6 +33,9 @@ class App extends React.Component {
       state: 'activities'
     });
   }
+  componentDidUpdate() {
+    this.generateDaysUntilToday();
+  }
 
   componentWillUnmount() {
     base.removeBinding(this.ref);
