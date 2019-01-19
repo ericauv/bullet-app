@@ -7,7 +7,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 class EditActivity extends React.Component {
-  static propTypes = {};
   state = {
     buttonText: '',
     open: false,
@@ -15,20 +14,17 @@ class EditActivity extends React.Component {
     activity: {
       id: null,
       name: 'New Activity',
-      desc: null,
-      quantTarget: null,
-      unit: null,
-      category: null,
+      desc: '',
+      quantTarget: 0,
+      unit: '',
+      category: '',
       dateCreated: null,
-      colour: null,
+      colour: '',
       days: {}
     }
   };
 
   componentWillMount() {
-    // const name = this.props.activity
-    //   ? this.props.activity.name
-    //   : 'New Activity';
     this.setState({
       activity: { ...this.props.activity },
       nameOriginal: this.props.activity
@@ -52,9 +48,51 @@ class EditActivity extends React.Component {
     this.setState({ activity });
   };
 
-  handleSubmit = () => {
-    // TODO: validate
+  validateActivityInput = activity => {
+    const activityValidator = {
+      nameIsValid: false,
+      quantTargetIsValid: false,
+      unitIsValid: false,
+      categoryIsValid: false
+      // colourIsValid: false
+    };
+    // Regular expression to check for valid hex colour
+    // const hexColourRegExp = \^#(?:[0-9a-fA-F]{3}){1,2}$\;
+    /* VALIDATION */
 
+    //TODO: pass categories as prop
+    const categories = ['test1', 'test2'];
+    // Name length is acceptable (0-20 characters)
+    activityValidator.nameIsValid =
+      activity.name && activity.name.length > 0 && activity.name.length < 20;
+    // Unit length is acceptable (0-20 characters)
+    activityValidator.unitIsValid =
+      activity.unit && activity.unit.length > 0 && activity.unit.length < 20;
+    // Category is one of the acceptable categories
+    activityValidator.categoryIsValid =
+      activity.category && categories.includes(activity.category);
+    // Target is non-negative and non-zero
+    activityValidator.quantTargetIsValid =
+      activity.quantTarget && activity.quantTarget > 0;
+    // TODO: // Colour is a valid hex color
+    // activityValidator.colourIsValid = hexColourRegExp.test(activity.colour) ;
+
+    return activityValidator;
+  };
+  messageInvalidInput = () => {
+    // TODO: Indicate invalid properties
+    alert('input was invalid');
+  };
+  handleSubmit = () => {
+    // Validate the input
+    const activityValidator = this.validateActivityInput({
+      ...this.state.activity
+    });
+    // Don't submit if all the inputs were not valid
+    if (!Object.values(activityValidator).every(val => val === true)) {
+      alert('input was invalid');
+      return null;
+    }
     const activity = this.state.activity.id
       ? // Make a copy of the activity if it was passed
         { ...this.state.activity }
