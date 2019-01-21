@@ -88,6 +88,15 @@ class App extends React.Component {
     this.setState({ activities });
   };
 
+  handleDeleteActivity = id => {
+    // Make a copy of state
+    const activities = { ...this.state.activities };
+    // Delete the activity
+    activities[id] = null;
+    // Update state
+    this.setState({ activities });
+  };
+
   updateDay = (activityId, dayId, quantToFill) => {
     // Make a copy of state
     const activities = this.state.activities;
@@ -108,10 +117,12 @@ class App extends React.Component {
           dateForGrid={new Date()}
           updateDay={this.updateDay}
           handleActivitySubmit={this.handleActivitySubmit}
+          handleDeleteActivity={this.handleDeleteActivity}
         />
         <EditActivity
           buttonText="Add Activity"
           handleActivitySubmit={this.handleActivitySubmit}
+          isAddActivity={true}
         />
       </React.Fragment>
     );

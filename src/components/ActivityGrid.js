@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import Bullet from './Bullet';
-import ToolTip from './Tooltip';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 import EditActivity from './Dialogs/EditActivity';
+import DeleteActivity from './Dialogs/DeleteActivity';
+import Bullet from './Bullet';
 import { daysInMonth, sortedDaysArrayFromDaysKeys } from './Helper';
 
 /* Styling */
@@ -12,6 +14,14 @@ const ActivityGridTag = styled.div`
   grid-template-columns: minmax(100px, 5fr) repeat(auto-fit, minmax(20px, 1fr));
   grid-gap: 5px;
   max-width: 100%;
+`;
+
+const ActivityNameTag = styled.div`
+  display: grid;
+  grid-template-columns: minmax(80px, 3fr) 1fr 1fr;
+  grid-gap: 5px;
+  max-width: 100%;
+  align-items: center;
 `;
 // const ActivityNameTag = styled.div`
 //   text-overflow: ellipsis;
@@ -104,11 +114,19 @@ class ActivityGrid extends React.Component {
     const sortedDays = sortedDaysArrayFromDaysKeys(Object.keys(activity.days));
     return (
       <ActivityGridTag>
-        <EditActivity
-          buttonText={this.props.activity.name}
-          activity={this.props.activity}
-          handleActivitySubmit={this.props.handleActivitySubmit}
-        />
+        <ActivityNameTag>
+          <span>{this.props.activity.name}</span>
+          <EditActivity
+            activity={this.props.activity}
+            handleActivitySubmit={this.props.handleActivitySubmit}
+            isAddActivity={false}
+          />
+          <DeleteActivity
+            activity={this.props.activity}
+            showTextInButton={false}
+            handleDeleteActivity={this.props.handleDeleteActivity}
+          />
+        </ActivityNameTag>
         {// Render 'dead' bullets prior to activity's start date
         this.generateDeadBullets(this.props.dateForGrid, startDay)}
         {// Render Bullets for fillable days

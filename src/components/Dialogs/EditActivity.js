@@ -5,10 +5,12 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
+import EditIcon from '@material-ui/icons/Edit';
 import PropTypes from 'prop-types';
+import FormHelperText from '@material-ui/core/FormHelperText';
 class EditActivity extends React.Component {
   state = {
-    buttonText: '',
     open: false,
     nameOriginal: '',
     activity: {
@@ -21,7 +23,18 @@ class EditActivity extends React.Component {
       dateCreated: null,
       colour: '',
       days: {}
+    },
+    activityValidator: {
+      nameIsValid: true,
+      quantTargetIsValid: true,
+      unitIsValid: true,
+      categoryIsValid: true
+      // colourIsValid: true
     }
+  };
+
+  static propTypes = {
+    isAddActivity: PropTypes.bool
   };
 
   componentWillMount() {
@@ -36,7 +49,7 @@ class EditActivity extends React.Component {
     this.setState({ open: true });
   };
   handleClose = () => {
-    this.setState({ open: false, buttonText: this.props.buttonText });
+    this.setState({ open: false });
   };
 
   handleChange = name => ({ currentTarget: { value } }) => {
@@ -77,6 +90,7 @@ class EditActivity extends React.Component {
     // TODO: // Colour is a valid hex color
     // activityValidator.colourIsValid = hexColourRegExp.test(activity.colour) ;
 
+    this.setState({ activityValidator });
     return activityValidator;
   };
   messageInvalidInput = () => {
@@ -102,11 +116,7 @@ class EditActivity extends React.Component {
     this.props.handleActivitySubmit(activity);
     this.setState({
       // Close the Dialog
-      open: false,
-      // Update the button text if this is not an "Add Activity" button
-      buttonText: this.state.isAddActivity
-        ? 'Add Activity'
-        : this.state.activity.name
+      open: false
     });
   };
 
@@ -126,14 +136,30 @@ class EditActivity extends React.Component {
   }
 
   render() {
+    const buttonIcon = this.props.isAddActivity ? (
+      <AddIcon fontSize="small" />
+    ) : (
+      <EditIcon fontSize="small" />
+    );
+    const buttonLabel = this.props.isAddActivity
+      ? 'Add Activity'
+      : 'Edit Activity';
     const { name, quantTarget, unit, category, description } = this.props
       .activity
       ? { ...this.props.activity }
       : '';
+    const { nameIsValid, quantTargetIsValid, unitIsValid, categoryIsValid } = {
+      ...this.state.activityValidator
+    };
     return (
       <div>
-        <Button color="primary" onClick={this.handleClickOpen}>
-          {this.props.activity ? this.props.activity.name : 'Add Activity'}
+        <Button
+          aria-label={buttonLabel}
+          color="primary"
+          onClick={this.handleClickOpen}
+        >
+          {buttonIcon}
+          {this.props.isAddActivity ? 'Add Activity' : null}
         </Button>
         <Dialog
           open={this.state.open}
@@ -153,6 +179,9 @@ class EditActivity extends React.Component {
               fullWidth
               onChange={this.handleChange('name')}
               defaultValue={name}
+              error={!nameIsValid}
+              required={true}
+              helperText="Must be between 1-20 characters"
             />
             <TextField
               label="Target"
@@ -162,6 +191,9 @@ class EditActivity extends React.Component {
               fullWidth
               onChange={this.handleChange('quantTarget')}
               defaultValue={quantTarget}
+              error={!quantTargetIsValid}
+              required={true}
+              helperText="Must be greater than 0"
             />
             <TextField
               label="Unit"
@@ -170,6 +202,9 @@ class EditActivity extends React.Component {
               fullWidth
               onChange={this.handleChange('unit')}
               defaultValue={unit}
+              error={!unitIsValid}
+              required={true}
+              helperText="Must be between 1-20 characters"
             />
             <TextField
               label="Category"
@@ -179,6 +214,9 @@ class EditActivity extends React.Component {
               fullWidth
               onChange={this.handleChange('category')}
               defaultValue={category}
+              error={!categoryIsValid}
+              required={true}
+              helperText="Must be one of the values provided in the drop-down"
             />
             <TextField
               id="activity-description"

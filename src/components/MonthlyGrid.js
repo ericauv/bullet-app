@@ -29,7 +29,8 @@ class MonthlyGrid extends React.Component {
     ),
     dateForGrid: PropTypes.instanceOf(Date),
     updateDay: PropTypes.func,
-    handleActivitySubmit: PropTypes.func
+    handleActivitySubmit: PropTypes.func,
+    deleteActivityWithId: PropTypes.func
   };
 
   render() {
@@ -51,6 +52,7 @@ class MonthlyGrid extends React.Component {
               dateForGrid={this.props.dateForGrid}
               updateDay={this.props.updateDay}
               handleActivitySubmit={this.props.handleActivitySubmit}
+              handleDeleteActivity={this.props.handleDeleteActivity}
             />
           );
         })}
