@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import base from '../base';
 import sampleActivities from '../sample-activities';
 import MonthlyGrid from './MonthlyGrid';
-import AddActivityForm from './AddActivityForm';
 import { dateDiff, sortedDaysArrayFromDaysKeys } from './Helper';
 import EditActivity from './Dialogs/EditActivity';
 class App extends React.Component {

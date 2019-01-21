@@ -8,7 +8,6 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import PropTypes from 'prop-types';
-import FormHelperText from '@material-ui/core/FormHelperText';
 class EditActivity extends React.Component {
   state = {
     open: false,
@@ -97,7 +96,9 @@ class EditActivity extends React.Component {
     // TODO: Indicate invalid properties
     alert('input was invalid');
   };
-  handleSubmit = () => {
+  handleSubmit = e => {
+    // Prevent form submission
+    e.preventDefault();
     // Validate the input
     const activityValidator = this.validateActivityInput({
       ...this.state.activity
@@ -170,80 +171,82 @@ class EditActivity extends React.Component {
             {// If the user clears the input field, display the original Activity Name
             this.state.activity.name || this.state.nameOriginal}
           </DialogTitle>
-          <DialogContent>
-            <TextField
-              label="Activity Name"
-              autoFocus
-              margin="dense"
-              type="text"
-              fullWidth
-              onChange={this.handleChange('name')}
-              defaultValue={name}
-              error={!nameIsValid}
-              required={true}
-              helperText="Must be between 1-20 characters"
-            />
-            <TextField
-              label="Target"
-              margin="dense"
-              type="number"
-              inputProps={{ min: '0' }}
-              fullWidth
-              onChange={this.handleChange('quantTarget')}
-              defaultValue={quantTarget}
-              error={!quantTargetIsValid}
-              required={true}
-              helperText="Must be greater than 0"
-            />
-            <TextField
-              label="Unit"
-              margin="dense"
-              type="text"
-              fullWidth
-              onChange={this.handleChange('unit')}
-              defaultValue={unit}
-              error={!unitIsValid}
-              required={true}
-              helperText="Must be between 1-20 characters"
-            />
-            <TextField
-              label="Category"
-              margin="dense"
-              placeholder="No Category"
-              type="text"
-              fullWidth
-              onChange={this.handleChange('category')}
-              defaultValue={category}
-              error={!categoryIsValid}
-              required={true}
-              helperText="Must be one of the values provided in the drop-down"
-            />
-            <TextField
-              id="activity-description"
-              margin="dense"
-              placeholder="Enter a description of your activity (not required)"
-              label="Description"
-              type="text"
-              multiline
-              rows="3"
-              fullWidth
-              onChange={this.handleChange('description')}
-              defaultValue={description}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button
-              variant="raised"
-              onClick={this.handleSubmit}
-              color="primary"
-              type="submit"
-            >
-              Submit
-            </Button>
-          </DialogActions>
+          <form>
+            <DialogContent>
+              <TextField
+                label="Activity Name"
+                autoFocus
+                margin="dense"
+                type="text"
+                fullWidth
+                onChange={this.handleChange('name')}
+                defaultValue={name}
+                error={!nameIsValid}
+                required={true}
+                helperText="Must be between 1-20 characters"
+              />
+              <TextField
+                label="Target"
+                margin="dense"
+                type="number"
+                inputProps={{ min: '0' }}
+                fullWidth
+                onChange={this.handleChange('quantTarget')}
+                defaultValue={quantTarget}
+                error={!quantTargetIsValid}
+                required={true}
+                helperText="Must be greater than 0"
+              />
+              <TextField
+                label="Unit"
+                margin="dense"
+                type="text"
+                fullWidth
+                onChange={this.handleChange('unit')}
+                defaultValue={unit}
+                error={!unitIsValid}
+                required={true}
+                helperText="Must be between 1-20 characters"
+              />
+              <TextField
+                label="Category"
+                margin="dense"
+                placeholder="No Category"
+                type="text"
+                fullWidth
+                onChange={this.handleChange('category')}
+                defaultValue={category}
+                error={!categoryIsValid}
+                required={true}
+                helperText="Must be one of the values provided in the drop-down"
+              />
+              <TextField
+                id="activity-description"
+                margin="dense"
+                placeholder="Enter a description of your activity (not required)"
+                label="Description"
+                type="text"
+                multiline
+                rows="3"
+                fullWidth
+                onChange={this.handleChange('description')}
+                defaultValue={description}
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={this.handleClose} color="primary">
+                Cancel
+              </Button>
+              <Button
+                variant="raised"
+                onClick={this.handleSubmit}
+                color="primary"
+                type="submit"
+              >
+                Submit
+              </Button>
+            </DialogActions>
+          </form>
         </Dialog>
       </div>
     );

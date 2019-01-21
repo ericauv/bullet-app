@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
 import EditActivity from './Dialogs/EditActivity';
 import DeleteActivity from './Dialogs/DeleteActivity';
 import Bullet from './Bullet';
@@ -11,25 +9,22 @@ import { daysInMonth, sortedDaysArrayFromDaysKeys } from './Helper';
 /* Styling */
 const ActivityGridTag = styled.div`
   display: grid;
-  grid-template-columns: minmax(100px, 5fr) repeat(auto-fit, minmax(20px, 1fr));
-  grid-gap: 5px;
-  max-width: 100%;
-`;
-
-const ActivityNameTag = styled.div`
-  display: grid;
-  grid-template-columns: minmax(80px, 3fr) 1fr 1fr;
+  grid-template-columns: minmax(200px, 5fr) repeat(auto-fit, minmax(20px, 1fr));
   grid-gap: 5px;
   max-width: 100%;
   align-items: center;
 `;
-// const ActivityNameTag = styled.div`
-//   text-overflow: ellipsis;
-//   white-space: nowrap;
-//   overflow: hidden;
-//   &:hover {
-//   }
-// `;
+
+const ActivityNameTag = styled.div`
+  display: grid;
+  grid-template-columns: minmax(90px, 3fr) 1fr 1fr;
+  background: whitesmoke;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  max-width: 100%;
+`;
 
 class ActivityGrid extends React.Component {
   state = {};
@@ -115,7 +110,7 @@ class ActivityGrid extends React.Component {
     return (
       <ActivityGridTag>
         <ActivityNameTag>
-          <span>{this.props.activity.name}</span>
+          <div>{this.props.activity.name}</div>
           <EditActivity
             activity={this.props.activity}
             handleActivitySubmit={this.props.handleActivitySubmit}

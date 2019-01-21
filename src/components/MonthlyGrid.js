@@ -56,6 +56,10 @@ class MonthlyGrid extends React.Component {
             />
           );
         })}
+        <EditActivity
+          isAddActivity={true}
+          handleActivitySubmit={this.props.handleActivitySubmit}
+        />
       </MonthlyGridTag>
     );
   }

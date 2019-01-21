@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -26,7 +25,8 @@ class DeleteActivity extends React.Component {
     this.setState({ open: false });
   };
 
-  handleDelete = () => {
+  handleDelete = e => {
+    e.preventDefault();
     this.props.handleDeleteActivity(this.props.activity.id);
     this.setState({ open: false });
   };
@@ -47,25 +47,27 @@ class DeleteActivity extends React.Component {
           aria-labelledby="alert-delete-activity"
         >
           <DialogTitle id="alert-delete-activity">Delete Activity?</DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Are you sure you want to delete this activity? This operation
-              cannot be undone.
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button
-              variant="raised"
-              onClick={this.handleDelete}
-              color="primary"
-              type="submit"
-            >
-              Confirm
-            </Button>
-          </DialogActions>
+          <form>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                Are you sure you want to delete this activity? This operation
+                cannot be undone.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={this.handleClose} color="primary">
+                Cancel
+              </Button>
+              <Button
+                variant="raised"
+                onClick={this.handleDelete}
+                color="primary"
+                type="submit"
+              >
+                Confirm
+              </Button>
+            </DialogActions>
+          </form>
         </Dialog>
       </div>
     );
