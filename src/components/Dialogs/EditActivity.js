@@ -158,6 +158,7 @@ class EditActivity extends React.Component {
           aria-label={buttonLabel}
           color="primary"
           onClick={this.handleClickOpen}
+          style={{ minWidth: '20px' }}
         >
           {buttonIcon}
           {this.props.isAddActivity ? 'Add Activity' : null}

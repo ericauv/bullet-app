@@ -7,7 +7,15 @@ import { dateDiff, sortedDaysArrayFromDaysKeys } from './Helper';
 import EditActivity from './Dialogs/EditActivity';
 class App extends React.Component {
   state = {
-    activities: {}
+    activities: {},
+    categories: {
+      1: 'Intellectual',
+      2: 'Physical',
+      3: 'Creative',
+      4: 'Social',
+      5: 'Nutritional',
+      6: 'Material'
+    }
   };
 
   static propTypes = {
@@ -27,7 +35,11 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    this.ref = base.syncState('/', {
+    this.ref = base.syncState('/categories/', {
+      context: this,
+      state: 'categories'
+    });
+    this.ref = base.syncState('/activities/', {
       context: this,
       state: 'activities'
     });

@@ -9,7 +9,7 @@ import { daysInMonth, sortedDaysArrayFromDaysKeys } from './Helper';
 /* Styling */
 const ActivityGridTag = styled.div`
   display: grid;
-  grid-template-columns: minmax(200px, 5fr) repeat(auto-fit, minmax(20px, 1fr));
+  grid-template-columns: minmax(200px, 3fr) repeat(auto-fit, minmax(20px, 1fr));
   grid-gap: 5px;
   max-width: 100%;
   align-items: center;
@@ -115,6 +115,7 @@ class ActivityGrid extends React.Component {
             activity={this.props.activity}
             handleActivitySubmit={this.props.handleActivitySubmit}
             isAddActivity={false}
+            style={{ maxWidth: '100%' }}
           />
           <DeleteActivity
             activity={this.props.activity}

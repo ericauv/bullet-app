@@ -38,6 +38,7 @@ class DeleteActivity extends React.Component {
           aria-label="Delete Activity"
           color="primary"
           onClick={this.handleClickOpen}
+          style={{ minWidth: '20px' }}
         >
           <DeleteIcon fontSize="small" />
         </Button>

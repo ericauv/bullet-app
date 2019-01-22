@@ -5,9 +5,10 @@ import { daysInMonth } from './Helper';
 /* Styling */
 const DateHeaderGridTag = styled.div`
   display: grid;
-  grid-template-columns: minmax(100px, 5fr) repeat(auto-fit, minmax(20px, 1fr));
+  grid-template-columns: minmax(200px, 3fr) repeat(auto-fit, minmax(20px, 1fr));
   grid-gap: 5px;
   max-width: 100%;
+  align-items: center;
 `;
 const DayTag = styled.div`
   width: 22px;
