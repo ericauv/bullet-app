@@ -8,13 +8,20 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import PropTypes from 'prop-types';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import MenuItem from '@material-ui/core/MenuItem';
+import Input from '@material-ui/core/Input';
+
 class EditActivity extends React.Component {
   state = {
     open: false,
     nameOriginal: '',
     activity: {
       id: null,
-      name: 'New Activity',
+      name: '',
       desc: '',
       quantTarget: 0,
       unit: '',
@@ -33,12 +40,17 @@ class EditActivity extends React.Component {
   };
 
   static propTypes = {
-    isAddActivity: PropTypes.bool
+    activity: PropTypes.shape(),
+    isAddActivity: PropTypes.bool,
+    categories: PropTypes.arrayOf(PropTypes.string),
+    handleActivitySubmit: PropTypes.func
   };
 
   componentWillMount() {
     this.setState({
-      activity: { ...this.props.activity },
+      activity: this.props.activity
+        ? { ...this.props.activity }
+        : { category: '' },
       nameOriginal: this.props.activity
         ? this.props.activity.name
         : 'New Activity'
@@ -46,18 +58,35 @@ class EditActivity extends React.Component {
   }
   handleClickOpen = () => {
     this.setState({ open: true });
+    // Make all inputs valid until changed by user (validity is updated on change)
+    this.resetValidator();
   };
   handleClose = () => {
+    // Close the dialog
     this.setState({ open: false });
+    // Reset state so that next time dialog opens it takes passed props or is empty
+    this.setState({ activity: { category: '' } });
+    // Reset the activity validator so that inputs are all in non-error state next time dialog opens
+    this.resetValidator();
   };
 
-  handleChange = name => ({ currentTarget: { value } }) => {
+  resetValidator = () => {
+    const activityValidator = { ...this.state.activityValidator };
+    Object.keys(this.state.activityValidator).map(key => {
+      activityValidator[key] = true;
+    });
+    this.setState({ activityValidator });
+  };
+
+  handleChange = name => ({ target: { value } }) => {
     // 1. Make a copy of the activity in state
     const activity = { ...this.state.activity };
     // 2. Update the value of the activity
     activity[name] = value;
-    // 3. Update the state
-    this.setState({ activity });
+    // 3. Update the activity, and validate the input
+    this.setState({ activity }, () =>
+      this.validateActivityInput({ ...this.state.activity })
+    );
   };
 
   validateActivityInput = activity => {
@@ -72,8 +101,6 @@ class EditActivity extends React.Component {
     // const hexColourRegExp = \^#(?:[0-9a-fA-F]{3}){1,2}$\;
     /* VALIDATION */
 
-    //TODO: pass categories as prop
-    const categories = ['test1', 'test2'];
     // Name length is acceptable (0-20 characters)
     activityValidator.nameIsValid =
       activity.name && activity.name.length > 0 && activity.name.length < 20;
@@ -82,7 +109,7 @@ class EditActivity extends React.Component {
       activity.unit && activity.unit.length > 0 && activity.unit.length < 20;
     // Category is one of the acceptable categories
     activityValidator.categoryIsValid =
-      activity.category && categories.includes(activity.category);
+      activity.category && this.props.categories.includes(activity.category);
     // Target is non-negative and non-zero
     activityValidator.quantTargetIsValid =
       activity.quantTarget && activity.quantTarget > 0;
@@ -93,8 +120,8 @@ class EditActivity extends React.Component {
     return activityValidator;
   };
   messageInvalidInput = () => {
-    // TODO: Indicate invalid properties
-    alert('input was invalid');
+    // TODO: Render a dialog
+    alert('The input was invalid.');
   };
   handleSubmit = e => {
     // Prevent form submission
@@ -105,7 +132,7 @@ class EditActivity extends React.Component {
     });
     // Don't submit if all the inputs were not valid
     if (!Object.values(activityValidator).every(val => val === true)) {
-      alert('input was invalid');
+      this.messageInvalidInput();
       return null;
     }
     const activity = this.state.activity.id
@@ -115,16 +142,15 @@ class EditActivity extends React.Component {
         this.initializeNewActivity({ ...this.state.activity });
     // Pass activity to App
     this.props.handleActivitySubmit(activity);
-    this.setState({
-      // Close the Dialog
-      open: false
-    });
+    // Close the dialog
+    this.handleClose();
   };
 
   initializeNewActivity(activity) {
     activity.id = Date.now();
     activity.name = activity.name || 'New Activity';
     activity.quantTarget = activity.quantTarget || 1;
+    activity.category = activity.category || 'No Category';
     activity.colour = activity.colour || '0,0,0';
     activity.dateCreated = new Date().toDateString();
     activity.days = {
@@ -174,6 +200,7 @@ class EditActivity extends React.Component {
           </DialogTitle>
           <form>
             <DialogContent>
+              {/*Name*/}
               <TextField
                 label="Activity Name"
                 autoFocus
@@ -186,6 +213,7 @@ class EditActivity extends React.Component {
                 required={true}
                 helperText="Must be between 1-20 characters"
               />
+              {/*Target*/}
               <TextField
                 label="Target"
                 margin="dense"
@@ -198,6 +226,7 @@ class EditActivity extends React.Component {
                 required={true}
                 helperText="Must be greater than 0"
               />
+              {/*Unit*/}
               <TextField
                 label="Unit"
                 margin="dense"
@@ -209,18 +238,44 @@ class EditActivity extends React.Component {
                 required={true}
                 helperText="Must be between 1-20 characters"
               />
-              <TextField
-                label="Category"
+              {/*Category*/}
+              <FormControl
                 margin="dense"
-                placeholder="No Category"
-                type="text"
+                required
                 fullWidth
-                onChange={this.handleChange('category')}
-                defaultValue={category}
                 error={!categoryIsValid}
-                required={true}
-                helperText="Must be one of the values provided in the drop-down"
-              />
+              >
+                <InputLabel htmlFor="category-required">Category</InputLabel>
+                <Select
+                  input={
+                    <Input
+                      type="text"
+                      name="category"
+                      id="category"
+                      placeholder="Select a Category"
+                      onChange={this.handleChange('category')}
+                    />
+                  }
+                  value={this.state.activity.category}
+                  name="category"
+                  inputProps={{
+                    id: 'category-native-required'
+                  }}
+                >
+                  <MenuItem value="No Category">
+                    <em>Select a Category</em>
+                  </MenuItem>
+                  {this.props.categories.map((currentCategory, i) => {
+                    return (
+                      <MenuItem key={i} value={currentCategory}>
+                        {currentCategory}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+                <FormHelperText>Required</FormHelperText>
+              </FormControl>
+              {/*Description*/}
               <TextField
                 id="activity-description"
                 margin="dense"
@@ -239,7 +294,7 @@ class EditActivity extends React.Component {
                 Cancel
               </Button>
               <Button
-                variant="raised"
+                variant="contained"
                 onClick={this.handleSubmit}
                 color="primary"
                 type="submit"

@@ -43,7 +43,8 @@ class ActivityGrid extends React.Component {
     }),
     dateForGrid: PropTypes.instanceOf(Date),
     updateDay: PropTypes.func,
-    handleActivitySubmit: PropTypes.func
+    handleActivitySubmit: PropTypes.func,
+    categories: PropTypes.arrayOf(PropTypes.string)
   };
 
   getStartDayForActivityGrid(
@@ -113,12 +114,14 @@ class ActivityGrid extends React.Component {
           <div>{this.props.activity.name}</div>
           <EditActivity
             activity={this.props.activity}
+            categories={this.props.categories}
             handleActivitySubmit={this.props.handleActivitySubmit}
             isAddActivity={false}
             style={{ maxWidth: '100%' }}
           />
           <DeleteActivity
             activity={this.props.activity}
+            categories={this.props.categories}
             showTextInButton={false}
             handleDeleteActivity={this.props.handleDeleteActivity}
           />

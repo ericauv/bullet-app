@@ -7,15 +7,7 @@ import { dateDiff, sortedDaysArrayFromDaysKeys } from './Helper';
 import EditActivity from './Dialogs/EditActivity';
 class App extends React.Component {
   state = {
-    activities: {},
-    categories: {
-      1: 'Intellectual',
-      2: 'Physical',
-      3: 'Creative',
-      4: 'Social',
-      5: 'Nutritional',
-      6: 'Material'
-    }
+    activities: {}
   };
 
   static propTypes = {
@@ -121,10 +113,20 @@ class App extends React.Component {
   };
 
   render() {
+    const categories = [
+      'Creative',
+      'Intellectual',
+      'Material',
+      'Nutritional',
+      'Physical',
+      'Social',
+      'No Category'
+    ];
     return (
       <React.Fragment>
         <MonthlyGrid
           activities={this.state.activities}
+          categories={categories}
           dateForGrid={new Date()}
           updateDay={this.updateDay}
           handleActivitySubmit={this.handleActivitySubmit}
@@ -132,6 +134,7 @@ class App extends React.Component {
         />
         <EditActivity
           buttonText="Add Activity"
+          categories={categories}
           handleActivitySubmit={this.handleActivitySubmit}
           isAddActivity={true}
         />

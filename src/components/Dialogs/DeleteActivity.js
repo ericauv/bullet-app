@@ -12,7 +12,8 @@ class DeleteActivity extends React.Component {
   static propTypes = {
     activity: PropTypes.shape(),
     showTextInButton: PropTypes.bool,
-    handleDeleteActivity: PropTypes.func
+    handleDeleteActivity: PropTypes.func,
+    categories: PropTypes.arrayOf(PropTypes.string)
   };
   state = {
     open: false
