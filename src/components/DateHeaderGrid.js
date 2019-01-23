@@ -3,24 +3,29 @@ import styled from 'styled-components';
 import { daysInMonth } from './Helper';
 
 /* Styling */
-const DateHeaderGridTag = styled.div`
-  display: grid;
-  grid-template-columns: minmax(200px, 3fr) repeat(auto-fit, minmax(20px, 1fr));
-  grid-gap: 5px;
-  max-width: 100%;
-  align-items: center;
+const MonthTag = styled.h4`
+  @media only screen and (min-width: 1100px) {
+    margin-bottom: 0;
+  }
+  @media only screen and (max-width: 1100px) {
+    writing-mode: vertical-lr;
+    margin-left: 0;
+  }
 `;
+
 const DayTag = styled.div`
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   max-width: 100%;
   max-height: 100%;
   display: grid;
   align-self: end;
   align-content: end;
   justify-content: center;
+  @media only screen and (max-width: 1100px) {
+  }
 `;
-const DateHeaderGrid = ({ monthName, month, year }) => {
+const DateHeaderGrid = ({ monthName, month, year, GridTag }) => {
   // Populate array of day numbers for this month
   const dayNumbers = [];
   for (let i = 1; i <= daysInMonth(month, year); i++) {
@@ -28,12 +33,12 @@ const DateHeaderGrid = ({ monthName, month, year }) => {
   }
   //Return Tags
   return (
-    <DateHeaderGridTag>
-      <h4 style={{ marginBottom: 0 }}>{monthName}</h4>
+    <GridTag>
+      <MonthTag>{monthName}</MonthTag>
       {dayNumbers.map(dayNumber => (
         <DayTag key={dayNumber}>{dayNumber}</DayTag>
       ))}
-    </DateHeaderGridTag>
+    </GridTag>
   );
 };
 export default DateHeaderGrid;

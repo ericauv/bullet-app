@@ -6,24 +6,23 @@ import DeleteActivity from './Dialogs/DeleteActivity';
 import Bullet from './Bullet';
 import { daysInMonth, sortedDaysArrayFromDaysKeys } from './Helper';
 
-/* Styling */
-const ActivityGridTag = styled.div`
-  display: grid;
-  grid-template-columns: minmax(200px, 3fr) repeat(auto-fit, minmax(20px, 1fr));
-  grid-gap: 5px;
-  max-width: 100%;
-  align-items: center;
-`;
-
 const ActivityNameTag = styled.div`
   display: grid;
-  grid-template-columns: minmax(90px, 3fr) 1fr 1fr;
   background: whitesmoke;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  max-width: 100%;
+  @media only screen and (min-width: 1100px) {
+    grid-template-columns: minmax(90px, 3fr) 1fr 1fr;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    max-width: 100%;
+  }
+  @media only screen and (max-width: 1100px) {
+    writing-mode: vertical-lr;
+    grid-template-columns: minmax(90px, 3fr) 1fr 1fr;
+    align-items: center;
+    justify-items: start;
+  }
 `;
 
 class ActivityGrid extends React.Component {
@@ -44,7 +43,8 @@ class ActivityGrid extends React.Component {
     dateForGrid: PropTypes.instanceOf(Date),
     updateDay: PropTypes.func,
     handleActivitySubmit: PropTypes.func,
-    categories: PropTypes.arrayOf(PropTypes.string)
+    categories: PropTypes.arrayOf(PropTypes.string),
+    GridTag: PropTypes.shape()
   };
 
   getStartDayForActivityGrid(
@@ -108,8 +108,9 @@ class ActivityGrid extends React.Component {
       this.props.dateForGrid
     );
     const sortedDays = sortedDaysArrayFromDaysKeys(Object.keys(activity.days));
+    const GridTag = this.props.GridTag;
     return (
-      <ActivityGridTag>
+      <GridTag>
         <ActivityNameTag>
           <div>{this.props.activity.name}</div>
           <EditActivity
@@ -148,7 +149,7 @@ class ActivityGrid extends React.Component {
         })}
         {// Render 'future' bullets for this month after today's date
         this.generateFutureBullets(this.props.dateForGrid)}
-      </ActivityGridTag>
+      </GridTag>
     );
   }
 }

@@ -132,12 +132,6 @@ class App extends React.Component {
           handleActivitySubmit={this.handleActivitySubmit}
           handleDeleteActivity={this.handleDeleteActivity}
         />
-        <EditActivity
-          buttonText="Add Activity"
-          categories={categories}
-          handleActivitySubmit={this.handleActivitySubmit}
-          isAddActivity={true}
-        />
       </React.Fragment>
     );
   }

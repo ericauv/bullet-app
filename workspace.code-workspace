@@ -1,9 +1,12 @@
 {
   "folders": [
-	{
-		"path": "."
-	}
-],
+    {
+      "path": "."
+    },
+    {
+      "path": "D:\\Documents\\1 - Projects\\12 - Programming\\daily-layout"
+    }
+  ],
   "settings": {
     "liveServer.settings.multiRootWorkspaceName": "JavaScript30-master"
   }

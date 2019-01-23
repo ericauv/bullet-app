@@ -11,6 +11,23 @@ const MonthlyGridTag = styled.div`
   padding: 20px;
   display: grid;
   grid-gap: 5px;
+  @media only screen and (max-width: 1100px) {
+    grid-template-columns: repeat(auto-fit, minmax(24px, 30px));
+  }
+`;
+
+const GridTag = styled.div`
+  display: grid;
+  grid-gap: 5px;
+  @media only screen and (min-width: 1100px) {
+    grid-template-columns: 240px repeat(auto-fit, minmax(20px, 1fr));
+    max-width: 100%;
+    align-items: center;
+  }
+  @media only screen and (max-width: 1100px) {
+    grid-template-rows: 240px repeat(auto-fit, minmax(20px, 1fr));
+    justify-items: center;
+  }
 `;
 class MonthlyGrid extends React.Component {
   static propTypes = {
@@ -43,6 +60,7 @@ class MonthlyGrid extends React.Component {
           })}
           month={this.props.dateForGrid.getMonth()}
           year={this.props.dateForGrid.getFullYear()}
+          GridTag={GridTag}
         />
         {Object.keys(this.props.activities).map(id => {
           const activity = this.props.activities[id];
@@ -55,6 +73,7 @@ class MonthlyGrid extends React.Component {
               updateDay={this.props.updateDay}
               handleActivitySubmit={this.props.handleActivitySubmit}
               handleDeleteActivity={this.props.handleDeleteActivity}
+              GridTag={GridTag}
             />
           );
         })}

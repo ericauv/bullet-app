@@ -74,6 +74,7 @@ class EditActivity extends React.Component {
     const activityValidator = { ...this.state.activityValidator };
     Object.keys(this.state.activityValidator).map(key => {
       activityValidator[key] = true;
+      return null;
     });
     this.setState({ activityValidator });
   };
@@ -171,20 +172,24 @@ class EditActivity extends React.Component {
     const buttonLabel = this.props.isAddActivity
       ? 'Add Activity'
       : 'Edit Activity';
-    const { name, quantTarget, unit, category, description } = this.props
-      .activity
+    const { name, quantTarget, unit, description } = this.props.activity
       ? { ...this.props.activity }
       : '';
     const { nameIsValid, quantTargetIsValid, unitIsValid, categoryIsValid } = {
       ...this.state.activityValidator
     };
+    const buttonStyle = {
+      minWidth: '20px',
+      minHeight: '20px'
+    };
+
     return (
       <div>
         <Button
           aria-label={buttonLabel}
           color="primary"
           onClick={this.handleClickOpen}
-          style={{ minWidth: '20px' }}
+          style={buttonStyle}
         >
           {buttonIcon}
           {this.props.isAddActivity ? 'Add Activity' : null}
