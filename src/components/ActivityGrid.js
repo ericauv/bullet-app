@@ -6,25 +6,6 @@ import DeleteActivity from './Dialogs/DeleteActivity';
 import Bullet from './Bullet';
 import { daysInMonth, sortedDaysArrayFromDaysKeys } from './Helper';
 
-const ActivityNameTag = styled.div`
-  display: grid;
-  background: whitesmoke;
-  @media only screen and (min-width: 1100px) {
-    grid-template-columns: minmax(90px, 3fr) 1fr 1fr;
-    -webkit-align-items: center;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    max-width: 100%;
-  }
-  @media only screen and (max-width: 1100px) {
-    writing-mode: vertical-lr;
-    grid-template-columns: minmax(90px, 3fr) 1fr 1fr;
-    align-items: center;
-    justify-items: start;
-  }
-`;
-
 class ActivityGrid extends React.Component {
   state = {};
 
@@ -102,6 +83,25 @@ class ActivityGrid extends React.Component {
     return bullets;
   }
   render() {
+    const ActivityNameTag = styled.div`
+      display: grid;
+      background-color: rgb(${this.props.activity.colour}, 0.2);
+      background-size: 10%;
+      @media only screen and (min-width: 1100px) {
+        grid-template-columns: minmax(90px, 3fr) 1fr 1fr;
+        -webkit-align-items: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        max-width: 100%;
+      }
+      @media only screen and (max-width: 1100px) {
+        writing-mode: vertical-lr;
+        grid-template-columns: minmax(90px, 3fr) 1fr 1fr;
+        align-items: center;
+        justify-items: start;
+      }
+    `;
     const activity = this.props.activity;
     const startDay = this.getStartDayForActivityGrid(
       new Date(activity.dateCreated),
