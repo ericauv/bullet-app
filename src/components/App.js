@@ -4,7 +4,6 @@ import base from '../base';
 import sampleActivities from '../sample-activities';
 import MonthlyGrid from './MonthlyGrid';
 import { dateDiff, sortedDaysArrayFromDaysKeys } from './Helper';
-import EditActivity from './Dialogs/EditActivity';
 class App extends React.Component {
   state = {
     activities: {}
@@ -100,14 +99,15 @@ class App extends React.Component {
     this.setState({ activities });
   };
 
-  updateDay = (activityId, dayId, quantToFill) => {
+  updateDay = (activityId, dayId, quantToFill, notes) => {
     // Make a copy of state
     const activities = this.state.activities;
     // Make a copy of the activity
     const activity = activities[activityId];
-    // Fill or unfill the day
-    activity.days[dayId].quantFilled =
-      quantToFill === 0 ? 0 : activity.quantTarget;
+    // Update the quantFilled
+    activity.days[dayId].quantFilled = quantToFill;
+    // Update the notes
+    activity.days[dayId].notes = notes;
     // Set the state
     this.setState({ activities });
   };

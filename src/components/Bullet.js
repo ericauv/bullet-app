@@ -1,18 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import InputDay from './Dialogs/InputDay';
 
 class Bullet extends React.Component {
+  state = {
+    dialogIsOpen: false
+  };
   static propTypes = {
     activityId: PropTypes.number,
+    activityName: PropTypes.string,
     date: PropTypes.string,
     colour: PropTypes.string,
     quantFilled: PropTypes.number,
     quantTarget: PropTypes.number,
     quantUnit: PropTypes.string,
+    notes: PropTypes.string,
     isBeforeCreationDate: PropTypes.bool,
     isAfterToday: PropTypes.bool,
-    updateDay: PropTypes.func
+    updateDay: PropTypes.func,
+    backgroundColor: PropTypes.string
   };
 
   styleBullet() {
@@ -32,12 +39,7 @@ class Bullet extends React.Component {
     // Live Bullet
     const bullet_live = styled.div`
                             ${bullet}
-                            background-color: rgba(
-                              ${this.props.colour},
-                              ${(this.props.quantFilled /
-                                this.props.quantTarget) *
-                                1.5}
-                          );
+                            background-color: ${this.props.backgroundColor};
                             &:hover {
                               cursor: pointer;
                             }
@@ -84,16 +86,38 @@ class Bullet extends React.Component {
   handleClick = () => {
     // Do NOTHING if not a bullet that can be clicked
     if (this.props.isBeforeCreationDate || this.props.isAfterToday) return;
-    // Determine whether filling or unfilling day
-    const quantToFill = this.props.quantFilled > 0 ? 0 : 1;
-    // Update the day that corresponds to the clicked bullet
-    this.props.updateDay(this.props.activityId, this.props.date, quantToFill);
+
+    // Open the dialog to update the day
+    this.handleOpenDialog();
+  };
+
+  handleOpenDialog = () => {
+    this.setState({ dialogIsOpen: true });
+  };
+  handleCloseDialog = () => {
+    this.setState({ dialogIsOpen: false });
   };
 
   render() {
     // Style the bullet tag based on if it is dead, future, or live bullet
     const BulletTag = this.styleBullet();
-    return <BulletTag onClick={this.handleClick} />;
+    return (
+      <div>
+        <BulletTag onClick={this.handleClick} />
+        <InputDay
+          open={this.state.dialogIsOpen}
+          quantFilled={this.props.quantFilled}
+          quantTarget={this.props.quantTarget}
+          unit={this.props.quantUnit}
+          notes={this.props.notes}
+          activityId={this.props.activityId}
+          activityName={this.props.activityName}
+          date={this.props.date}
+          updateDay={this.props.updateDay}
+          handleCloseDialog={this.handleCloseDialog}
+        />
+      </div>
+    );
   }
 }
 export default Bullet;

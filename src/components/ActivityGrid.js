@@ -87,7 +87,7 @@ class ActivityGrid extends React.Component {
       display: grid;
       background-color: rgb(${this.props.activity.colour}, 0.2);
       background-size: 10%;
-      @media only screen and (min-width: 1100px) {
+      @media only screen and (min-width: 1101px) {
         grid-template-columns: minmax(90px, 3fr) 1fr 1fr;
         -webkit-align-items: center;
         -webkit-box-align: center;
@@ -135,15 +135,20 @@ class ActivityGrid extends React.Component {
             <Bullet
               key={`${activity.id}_${dayId}`}
               activityId={activity.id}
+              activityName={activity.name}
               name={activity.name}
               date={dayId}
               colour={activity.colour}
               quantFilled={activity.days[dayId].quantFilled}
               quantTarget={activity.quantTarget}
               quantUnit={activity.unit}
+              notes={activity.notes}
               isBeforeCreationDate={false}
               isAfterToday={false}
               updateDay={this.props.updateDay}
+              backgroundColor={`rgba(${activity.colour},${parseFloat(
+                activity.days[dayId].quantFilled
+              ) / parseFloat(activity.quantTarget)})`}
             />
           );
         })}

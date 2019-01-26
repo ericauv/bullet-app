@@ -71,6 +71,7 @@ class EditActivity extends React.Component {
   };
 
   resetValidator = () => {
+    // Used to reset validator so that when dialog is opened all inputs are in valid state
     const activityValidator = { ...this.state.activityValidator };
     Object.keys(this.state.activityValidator).map(key => {
       activityValidator[key] = true;

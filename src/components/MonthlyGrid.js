@@ -19,7 +19,7 @@ const MonthlyGridTag = styled.div`
 const GridTag = styled.div`
   display: grid;
   grid-gap: 5px;
-  @media only screen and (min-width: 1100px) {
+  @media only screen and (min-width: 1101px) {
     grid-template-columns: 240px repeat(auto-fit, minmax(20px, 1fr));
     max-width: 100%;
     align-items: center;
