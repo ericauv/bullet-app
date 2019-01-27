@@ -107,7 +107,7 @@ class InputDay extends React.Component {
           <TextField
             label="Notes"
             multiline
-            rows="3"
+            rows="2"
             margin="dense"
             type="text"
             fullWidth

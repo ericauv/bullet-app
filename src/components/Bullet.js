@@ -11,7 +11,6 @@ class Bullet extends React.Component {
     activityId: PropTypes.number,
     activityName: PropTypes.string,
     date: PropTypes.string,
-    colour: PropTypes.string,
     quantFilled: PropTypes.number,
     quantTarget: PropTypes.number,
     quantUnit: PropTypes.string,
@@ -42,6 +41,8 @@ class Bullet extends React.Component {
                             background-color: ${this.props.backgroundColor};
                             &:hover {
                               cursor: pointer;
+                              transform:scale(1.15);
+                              transition: all 0.2s;
                             }
                             `;
 

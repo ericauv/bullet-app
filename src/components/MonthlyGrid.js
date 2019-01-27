@@ -74,6 +74,7 @@ class MonthlyGrid extends React.Component {
               handleActivitySubmit={this.props.handleActivitySubmit}
               handleDeleteActivity={this.props.handleDeleteActivity}
               GridTag={GridTag}
+              colours={this.props.theme.colours}
             />
           );
         })}
@@ -81,6 +82,7 @@ class MonthlyGrid extends React.Component {
           isAddActivity={true}
           handleActivitySubmit={this.props.handleActivitySubmit}
           categories={this.props.categories}
+          colours={this.props.theme.colours}
         />
       </MonthlyGridTag>
     );

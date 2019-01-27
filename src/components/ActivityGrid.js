@@ -85,8 +85,11 @@ class ActivityGrid extends React.Component {
   render() {
     const ActivityNameTag = styled.div`
       display: grid;
-      background-color: rgb(${this.props.activity.colour}, 0.2);
+      background-color: rgb(${this.props.activity.colour});
       background-size: 10%;
+      ${this.props.activity.colour === this.props.colours.black
+        ? `color:white;`
+        : null}
       @media only screen and (min-width: 1101px) {
         grid-template-columns: minmax(90px, 3fr) 1fr 1fr;
         -webkit-align-items: center;
@@ -112,13 +115,14 @@ class ActivityGrid extends React.Component {
     return (
       <GridTag>
         <ActivityNameTag>
-          <div>{this.props.activity.name}</div>
+          <span>{this.props.activity.name}</span>
           <EditActivity
             activity={this.props.activity}
             categories={this.props.categories}
             handleActivitySubmit={this.props.handleActivitySubmit}
             isAddActivity={false}
             style={{ maxWidth: '100%' }}
+            colours={this.props.colours}
           />
           <DeleteActivity
             activity={this.props.activity}
@@ -138,7 +142,6 @@ class ActivityGrid extends React.Component {
               activityName={activity.name}
               name={activity.name}
               date={dayId}
-              colour={activity.colour}
               quantFilled={activity.days[dayId].quantFilled}
               quantTarget={activity.quantTarget}
               quantUnit={activity.unit}

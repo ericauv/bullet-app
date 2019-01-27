@@ -4,6 +4,20 @@ import base from '../base';
 import sampleActivities from '../sample-activities';
 import MonthlyGrid from './MonthlyGrid';
 import { dateDiff, sortedDaysArrayFromDaysKeys } from './Helper';
+
+const theme = {
+  colours: {
+    red: '252, 53, 53',
+    blue: '53, 53, 252',
+    yellow: '252, 252, 53',
+    green: '53, 252, 53',
+    orange: '252, 153, 53',
+    purple: '153, 53, 252',
+    pink: '247, 17, 132',
+    brown: '87, 51, 14',
+    black: '9, 5, 0'
+  }
+};
 class App extends React.Component {
   state = {
     activities: {}
@@ -131,6 +145,7 @@ class App extends React.Component {
           updateDay={this.updateDay}
           handleActivitySubmit={this.handleActivitySubmit}
           handleDeleteActivity={this.handleDeleteActivity}
+          theme={theme}
         />
       </React.Fragment>
     );

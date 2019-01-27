@@ -14,6 +14,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import MenuItem from '@material-ui/core/MenuItem';
 import Input from '@material-ui/core/Input';
+import ColourPicker from '../ColourPicker';
 
 class EditActivity extends React.Component {
   state = {
@@ -91,6 +92,17 @@ class EditActivity extends React.Component {
     );
   };
 
+  handleColourChange = colour => {
+    // 1. Make a copy of the activity in state
+    const activity = { ...this.state.activity };
+    // 2. Update the value of the activity
+    activity.colour = colour;
+    // 3. Update the activity, and validate the input
+    this.setState({ activity }, () =>
+      this.validateActivityInput({ ...this.state.activity })
+    );
+  };
+
   validateActivityInput = activity => {
     const activityValidator = {
       nameIsValid: false,
@@ -153,7 +165,7 @@ class EditActivity extends React.Component {
     activity.name = activity.name || 'New Activity';
     activity.quantTarget = activity.quantTarget || 1;
     activity.category = activity.category || 'No Category';
-    activity.colour = activity.colour || '0,0,0';
+    activity.colour = activity.colour || this.props.colours.red;
     activity.dateCreated = new Date().toDateString();
     activity.days = {
       [activity.dateCreated]: {
@@ -293,6 +305,13 @@ class EditActivity extends React.Component {
                 fullWidth
                 onChange={this.handleChange('description')}
                 defaultValue={description}
+              />
+              <ColourPicker
+                handleColourChange={this.handleColourChange}
+                colours={this.props.colours}
+                checkedColour={
+                  this.props.activity ? this.props.activity.colour : null
+                }
               />
             </DialogContent>
             <DialogActions>
