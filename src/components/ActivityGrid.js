@@ -4,7 +4,12 @@ import styled from 'styled-components';
 import EditActivity from './Dialogs/EditActivity';
 import DeleteActivity from './Dialogs/DeleteActivity';
 import Bullet from './Bullet';
-import { daysInMonth, sortedDaysArrayFromDaysKeys } from './Helper';
+import {
+  daysInMonth,
+  sortedDaysArrayFromDaysKeys,
+  isSameMonthAndYear,
+  compareMonthsTrinary
+} from './Helper';
 
 class ActivityGrid extends React.Component {
   state = {};
@@ -33,19 +38,16 @@ class ActivityGrid extends React.Component {
     activityDateCreated = new Date(),
     dateForGrid = new Date()
   ) {
+    // TODO: compareMonthsTrinary -- 0 start date if before
     // return 1 if the activity was not created in the same month as the passed dateForGrid
-    if (
-      !(
-        dateForGrid.getYear() === activityDateCreated.getYear() &&
-        dateForGrid.getMonth() === activityDateCreated.getMonth()
-      )
-    ) {
+    if (!isSameMonthAndYear(dateForGrid, activityDateCreated)) {
       return 1;
     }
     // Return the day that the activity was created
     return activityDateCreated.getDate();
   }
   generateDeadBullets(dateForGrid, startDay = 1) {
+    // TODO: if startDate 0 -- all bullets Dead
     if (startDay <= 1) return; // Don't generate dead bullets, since all bullets for the month will be live
     const gridYear = dateForGrid.getFullYear();
     const gridMonth = dateForGrid.getMonth();
@@ -65,6 +67,9 @@ class ActivityGrid extends React.Component {
   }
 
   generateFutureBullets(dateForGrid) {
+    if (compareMonthsTrinary(dateForGrid, new Date()) === -1) {
+      return null;
+    }
     const gridYear = dateForGrid.getFullYear();
     const gridMonth = dateForGrid.getMonth();
     const numDaysInMonth = daysInMonth(gridMonth, gridYear);
@@ -82,6 +87,7 @@ class ActivityGrid extends React.Component {
     }
     return bullets;
   }
+
   render() {
     const ActivityNameTag = styled.div`
       display: grid;
@@ -135,25 +141,27 @@ class ActivityGrid extends React.Component {
         this.generateDeadBullets(this.props.dateForGrid, startDay)}
         {// Render Bullets for fillable days
         sortedDays.map(dayId => {
-          return (
-            <Bullet
-              key={`${activity.id}_${dayId}`}
-              activityId={activity.id}
-              activityName={activity.name}
-              name={activity.name}
-              date={dayId}
-              quantFilled={activity.days[dayId].quantFilled}
-              quantTarget={activity.quantTarget}
-              quantUnit={activity.unit}
-              notes={activity.notes}
-              isBeforeCreationDate={false}
-              isAfterToday={false}
-              updateDay={this.props.updateDay}
-              backgroundColor={`rgba(${activity.colour},${parseFloat(
-                activity.days[dayId].quantFilled
-              ) / parseFloat(activity.quantTarget)})`}
-            />
-          );
+          if (isSameMonthAndYear(dayId, this.props.dateForGrid)) {
+            return (
+              <Bullet
+                key={`${activity.id}_${dayId}`}
+                activityId={activity.id}
+                activityName={activity.name}
+                name={activity.name}
+                date={dayId}
+                quantFilled={activity.days[dayId].quantFilled}
+                quantTarget={activity.quantTarget}
+                quantUnit={activity.unit}
+                notes={activity.notes}
+                isBeforeCreationDate={false}
+                isAfterToday={false}
+                updateDay={this.props.updateDay}
+                backgroundColor={`rgba(${activity.colour},${parseFloat(
+                  activity.days[dayId].quantFilled
+                ) / parseFloat(activity.quantTarget)})`}
+              />
+            );
+          }
         })}
         {// Render 'future' bullets for this month after today's date
         this.generateFutureBullets(this.props.dateForGrid)}

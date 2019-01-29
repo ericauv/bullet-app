@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import DateHeaderGrid from './DateHeaderGrid';
 import ActivityGrid from './ActivityGrid';
 import EditActivity from './Dialogs/EditActivity';
+import { compareMonthsTrinary } from './Helper';
 
 /* Styling */
 const MonthlyGridTag = styled.div`
@@ -64,6 +65,15 @@ class MonthlyGrid extends React.Component {
         />
         {Object.keys(this.props.activities).map(id => {
           const activity = this.props.activities[id];
+          // Don't make an activity grid if the activity wasn't created yet
+          if (
+            compareMonthsTrinary(
+              this.props.dateForGrid,
+              activity.dateCreated
+            ) === -1
+          ) {
+            return null;
+          }
           return (
             <ActivityGrid
               key={activity.id}
@@ -78,7 +88,7 @@ class MonthlyGrid extends React.Component {
             />
           );
         })}
-        <EditActivity
+        <EditActivity /* Add Activity Button */
           isAddActivity={true}
           handleActivitySubmit={this.props.handleActivitySubmit}
           categories={this.props.categories}

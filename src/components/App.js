@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import base from '../base';
 import sampleActivities from '../sample-activities';
 import MonthlyGrid from './MonthlyGrid';
+import MonthPicker from './MonthPicker';
 import { dateDiff, sortedDaysArrayFromDaysKeys } from './Helper';
 
 const theme = {
@@ -20,7 +21,8 @@ const theme = {
 };
 class App extends React.Component {
   state = {
-    activities: {}
+    activities: {},
+    dateForGrid: new Date()
   };
 
   static propTypes = {
@@ -40,10 +42,6 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    this.ref = base.syncState('/categories/', {
-      context: this,
-      state: 'categories'
-    });
     this.ref = base.syncState('/activities/', {
       context: this,
       state: 'activities'
@@ -125,6 +123,10 @@ class App extends React.Component {
     // Set the state
     this.setState({ activities });
   };
+  changeDateForGrid = newDate => {
+    const dateForGrid = new Date(newDate);
+    this.setState({ dateForGrid: dateForGrid });
+  };
 
   render() {
     const categories = [
@@ -138,10 +140,14 @@ class App extends React.Component {
     ];
     return (
       <React.Fragment>
+        <MonthPicker
+          dateForGrid={this.state.dateForGrid}
+          changeDateForGrid={this.changeDateForGrid}
+        />
         <MonthlyGrid
           activities={this.state.activities}
           categories={categories}
-          dateForGrid={new Date()}
+          dateForGrid={this.state.dateForGrid}
           updateDay={this.updateDay}
           handleActivitySubmit={this.handleActivitySubmit}
           handleDeleteActivity={this.handleDeleteActivity}

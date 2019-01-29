@@ -55,7 +55,8 @@ class InputDay extends React.Component {
     });
   };
 
-  handleSubmit = () => {
+  handleSubmit = e => {
+    e.preventDefault();
     // Alert and don't update day or close form if the input wasn't valid
     if (!(this.state.notesIsValid && this.state.quantFilledIsValid)) {
       alert('Invalid Input');
@@ -88,49 +89,53 @@ class InputDay extends React.Component {
         <DialogTitle id="form-input-day">
           {`${this.props.activityName} - ${this.props.date}`}
         </DialogTitle>
-        <DialogContent>
-          <TextField
-            label={`${this.props.unit}s Completed / ${this.props.quantTarget}`}
-            margin="dense"
-            type="number"
-            autoFocus
-            inputProps={{ min: '0', max: `${this.props.quantTarget}` }}
-            fullWidth
-            onChange={this.handleChange('quantFilled')}
-            value={this.state.quantFilled}
-            error={!this.state.quantFilledIsValid}
-            required={true}
-            helperText={`Enter the number of ${
-              this.props.unit
-            }s you completed on this day`}
-          />
-          <TextField
-            label="Notes"
-            multiline
-            rows="2"
-            margin="dense"
-            type="text"
-            fullWidth
-            onChange={this.handleChange('notes')}
-            defaultValue={this.state.notes}
-            error={!this.state.notesIsValid}
-            required={true}
-            helperText="Must be less than 1000 characters"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={this.handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
-            onClick={this.handleSubmit}
-            color="primary"
-            type="submit"
-          >
-            Submit
-          </Button>
-        </DialogActions>
+        <form>
+          <DialogContent>
+            <TextField
+              label={`${this.props.unit}s Completed / ${
+                this.props.quantTarget
+              }`}
+              margin="dense"
+              type="number"
+              autoFocus
+              inputProps={{ min: '0', max: `${this.props.quantTarget}` }}
+              fullWidth
+              onChange={this.handleChange('quantFilled')}
+              value={this.state.quantFilled}
+              error={!this.state.quantFilledIsValid}
+              required={true}
+              helperText={`Enter the number of ${
+                this.props.unit
+              }s you completed on this day`}
+            />
+            <TextField
+              label="Notes"
+              multiline
+              rows="2"
+              margin="dense"
+              type="text"
+              fullWidth
+              onChange={this.handleChange('notes')}
+              defaultValue={this.state.notes}
+              error={!this.state.notesIsValid}
+              required={true}
+              helperText="Must be less than 1000 characters"
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              onClick={this.handleSubmit}
+              color="primary"
+              type="submit"
+            >
+              Submit
+            </Button>
+          </DialogActions>
+        </form>
       </Dialog>
     );
   }

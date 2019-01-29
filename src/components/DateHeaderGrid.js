@@ -34,7 +34,7 @@ const DateHeaderGrid = ({ monthName, month, year, GridTag }) => {
   //Return Tags
   return (
     <GridTag>
-      <MonthTag>{monthName}</MonthTag>
+      <MonthTag>{`${monthName} ${year}`}</MonthTag>
       {dayNumbers.map(dayNumber => (
         <DayTag key={dayNumber}>{dayNumber}</DayTag>
       ))}
