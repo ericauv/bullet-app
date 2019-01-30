@@ -33,30 +33,32 @@ class ActivityGrid extends React.Component {
     GridTag: PropTypes.shape()
   };
 
-  getStartDayForActivityGrid(
-    // Return first day that activity should have fillable bullets in GridMonthly
-    activityDateCreated = new Date(),
-    dateForGrid = new Date()
-  ) {
-    // TODO: compareMonthsTrinary -- 0 start date if before
-    // return 1 if the activity was not created in the same month as the passed dateForGrid
-    if (!isSameMonthAndYear(dateForGrid, activityDateCreated)) {
-      return 1;
+  generateDeadBullets(activity, dateForGrid) {
+    const compareMonths = compareMonthsTrinary(
+      dateForGrid,
+      activity.dateCreated
+    );
+
+    if (compareMonths === 1) {
+      // dateForGrid month is after activity.dateCreated, all bullets will be live so don't generate any dead bullets
+      return null;
     }
-    // Return the day that the activity was created
-    return activityDateCreated.getDate();
-  }
-  generateDeadBullets(dateForGrid, startDay = 1) {
-    // TODO: if startDate 0 -- all bullets Dead
-    if (startDay <= 1) return; // Don't generate dead bullets, since all bullets for the month will be live
     const gridYear = dateForGrid.getFullYear();
     const gridMonth = dateForGrid.getMonth();
+    let lastDeadDay;
+    if (compareMonths === -1) {
+      // dateForGrid Month is before activity creation month, all bullets will be dead
+      lastDeadDay = daysInMonth(gridMonth, gridYear) + 1;
+    } else if (compareMonths === 0) {
+      // dateForGrid Month is same month as activity creation, last day should be day before creation date
+      lastDeadDay = new Date(activity.dateCreated).getDate() - 1;
+    }
     const bullets = [];
-    for (let i = 1; i < startDay; i++) {
+    for (let i = 1; i <= lastDeadDay; i++) {
       const dateString = `'${gridYear}/${gridMonth}/${i}'`;
       bullets.push(
         <Bullet
-          key={`${this.props.activity.id}_${dateString}_dead`}
+          key={`${activity.id}_${dateString}_dead`}
           date={new Date(dateString)}
           isBeforeCreationDate={true}
           isAfterToday={false}
@@ -68,13 +70,17 @@ class ActivityGrid extends React.Component {
 
   generateFutureBullets(dateForGrid) {
     if (compareMonthsTrinary(dateForGrid, new Date()) === -1) {
+      // dateForGrid month is before today's month, don't generate any future bullets
       return null;
     }
     const gridYear = dateForGrid.getFullYear();
     const gridMonth = dateForGrid.getMonth();
-    const numDaysInMonth = daysInMonth(gridMonth, gridYear);
     const bullets = [];
-    for (let i = dateForGrid.getDate() + 1; i <= numDaysInMonth; i++) {
+    for (
+      let i = dateForGrid.getDate() + 1;
+      i <= daysInMonth(gridMonth, gridYear);
+      i++
+    ) {
       const dateString = `'${gridYear}/${gridMonth}/${i}'`;
       bullets.push(
         <Bullet
@@ -112,10 +118,7 @@ class ActivityGrid extends React.Component {
       }
     `;
     const activity = this.props.activity;
-    const startDay = this.getStartDayForActivityGrid(
-      new Date(activity.dateCreated),
-      this.props.dateForGrid
-    );
+
     const sortedDays = sortedDaysArrayFromDaysKeys(Object.keys(activity.days));
     const GridTag = this.props.GridTag;
     return (
@@ -138,7 +141,7 @@ class ActivityGrid extends React.Component {
           />
         </ActivityNameTag>
         {// Render 'dead' bullets prior to activity's start date
-        this.generateDeadBullets(this.props.dateForGrid, startDay)}
+        this.generateDeadBullets(this.props.activity, this.props.dateForGrid)}
         {// Render Bullets for fillable days
         sortedDays.map(dayId => {
           if (isSameMonthAndYear(dayId, this.props.dateForGrid)) {
