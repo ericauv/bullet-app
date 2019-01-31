@@ -58,7 +58,15 @@ class EditActivity extends React.Component {
     });
   }
   handleClickOpen = () => {
-    this.setState({ open: true });
+    this.setState({
+      open: true,
+      activity: this.props.activity
+        ? { ...this.props.activity }
+        : { category: '' },
+      nameOriginal: this.props.activity
+        ? this.props.activity.name
+        : 'New Activity'
+    });
     // Make all inputs valid until changed by user (validity is updated on change)
     this.resetValidator();
   };
@@ -185,7 +193,7 @@ class EditActivity extends React.Component {
     const buttonLabel = this.props.isAddActivity
       ? 'Add Activity'
       : 'Edit Activity';
-    const { name, quantTarget, unit, description } = this.props.activity
+    const { name, quantTarget, unit, desc } = this.props.activity
       ? { ...this.props.activity }
       : '';
     const { nameIsValid, quantTargetIsValid, unitIsValid, categoryIsValid } = {
@@ -303,8 +311,8 @@ class EditActivity extends React.Component {
                 multiline
                 rows="3"
                 fullWidth
-                onChange={this.handleChange('description')}
-                defaultValue={description}
+                onChange={this.handleChange('desc')}
+                defaultValue={desc}
               />
               <ColourPicker
                 handleColourChange={this.handleColourChange}

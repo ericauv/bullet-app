@@ -5,6 +5,7 @@ import sampleActivities from '../sample-activities';
 import MonthlyGrid from './MonthlyGrid';
 import MonthPicker from './MonthPicker';
 import { dateDiff, sortedDaysArrayFromDaysKeys } from './Helper';
+import ManageActivities from './ManageActivities';
 
 const theme = {
   colours: {
@@ -153,6 +154,7 @@ class App extends React.Component {
           handleDeleteActivity={this.handleDeleteActivity}
           theme={theme}
         />
+        <ManageActivities activities={this.state.activities} />
       </React.Fragment>
     );
   }
