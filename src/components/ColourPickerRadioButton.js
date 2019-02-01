@@ -22,7 +22,7 @@ class ColourPickerRadioButton extends React.Component {
       background-color: ${`rgb(${this.props.colour})`};
       border-radius: 50%;
       ${this.props.functional && this.props.isChecked
-        ? `transform:scale(1.15); border:0.5px solid black; box-shadow:-1px -1px rgba(0,0,0,0.5), 1px -1px rgba(0,0,0,0.5), -1px 1px rgba(0,0,0,0.5), 1px 1px rgba(0,0,0,0.5);`
+        ? `transform:scale(1.15); border:0.5px solid black; box-shadow:-1px -1px rgba(0,0,0,0.2), 1px -1px rgba(0,0,0,0.2), -1px 1px rgba(0,0,0,0.2), 1px 1px rgba(0,0,0,0.2);`
         : null}
       ${this.props.functional
         ? `&:hover {

@@ -54,7 +54,8 @@ class ManageActivities extends React.Component {
             <TableCell>Description</TableCell>
             <TableCell>Unit</TableCell>
             <TableCell>Target</TableCell>
-            <TableCell>Action</TableCell>
+            <TableCell>Start Date</TableCell>
+            <TableCell>Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -72,7 +73,8 @@ class ManageActivities extends React.Component {
                 <TableCell>{activity.desc}</TableCell>
                 <TableCell>{activity.unit}</TableCell>
                 <TableCell>{activity.quantTarget}</TableCell>
-                <TableCell>
+                <TableCell>{activity.dateCreated}</TableCell>
+                <TableCell /* Actions */>
                   <div
                     style={{
                       display: 'grid',
