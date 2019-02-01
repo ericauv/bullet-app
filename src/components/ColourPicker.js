@@ -37,6 +37,7 @@ class ColourPicker extends React.Component {
               key={i}
               colour={colour}
               handleCheck={this.handleCheck}
+              functional
             />
           );
         })}

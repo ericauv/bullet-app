@@ -27,6 +27,9 @@ class MonthPicker extends React.Component {
         <Button name="2019/01/01" onClick={this.handleClick}>
           January 2019
         </Button>
+        <Button name="2019/02/01" onClick={this.handleClick}>
+          February 2019
+        </Button>
       </>
     );
   }

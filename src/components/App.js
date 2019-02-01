@@ -154,7 +154,10 @@ class App extends React.Component {
           handleDeleteActivity={this.handleDeleteActivity}
           theme={theme}
         />
-        <ManageActivities activities={this.state.activities} />
+        <ManageActivities
+          activities={this.state.activities}
+          categories={categories}
+        />
       </React.Fragment>
     );
   }
