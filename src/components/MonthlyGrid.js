@@ -85,6 +85,7 @@ class MonthlyGrid extends React.Component {
               handleDeleteActivity={this.props.handleDeleteActivity}
               GridTag={GridTag}
               colours={this.props.theme.colours}
+              bulletSize={24}
             />
           );
         })}

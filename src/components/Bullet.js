@@ -13,7 +13,7 @@ class Bullet extends React.Component {
     date: PropTypes.string,
     quantFilled: PropTypes.number,
     quantTarget: PropTypes.number,
-    quantUnit: PropTypes.string,
+    unit: PropTypes.string,
     notes: PropTypes.string,
     isBeforeCreationDate: PropTypes.bool,
     isAfterToday: PropTypes.bool,
@@ -109,7 +109,7 @@ class Bullet extends React.Component {
           open={this.state.dialogIsOpen}
           quantFilled={this.props.quantFilled}
           quantTarget={this.props.quantTarget}
-          unit={this.props.quantUnit}
+          unit={this.props.unit}
           notes={this.props.notes}
           activityId={this.props.activityId}
           activityName={this.props.activityName}

@@ -18,32 +18,8 @@ class ManageActivities extends React.Component {
   };
 
   render() {
-    const activities = {
-      1: {
-        id: 1,
-        name: 'test',
-        colour: '40, 45, 50',
-        desc: 'test description ',
-        quantTarget: 5,
-        unit: 'Book'
-      },
-      2: {
-        id: 2,
-        name: 'test',
-        colour: '200, 30, 30',
-        desc: 'test description many many ',
-        quantTarget: 5,
-        unit: 'Book'
-      },
-      3: {
-        id: 3,
-        name: 'test',
-        colour: '30, 200, 30',
-        desc: 'test description many many ',
-        quantTarget: 5,
-        unit: 'Book'
-      }
-    };
+    const activities = { ...this.props.activities };
+    const categories = { ...this.props.categories };
     return (
       <Table>
         <TableHead>

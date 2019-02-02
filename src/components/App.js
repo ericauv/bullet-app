@@ -6,7 +6,7 @@ import MonthlyGrid from './MonthlyGrid';
 import MonthPicker from './MonthPicker';
 import { dateDiff, sortedDaysArrayFromDaysKeys } from './Helper';
 import ManageActivities from './ManageActivities';
-
+import DailyPage from './DailyPage';
 const theme = {
   colours: {
     red: '252, 53, 53',
@@ -157,6 +157,11 @@ class App extends React.Component {
         <ManageActivities
           activities={this.state.activities}
           categories={categories}
+        />
+        <DailyPage
+          activities={this.state.activities}
+          dayId={'Thu Jan 24 2019'}
+          updateDay={this.updateDay}
         />
       </React.Fragment>
     );
