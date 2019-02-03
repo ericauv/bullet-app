@@ -160,7 +160,7 @@ class App extends React.Component {
         />
         <DailyPage
           activities={this.state.activities}
-          dayId={'Thu Jan 24 2019'}
+          dayId={'Fri Feb 01 2019'}
           updateDay={this.updateDay}
         />
       </React.Fragment>

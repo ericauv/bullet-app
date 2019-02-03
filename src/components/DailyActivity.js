@@ -5,18 +5,22 @@ import Bullet from './Bullet';
 import DailyActivityDetails from './DailyActivityDetails';
 const DailyActivityTag = styled.div`
   display: grid;
-  grid-template-rows: 20px minmax(50px, 2fr) minmax(50px, 3fr);
+  grid-template-rows: 50px minmax(50px, 2fr) minmax(50px, 3fr);
 `;
 
 class DailyActivity extends React.Component {
   static propTypes = {
     activities: PropTypes.shape(),
-    dayId: PropTypes.string
+    dayId: PropTypes.string,
+    updateDay: PropTypes.func
   };
 
   render() {
     const activity = { ...this.props.activity };
     const dayId = this.props.dayId;
+    console.log(activity);
+    console.log(dayId);
+
     return (
       <DailyActivityTag>
         <h2>{activity.name}</h2>
@@ -38,7 +42,9 @@ class DailyActivity extends React.Component {
           ) / parseFloat(activity.quantTarget)})`}
         />
         <DailyActivityDetails
+          activity={activity}
           key={`${activity.id}_${dayId}`}
+          dayId={dayId}
           activityId={activity.id}
           quantFilled={activity.days[dayId].quantFilled}
           quantTarget={activity.quantTarget}
