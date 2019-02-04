@@ -73,8 +73,12 @@ class InputDay extends React.Component {
     this.handleClose();
   };
   handleChange = name => ({ target: { value } }) => {
-    // 3. Update the state, and validate the input
-    this.setState({ [name]: value }, () =>
+    let newValue = value;
+    // Format quantFilled value to a number
+    if (name === 'quantFilled') {
+      newValue = parseFloat(newValue);
+    }
+    this.setState({ [name]: newValue }, () =>
       this.validateDayInput({ ...this.state })
     );
   };

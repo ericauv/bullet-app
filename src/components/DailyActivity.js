@@ -3,11 +3,12 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Bullet from './Bullet';
 import DailyActivityDetails from './DailyActivityDetails';
+
 const DailyActivityTag = styled.div`
   display: grid;
   grid-template-rows: minmax(50px, 1fr) minmax(50px, 2fr) minmax(50px, 2fr);
   justify-items: center;
-  box-shadow: 1px 1px black;
+  box-shadow: 2px 2px black;
   margin-bottom: 20px;
   border: 1px dashed black;
   &:hover {
@@ -15,6 +16,7 @@ const DailyActivityTag = styled.div`
     transition: 0.3s;
     cursor: pointer;
   }
+  border-radius: 5px 5px 5px 5px;
 `;
 
 const DailyActivityNameTag = styled.h2`
