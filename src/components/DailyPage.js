@@ -3,11 +3,22 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import DailyActivity from './DailyActivity';
 const DailyPageTag = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   border: 1px solid black;
 `;
 
+const DailyPageGridTag = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  justify-content: space-around;
+  grid-gap: 20px;
+`;
+const DailyPageDateHeader = styled.h1`
+  padding-top:5%
+  padding-bottom:5%
+  border-bottom: 2px solid black;
+  width: 100%;
+  text-align: center;
+`;
 class DailyPage extends React.Component {
   static propTypes = {
     activities: PropTypes.shape(),
@@ -21,18 +32,21 @@ class DailyPage extends React.Component {
 
     return (
       <DailyPageTag>
-        {Object.values(activities).map(activity => {
-          console.log(activity);
+        <DailyPageDateHeader>{dayId}</DailyPageDateHeader>
+        <DailyPageGridTag>
+          {Object.values(activities).map(activity => {
+            console.log(activity);
 
-          return (
-            <DailyActivity
-              key={activity.id}
-              activity={activity}
-              dayId={dayId}
-              updateDay={this.props.updateDay}
-            />
-          );
-        })}
+            return (
+              <DailyActivity
+                key={activity.id}
+                activity={activity}
+                dayId={dayId}
+                updateDay={this.props.updateDay}
+              />
+            );
+          })}
+        </DailyPageGridTag>
       </DailyPageTag>
     );
   }

@@ -5,6 +5,9 @@ import PropTypes from 'prop-types';
 const DailyActivityDetailsTag = styled.div`
   display: grid;
   grid-template-rows: 20px minmax(50px, 2fr) minmax(50px, 3fr);
+  grid-gap: 30px;
+  padding-left: 5px;
+  padding-right: 5px;
 `;
 
 class DailyActivityDetails extends React.Component {

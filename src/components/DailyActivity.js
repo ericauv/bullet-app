@@ -5,7 +5,22 @@ import Bullet from './Bullet';
 import DailyActivityDetails from './DailyActivityDetails';
 const DailyActivityTag = styled.div`
   display: grid;
-  grid-template-rows: 50px minmax(50px, 2fr) minmax(50px, 3fr);
+  grid-template-rows: minmax(50px, 1fr) minmax(50px, 2fr) minmax(50px, 2fr);
+  justify-items: center;
+  box-shadow: 1px 1px black;
+  margin-bottom: 20px;
+  border: 1px dashed black;
+  &:hover {
+    transform: scale(1.05);
+    transition: 0.3s;
+    cursor: pointer;
+  }
+`;
+
+const DailyActivityNameTag = styled.h2`
+  text-align: center;
+  padding-left: 5px;
+  padding-right: 5px;
 `;
 
 class DailyActivity extends React.Component {
@@ -23,7 +38,7 @@ class DailyActivity extends React.Component {
 
     return (
       <DailyActivityTag>
-        <h2>{activity.name}</h2>
+        <DailyActivityNameTag>{activity.name}</DailyActivityNameTag>
         <Bullet
           key={`${activity.id}_${dayId}`}
           activityId={activity.id}
