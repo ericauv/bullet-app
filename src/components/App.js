@@ -168,7 +168,7 @@ class App extends React.Component {
         />
         <DailyPage
           activities={this.state.activities}
-          dayId={'Fri Feb 01 2019'}
+          dayId={'Tue Feb 05 2019'}
           updateDay={this.updateDay}
           bulletSize={theme.bulletSizes.dailyPage}
         />

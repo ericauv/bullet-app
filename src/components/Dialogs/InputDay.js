@@ -38,6 +38,17 @@ class InputDay extends React.Component {
     });
   }
 
+  componentDidUpdate() {
+    // TODO
+    const opening = () =>
+      this.state.open === true
+        ? this.setState({
+            notes: this.props.notes || '',
+            quantFilled: this.props.quantFilled || 0
+          })
+        : null;
+  }
+
   validateDayInput = () => {
     const quantFilledIsValid =
       parseFloat(this.state.quantFilled) <= parseFloat(this.props.quantTarget);
@@ -120,7 +131,7 @@ class InputDay extends React.Component {
               type="text"
               fullWidth
               onChange={this.handleChange('notes')}
-              defaultValue={this.state.notes}
+              value={this.state.notes}
               error={!this.state.notesIsValid}
               required={true}
               helperText="Must be less than 1000 characters"

@@ -123,7 +123,11 @@ class Bullet extends React.Component {
               <div
                 style={{
                   border: '1px solid black',
-                  borderRadius: '80% 80% 80% 80%'
+                  width: '10px',
+                  height: '10px',
+                  fontSize: '8px',
+                  textAlign: 'center',
+                  borderRadius: '20% 20% 20% 20%'
                 }}
               >
                 i
