@@ -24,8 +24,6 @@ class DailyActivityDetails extends React.Component {
 
   render() {
     const activity = { ...this.props.activity };
-    console.log(activity.days);
-
     const day = { ...activity.days[this.props.dayId] };
     return (
       <DailyActivityDetailsTag>

@@ -3,6 +3,12 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import InputDay from './Dialogs/InputDay';
 
+const NotesTag = styled.div`
+  position: absolute;
+  left: ${props => `${props.bulletSize * 1.05 || 22}px`};
+  top: ${props => `-${props.bulletSize * 0.4}px`};
+  /* transform: translateY(${props => `${-0.2 * props.bulletSize || -5}px`}; */
+`;
 class Bullet extends React.Component {
   state = {
     dialogIsOpen: false
@@ -28,6 +34,7 @@ class Bullet extends React.Component {
 
     // All Bullet
     const bullet = `
+      position:relative;
       width:${`${this.props.bulletSize || 22}px`};
       height:${`${this.props.bulletSize || 22}px`};
       max-width:100%;
@@ -105,9 +112,25 @@ class Bullet extends React.Component {
   render() {
     // Style the bullet tag based on if it is dead, future, or live bullet
     const BulletTag = this.styleBullet();
+    const showNotes =
+      !(this.props.isAfterToday || this.props.isBeforeCreationDate) &&
+      this.props.notes;
     return (
       <div>
-        <BulletTag onClick={this.handleClick} />
+        <BulletTag onClick={this.handleClick}>
+          {showNotes ? (
+            <NotesTag bulletSize={this.props.bulletSize}>
+              <div
+                style={{
+                  border: '1px solid black',
+                  borderRadius: '80% 80% 80% 80%'
+                }}
+              >
+                i
+              </div>
+            </NotesTag>
+          ) : null}
+        </BulletTag>
         <InputDay
           open={this.state.dialogIsOpen}
           quantFilled={this.props.quantFilled}

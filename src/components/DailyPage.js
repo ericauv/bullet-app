@@ -36,8 +36,6 @@ class DailyPage extends React.Component {
         <DailyPageDateHeader>{dayId}</DailyPageDateHeader>
         <DailyPageGridTag>
           {Object.values(activities).map(activity => {
-            console.log(activity);
-
             return (
               <DailyActivity
                 key={activity.id}

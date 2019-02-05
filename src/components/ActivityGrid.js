@@ -165,7 +165,7 @@ class ActivityGrid extends React.Component {
                 quantFilled={activity.days[dayId].quantFilled}
                 quantTarget={activity.quantTarget}
                 unit={activity.unit}
-                notes={activity.notes}
+                notes={activity.days[dayId].notes}
                 isBeforeCreationDate={false}
                 isAfterToday={false}
                 updateDay={this.props.updateDay}

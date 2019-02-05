@@ -162,6 +162,9 @@ class App extends React.Component {
         <ManageActivities
           activities={this.state.activities}
           categories={categories}
+          colours={theme.colours}
+          handleDeleteActivity={this.handleDeleteActivity}
+          handleActivitySubmit={this.handleActivitySubmit}
         />
         <DailyPage
           activities={this.state.activities}

@@ -14,7 +14,8 @@ import DeleteActivity from './Dialogs/DeleteActivity';
 class ManageActivities extends React.Component {
   static propTypes = {
     activities: PropTypes.shape(),
-    categories: PropTypes.shape()
+    categories: PropTypes.shape(),
+    colours: PropTypes.shape()
   };
 
   render() {
@@ -59,7 +60,7 @@ class ManageActivities extends React.Component {
                     }}
                   >
                     <EditActivity
-                      activity={this.props.activity}
+                      activity={activity}
                       categories={this.props.categories}
                       handleActivitySubmit={this.props.handleActivitySubmit}
                       isAddActivity={false}
@@ -67,7 +68,7 @@ class ManageActivities extends React.Component {
                       colours={this.props.colours}
                     />
                     <DeleteActivity
-                      activity={this.props.activity}
+                      activity={activity}
                       categories={this.props.categories}
                       showTextInButton={false}
                       handleDeleteActivity={this.props.handleDeleteActivity}
