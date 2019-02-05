@@ -18,6 +18,10 @@ const theme = {
     pink: '247, 17, 132',
     brown: '87, 51, 14',
     black: '9, 5, 0'
+  },
+  bulletSizes: {
+    dailyPage: 40,
+    monthlyGrid: 22
   }
 };
 class App extends React.Component {
@@ -153,6 +157,7 @@ class App extends React.Component {
           handleActivitySubmit={this.handleActivitySubmit}
           handleDeleteActivity={this.handleDeleteActivity}
           theme={theme}
+          bulletSize={theme.bulletSizes.monthlyGrid}
         />
         <ManageActivities
           activities={this.state.activities}
@@ -162,6 +167,7 @@ class App extends React.Component {
           activities={this.state.activities}
           dayId={'Fri Feb 01 2019'}
           updateDay={this.updateDay}
+          bulletSize={theme.bulletSizes.dailyPage}
         />
       </React.Fragment>
     );

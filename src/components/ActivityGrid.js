@@ -30,7 +30,8 @@ class ActivityGrid extends React.Component {
     updateDay: PropTypes.func,
     handleActivitySubmit: PropTypes.func,
     categories: PropTypes.arrayOf(PropTypes.string),
-    GridTag: PropTypes.shape()
+    GridTag: PropTypes.shape(),
+    bulletSize: PropTypes.number
   };
 
   generateDeadBullets(activity, dateForGrid) {
@@ -62,6 +63,7 @@ class ActivityGrid extends React.Component {
           date={new Date(dateString)}
           isBeforeCreationDate={true}
           isAfterToday={false}
+          bulletSize={this.props.bulletSize || 22}
         />
       );
     }
@@ -88,6 +90,7 @@ class ActivityGrid extends React.Component {
           date={new Date(dateString)}
           isBeforeCreationDate={false}
           isAfterToday={true}
+          bulletSize={this.props.bulletSize || 22}
         />
       );
     }
@@ -169,6 +172,7 @@ class ActivityGrid extends React.Component {
                 backgroundColor={`rgba(${activity.colour},${parseFloat(
                   activity.days[dayId].quantFilled
                 ) / parseFloat(activity.quantTarget)})`}
+                bulletSize={this.props.bulletSize || 22}
               />
             );
           }

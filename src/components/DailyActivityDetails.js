@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const DailyActivityDetailsTag = styled.div`
   display: grid;
-  grid-template-rows: 20px minmax(50px, 2fr) minmax(50px, 3fr);
+  grid-template-rows: 20px minmax(20px, 1fr) minmax(20px, 2fr);
   grid-gap: 30px;
   padding-left: 5px;
   padding-right: 5px;

@@ -49,7 +49,8 @@ class MonthlyGrid extends React.Component {
     updateDay: PropTypes.func,
     handleActivitySubmit: PropTypes.func,
     deleteActivityWithId: PropTypes.func,
-    categories: PropTypes.arrayOf(PropTypes.string)
+    categories: PropTypes.arrayOf(PropTypes.string),
+    bulletSize: PropTypes.number
   };
 
   render() {
@@ -62,6 +63,7 @@ class MonthlyGrid extends React.Component {
           month={this.props.dateForGrid.getMonth()}
           year={this.props.dateForGrid.getFullYear()}
           GridTag={GridTag}
+          bulletSize={this.props.bulletSize || 22}
         />
         {Object.keys(this.props.activities).map(id => {
           const activity = this.props.activities[id];
@@ -85,7 +87,7 @@ class MonthlyGrid extends React.Component {
               handleDeleteActivity={this.props.handleDeleteActivity}
               GridTag={GridTag}
               colours={this.props.theme.colours}
-              bulletSize={24}
+              bulletSize={this.props.bulletSize || 22}
             />
           );
         })}

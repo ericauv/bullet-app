@@ -23,7 +23,8 @@ class DailyPage extends React.Component {
   static propTypes = {
     activities: PropTypes.shape(),
     dayId: PropTypes.string,
-    updateDay: PropTypes.func
+    updateDay: PropTypes.func,
+    bulletSize: PropTypes.number
   };
 
   render() {
@@ -43,6 +44,7 @@ class DailyPage extends React.Component {
                 activity={activity}
                 dayId={dayId}
                 updateDay={this.props.updateDay}
+                bulletSize={this.props.bulletSize || 30}
               />
             );
           })}

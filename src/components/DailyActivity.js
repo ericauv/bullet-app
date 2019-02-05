@@ -6,7 +6,7 @@ import DailyActivityDetails from './DailyActivityDetails';
 
 const DailyActivityTag = styled.div`
   display: grid;
-  grid-template-rows: minmax(50px, 1fr) minmax(50px, 2fr) minmax(50px, 2fr);
+  grid-template-rows: minmax(30px, 1fr) minmax(40px, 1fr) minmax(50px, 2fr);
   justify-items: center;
   box-shadow: 2px 2px black;
   margin-bottom: 20px;
@@ -29,14 +29,13 @@ class DailyActivity extends React.Component {
   static propTypes = {
     activities: PropTypes.shape(),
     dayId: PropTypes.string,
-    updateDay: PropTypes.func
+    updateDay: PropTypes.func,
+    bulletSize: PropTypes.number
   };
 
   render() {
     const activity = { ...this.props.activity };
     const dayId = this.props.dayId;
-    console.log(activity);
-    console.log(dayId);
 
     return (
       <DailyActivityTag>
@@ -50,13 +49,14 @@ class DailyActivity extends React.Component {
           quantFilled={activity.days[dayId].quantFilled}
           quantTarget={activity.quantTarget}
           unit={activity.unit}
-          notes={activity.notes}
+          notes={activity.days[dayId].notes}
           isBeforeCreationDate={false}
           isAfterToday={false}
           updateDay={this.props.updateDay}
           backgroundColor={`rgba(${activity.colour},${parseFloat(
             activity.days[dayId].quantFilled
           ) / parseFloat(activity.quantTarget)})`}
+          bulletSize={this.props.bulletSize || 30}
         />
         <DailyActivityDetails
           activity={activity}

@@ -14,8 +14,8 @@ const MonthTag = styled.h4`
 `;
 
 const DayTag = styled.div`
-  width: 24px;
-  height: 24px;
+  width: ${props => `${1.09 * props.bulletSize || 24}px`};
+  height: ${props => `${1.09 * props.bulletSize || 24}px`};
   max-width: 100%;
   max-height: 100%;
   display: grid;
@@ -25,7 +25,7 @@ const DayTag = styled.div`
   @media only screen and (max-width: 1100px) {
   }
 `;
-const DateHeaderGrid = ({ monthName, month, year, GridTag }) => {
+const DateHeaderGrid = ({ monthName, month, year, GridTag, bulletSize }) => {
   // Populate array of day numbers for this month
   const dayNumbers = [];
   for (let i = 1; i <= daysInMonth(month, year); i++) {
@@ -36,7 +36,9 @@ const DateHeaderGrid = ({ monthName, month, year, GridTag }) => {
     <GridTag>
       <MonthTag>{`${monthName} ${year}`}</MonthTag>
       {dayNumbers.map(dayNumber => (
-        <DayTag key={dayNumber}>{dayNumber}</DayTag>
+        <DayTag bulletSize={bulletSize} key={dayNumber}>
+          {dayNumber}
+        </DayTag>
       ))}
     </GridTag>
   );

@@ -18,7 +18,8 @@ class Bullet extends React.Component {
     isBeforeCreationDate: PropTypes.bool,
     isAfterToday: PropTypes.bool,
     updateDay: PropTypes.func,
-    backgroundColor: PropTypes.string
+    backgroundColor: PropTypes.string,
+    bulletSize: PropTypes.number
   };
 
   styleBullet() {
@@ -27,12 +28,14 @@ class Bullet extends React.Component {
 
     // All Bullet
     const bullet = `
-      width:22px;
-      height:22px;
+      width:${`${this.props.bulletSize || 22}px`};
+      height:${`${this.props.bulletSize || 22}px`};
       max-width:100%;
       max-height:100%;
       border: 1px solid;
-      border-radius: 2px 2px 2px 2px;
+      border-radius: ${this.props.bulletSize * 0.09 || 2}px ${this.props
+      .bulletSize * 0.09 || 2}px ${this.props.bulletSize * 0.09 || 2}px ${this
+      .props.bulletSize * 0.09 || 2}px;
     `;
 
     // Live Bullet
