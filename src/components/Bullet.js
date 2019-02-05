@@ -5,8 +5,8 @@ import InputDay from './Dialogs/InputDay';
 
 const NotesTag = styled.div`
   position: absolute;
-  left: ${props => `${props.bulletSize * 1.05 || 22}px`};
-  top: ${props => `-${props.bulletSize * 0.4}px`};
+  left: 100%;
+  top: -30%;
   /* transform: translateY(${props => `${-0.2 * props.bulletSize || -5}px`}; */
 `;
 class Bullet extends React.Component {
@@ -127,7 +127,7 @@ class Bullet extends React.Component {
                   height: '10px',
                   fontSize: '8px',
                   textAlign: 'center',
-                  borderRadius: '20% 20% 20% 20%'
+                  borderRadius: '50% 50% 50% 50%'
                 }}
               >
                 i
