@@ -12,6 +12,13 @@ const DailyPageGridTag = styled.div`
   justify-content: space-around;
   grid-gap: 20px;
 `;
+const DailyPageDateGrid = styled.div`
+  display: grid;
+  grid-template-columns: minmax(100px, 1fr) minmax(150px, 2fr) minmax(
+      100px,
+      1fr
+    );
+`;
 const DailyPageDateHeader = styled.h1`
   padding-top:5%
   padding-bottom:5%

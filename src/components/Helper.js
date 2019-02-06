@@ -6,11 +6,26 @@ export function daysInMonth(
   return new Date(year, month + 1, 0).getDate();
 }
 
+export function dateAdd(datePart, dateFrom, addValue) {
+  // datepart: 'y', 'm', 'w', 'd', 'h', 'n', 's'
+  datePart = datePart.toLowerCase();
+  const multiplyBy = {
+    w: 604800000,
+    d: 86400000,
+    h: 3600000,
+    n: 60000,
+    s: 1000
+  };
+  const newTime = Math.floor(
+    new Date(dateFrom).getTime() + addValue * multiplyBy[datePart]
+  );
+  return new Date(newTime);
+}
 export function dateDiff(datepart, fromdate, todate) {
   // datepart: 'y', 'm', 'w', 'd', 'h', 'n', 's'
   datepart = datepart.toLowerCase();
-  var diff = new Date(todate) - new Date(fromdate);
-  var divideBy = { w: 604800000, d: 86400000, h: 3600000, n: 60000, s: 1000 };
+  const diff = new Date(todate) - new Date(fromdate);
+  const divideBy = { w: 604800000, d: 86400000, h: 3600000, n: 60000, s: 1000 };
 
   return Math.floor(diff / divideBy[datepart]);
 }

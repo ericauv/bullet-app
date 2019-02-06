@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 class ColourPickerRadioButton extends React.Component {
-  static PropTypes = {
+  static propTypes = {
     colour: PropTypes.string,
     isChecked: PropTypes.bool,
     handleCheck: PropTypes.func,
