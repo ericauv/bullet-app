@@ -18,13 +18,14 @@ class InputDay extends React.Component {
 
   static propTypes = {
     open: PropTypes.bool,
+    activity: PropTypes.shape(),
     quantFilled: PropTypes.number,
     quantTarget: PropTypes.number,
     unit: PropTypes.string,
     notes: PropTypes.string,
     activityId: PropTypes.string,
     activityName: PropTypes.string,
-    date: PropTypes.string,
+    dayId: PropTypes.string,
     updateDay: PropTypes.func,
     handleCloseDialog: PropTypes.func
   };
@@ -76,7 +77,7 @@ class InputDay extends React.Component {
     // Update the day
     this.props.updateDay(
       this.props.activityId,
-      this.props.date,
+      this.props.dayId,
       this.state.quantFilled,
       this.state.notes
     );
@@ -102,7 +103,7 @@ class InputDay extends React.Component {
         aria-labelledby="form-edit-activity"
       >
         <DialogTitle id="form-input-day">
-          {`${this.props.activityName} - ${this.props.date}`}
+          {`${this.props.activityName} - ${this.props.dayId}`}
         </DialogTitle>
         <form>
           <DialogContent>

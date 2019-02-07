@@ -41,32 +41,16 @@ class DailyActivity extends React.Component {
       <DailyActivityTag>
         <DailyActivityNameTag>{activity.name}</DailyActivityNameTag>
         <Bullet
-          key={`${activity.id}_${dayId}`}
-          activityId={activity.id}
-          activityName={activity.name}
-          name={activity.name}
-          date={dayId}
-          quantFilled={activity.days[dayId].quantFilled}
-          quantTarget={activity.quantTarget}
-          unit={activity.unit}
-          notes={activity.days[dayId].notes}
-          isBeforeCreationDate={false}
-          isAfterToday={false}
+          key={`${activity.id}_${dayId}_Daily`}
+          activity={activity}
+          dayId={dayId}
           updateDay={this.props.updateDay}
-          backgroundColor={`rgba(${activity.colour},${parseFloat(
-            activity.days[dayId].quantFilled
-          ) / parseFloat(activity.quantTarget)})`}
           bulletSize={this.props.bulletSize || 30}
         />
         <DailyActivityDetails
+          key={`${activity.id}_${dayId}_Details`}
           activity={activity}
-          key={`${activity.id}_${dayId}`}
           dayId={dayId}
-          activityId={activity.id}
-          quantFilled={activity.days[dayId].quantFilled}
-          quantTarget={activity.quantTarget}
-          quantUnit={activity.unit}
-          notes={activity.notes}
         />
       </DailyActivityTag>
     );

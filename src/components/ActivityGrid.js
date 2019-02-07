@@ -60,7 +60,7 @@ class ActivityGrid extends React.Component {
       bullets.push(
         <Bullet
           key={`${activity.id}_${dateString}_dead`}
-          date={new Date(dateString)}
+          dayId={new Date(dateString)}
           isBeforeCreationDate={true}
           isAfterToday={false}
           bulletSize={this.props.bulletSize || 22}
@@ -87,7 +87,7 @@ class ActivityGrid extends React.Component {
       bullets.push(
         <Bullet
           key={`${this.props.activity.id}_${dateString}_future`}
-          date={new Date(dateString)}
+          dayId={new Date(dateString)}
           isBeforeCreationDate={false}
           isAfterToday={true}
           bulletSize={this.props.bulletSize || 22}
@@ -158,20 +158,11 @@ class ActivityGrid extends React.Component {
             return (
               <Bullet
                 key={`${activity.id}_${dayId}`}
-                activityId={activity.id}
-                activityName={activity.name}
-                name={activity.name}
-                date={dayId}
-                quantFilled={activity.days[dayId].quantFilled}
-                quantTarget={activity.quantTarget}
-                unit={activity.unit}
-                notes={activity.days[dayId].notes}
+                activity={activity}
+                dayId={dayId}
                 isBeforeCreationDate={false}
                 isAfterToday={false}
                 updateDay={this.props.updateDay}
-                backgroundColor={`rgba(${activity.colour},${parseFloat(
-                  activity.days[dayId].quantFilled
-                ) / parseFloat(activity.quantTarget)})`}
                 bulletSize={this.props.bulletSize || 22}
               />
             );

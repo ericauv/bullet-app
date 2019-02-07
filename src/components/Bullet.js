@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import InputDay from './Dialogs/InputDay';
+import { compareDayIdToActivityLiveRange } from './Helper';
 
 const NotesTag = styled.div`
   position: absolute;
@@ -9,57 +10,66 @@ const NotesTag = styled.div`
   top: -30%;
   /* transform: translateY(${props => `${-0.2 * props.bulletSize || -5}px`}; */
 `;
+
 class Bullet extends React.Component {
   state = {
     dialogIsOpen: false
   };
   static propTypes = {
-    activityId: PropTypes.number,
-    activityName: PropTypes.string,
-    date: PropTypes.string,
-    quantFilled: PropTypes.number,
-    quantTarget: PropTypes.number,
-    unit: PropTypes.string,
-    notes: PropTypes.string,
+    activity: PropTypes.shape(),
+    dayId: PropTypes.string,
     isBeforeCreationDate: PropTypes.bool,
     isAfterToday: PropTypes.bool,
     updateDay: PropTypes.func,
-    backgroundColor: PropTypes.string,
     bulletSize: PropTypes.number
   };
 
-  styleBullet() {
-    // return styled
-    let bulletTag;
+  determineBulletType() {
+    if (this.props.isAfterToday) {
+      return 1;
+    } else if (this.props.isBeforeCreationDate) {
+      return -1;
+    } else
+      return compareDayIdToActivityLiveRange(
+        this.props.activity.dateCreated,
+        this.props.dayId
+      );
+  }
 
+  styleBullet(dayIdComparedToActivityLiveRange, dayId) {
     // All Bullet
     const bullet = `
-      position:relative;
-      width:${`${this.props.bulletSize || 22}px`};
-      height:${`${this.props.bulletSize || 22}px`};
-      max-width:100%;
-      max-height:100%;
-      border: 1px solid;
-      border-radius: ${this.props.bulletSize * 0.09 || 2}px ${this.props
+    position:relative;
+    width:${`${this.props.bulletSize || 22}px`};
+    height:${`${this.props.bulletSize || 22}px`};
+    max-width:100%;
+    max-height:100%;
+    border: 1px solid;
+    border-radius: ${this.props.bulletSize * 0.09 || 2}px ${this.props
       .bulletSize * 0.09 || 2}px ${this.props.bulletSize * 0.09 || 2}px ${this
       .props.bulletSize * 0.09 || 2}px;
-    `;
+        `;
 
-    // Live Bullet
-    const bullet_live = styled.div`
+    if (dayIdComparedToActivityLiveRange === 0) {
+      // Live Bullet
+      return styled.div`
                             ${bullet}
-                            background-color: ${this.props.backgroundColor};
+                            background-color: ${`rgba(${
+                              this.props.activity.colour
+                            },${parseFloat(
+                              this.props.activity.days[dayId].quantFilled
+                            ) / parseFloat(this.props.activity.quantTarget)})`};
                             &:hover {
                               cursor: pointer;
                               transform:scale(1.15);
                               transition: all 0.2s;
                             }
                             `;
-
-    // Dead Bullet (before creation date)
-    const bullet_dead = styled.div`
-      ${bullet}
-      background:   /* On "top" */
+    } else if (dayIdComparedToActivityLiveRange < 0) {
+      // Dead Bullet (before creation date)
+      return styled.div`
+        ${bullet}
+        background:   /* On "top" */
                             repeating-linear-gradient(
                               45deg,
                               transparent,
@@ -73,31 +83,20 @@ class Bullet extends React.Component {
                               black,
                               #999
                             );
-      opacity: 0.2;
-    `;
-
-    // Future Bullet (after today)
-    const bullet_future = styled.div`
-      ${bullet}
-      background: transparent;
-      border: dashed 1px;
-      opacity: 0.3;
-    `;
-
-    if (this.props.isBeforeCreationDate === true) {
-      bulletTag = bullet_dead;
-    } else if (this.props.isAfterToday === true) {
-      bulletTag = bullet_future;
+        opacity: 0.2;
+      `;
     } else {
-      bulletTag = bullet_live;
+      // Future Bullet (after today)
+      return styled.div`
+        ${bullet}
+        background: transparent;
+        border: dashed 1px;
+        opacity: 0.3;
+      `;
     }
-    return bulletTag;
   }
 
   handleClick = () => {
-    // Do NOTHING if not a bullet that can be clicked
-    if (this.props.isBeforeCreationDate || this.props.isAfterToday) return;
-
     // Open the dialog to update the day
     this.handleOpenDialog();
   };
@@ -110,11 +109,14 @@ class Bullet extends React.Component {
   };
 
   render() {
+    const activity = { ...this.props.activity };
+    const dayId = this.props.dayId;
+    const dayIdComparedToActivityLiveRange = this.determineBulletType();
+
     // Style the bullet tag based on if it is dead, future, or live bullet
-    const BulletTag = this.styleBullet();
+    const BulletTag = this.styleBullet(dayIdComparedToActivityLiveRange, dayId);
     const showNotes =
-      !(this.props.isAfterToday || this.props.isBeforeCreationDate) &&
-      this.props.notes;
+      dayIdComparedToActivityLiveRange === 0 && activity.days[dayId].notes;
     return (
       <div>
         <BulletTag onClick={this.handleClick}>
@@ -135,18 +137,20 @@ class Bullet extends React.Component {
             </NotesTag>
           ) : null}
         </BulletTag>
-        <InputDay
-          open={this.state.dialogIsOpen}
-          quantFilled={this.props.quantFilled}
-          quantTarget={this.props.quantTarget}
-          unit={this.props.unit}
-          notes={this.props.notes}
-          activityId={this.props.activityId}
-          activityName={this.props.activityName}
-          date={this.props.date}
-          updateDay={this.props.updateDay}
-          handleCloseDialog={this.handleCloseDialog}
-        />
+        {dayIdComparedToActivityLiveRange === 0 ? (
+          <InputDay
+            open={this.state.dialogIsOpen}
+            quantFilled={activity.days[dayId].quantFilled}
+            quantTarget={activity.quantTarget}
+            unit={activity.unit}
+            notes={activity.days[dayId].notes}
+            activityId={activity.id}
+            activityName={activity.name}
+            dayId={dayId}
+            updateDay={this.props.updateDay}
+            handleCloseDialog={this.handleCloseDialog}
+          />
+        ) : null}
       </div>
     );
   }

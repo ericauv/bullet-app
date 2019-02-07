@@ -5,7 +5,6 @@ export function daysInMonth(
   // Input month is 0-based (i.e. is same as output from a .getMonth())
   return new Date(year, month + 1, 0).getDate();
 }
-
 export function dateAdd(datePart, dateFrom, addValue) {
   // datepart: 'y', 'm', 'w', 'd', 'h', 'n', 's'
   datePart = datePart.toLowerCase();
@@ -73,5 +72,17 @@ export function compareMonthsTrinary(startDate, endDate) {
       // later month
       return 1;
     }
+  }
+}
+
+export function compareDayIdToActivityLiveRange(dateCreated, dayId) {
+  const dateDifference = dateDiff('d', new Date(dateCreated), new Date(dayId));
+
+  if (dateDifference === 0) {
+    return 0;
+  } else if (dateDifference < 0) {
+    return -1;
+  } else {
+    return dateDiff('d', new Date(dayId), new Date()) < 0 ? 1 : 0;
   }
 }

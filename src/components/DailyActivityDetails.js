@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { compareDayIdToActivityLiveRange } from './Helper';
 
 const DailyActivityDetailsTag = styled.div`
   display: grid;
@@ -12,25 +13,29 @@ const DailyActivityDetailsTag = styled.div`
 
 class DailyActivityDetails extends React.Component {
   static propTypes = {
-    quantFilled: PropTypes.number,
-    quantTarget: PropTypes.number,
-    unit: PropTypes.string,
-    notes: PropTypes.string,
-    activityId: PropTypes.string,
-    activityName: PropTypes.string,
-    date: PropTypes.string,
+    activity: PropTypes.shape(),
+    dayId: PropTypes.string,
     updateDay: PropTypes.func
   };
 
   render() {
     const activity = { ...this.props.activity };
-    const day = { ...activity.days[this.props.dayId] };
+    const dayId = this.props.dayId;
+    const dayIdComparedToActivityLiveRange = compareDayIdToActivityLiveRange(
+      activity.dateCreated,
+      dayId
+    );
+    const day =
+      dayIdComparedToActivityLiveRange === 0 ? activity.days[dayId] : null;
+
     return (
       <DailyActivityDetailsTag>
         <div>
-          {day.quantFilled}/{activity.quantTarget} {activity.unit}
+          {day
+            ? `${day.quantFilled}/${activity.quantTarget} ${activity.unit}`
+            : 'Not a valid date for this activity.'}
         </div>
-        <div>{day.notes}</div>
+        <div>{day ? day.notes : 'Not a valid date for this activity.'}</div>
       </DailyActivityDetailsTag>
     );
   }
