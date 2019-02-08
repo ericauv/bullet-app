@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Button from '@material-ui/core/Button';
 import ColorPickerRadioButton from './ColourPickerRadioButton';
 import EditActivity from './Dialogs/EditActivity';
 import DeleteActivity from './Dialogs/DeleteActivity';
@@ -14,13 +12,14 @@ import DeleteActivity from './Dialogs/DeleteActivity';
 class ManageActivities extends React.Component {
   static propTypes = {
     activities: PropTypes.shape(),
-    categories: PropTypes.shape(),
+    categories: PropTypes.arrayOf(PropTypes.string),
     colours: PropTypes.shape()
   };
 
   render() {
     const activities = { ...this.props.activities };
-    const categories = { ...this.props.categories };
+    const categories = [...this.props.categories];
+
     return (
       <Table>
         <TableHead>
@@ -39,6 +38,7 @@ class ManageActivities extends React.Component {
           {Object.values(activities).map(activity => {
             return (
               <TableRow
+                key={activity.id}
                 id={activity.id}
                 style={{ backgroundColor: `rgba(${activity.colour},0.2)` }}
               >
@@ -61,7 +61,7 @@ class ManageActivities extends React.Component {
                   >
                     <EditActivity
                       activity={activity}
-                      categories={this.props.categories}
+                      categories={categories}
                       handleActivitySubmit={this.props.handleActivitySubmit}
                       isAddActivity={false}
                       style={{ maxWidth: '100%' }}
@@ -69,7 +69,7 @@ class ManageActivities extends React.Component {
                     />
                     <DeleteActivity
                       activity={activity}
-                      categories={this.props.categories}
+                      categories={categories}
                       showTextInButton={false}
                       handleDeleteActivity={this.props.handleDeleteActivity}
                     />

@@ -1,12 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import base from '../base';
-import sampleActivities from '../sample-activities';
 import MonthlyGrid from './MonthlyGrid';
 import MonthPicker from './MonthPicker';
-import { dateDiff, sortedDaysArrayFromDaysKeys } from './Helper';
+import {
+  dateDiff,
+  sortedDaysArrayFromDaysKeys,
+  isSameMonthAndYear
+} from './Helper';
 import ManageActivities from './ManageActivities';
 import DailyPage from './DailyPage';
+import PageNotFound from './PageNotFound';
 const theme = {
   colours: {
     red: '252, 53, 53',
@@ -24,6 +28,15 @@ const theme = {
     monthlyGrid: 22
   }
 };
+const categories = [
+  'Creative',
+  'Intellectual',
+  'Material',
+  'Nutritional',
+  'Physical',
+  'Social',
+  'No Category'
+];
 class App extends React.Component {
   state = {
     activities: {},
@@ -43,7 +56,8 @@ class App extends React.Component {
         colour: PropTypes.string,
         days: PropTypes.object
       })
-    )
+    ),
+    renderComponent: PropTypes.string
   };
 
   componentDidMount() {
@@ -59,14 +73,6 @@ class App extends React.Component {
   componentWillUnmount() {
     base.removeBinding(this.ref);
   }
-
-  loadSampleDays = () => {
-    // Populate state with sampleActivities
-    this.setState({
-      activities: this.generateDaysUntilToday(sampleActivities)
-    });
-  };
-
   generateDaysUntilToday = () => {
     const activitiesList = { ...this.state.activities };
     Object.keys(activitiesList).map(id => {
@@ -133,32 +139,60 @@ class App extends React.Component {
     this.setState({ dateForGrid: dateForGrid });
   };
 
-  render() {
-    const categories = [
-      'Creative',
-      'Intellectual',
-      'Material',
-      'Nutritional',
-      'Physical',
-      'Social',
-      'No Category'
-    ];
-    return (
-      <React.Fragment>
-        <MonthPicker
-          dateForGrid={this.state.dateForGrid}
-          changeDateForGrid={this.changeDateForGrid}
-        />
-        <MonthlyGrid
+  createRender = (renderComponent, params, categories, theme) => {
+    console.log(params);
+
+    if (renderComponent === 'monthly' || renderComponent === 'daily') {
+      // Check that the passed date was valid
+      //TODO: Validate Entered URL Date
+      const invalidDate = false;
+      if (invalidDate === true) {
+        return <PageNotFound />;
+      }
+    }
+    if (renderComponent === 'monthly') {
+      const proposedDateForGrid = new Date(`${params.year}/${params.month}/01`);
+
+      // Change dateForGrid to today's date if it is in today's month (and year)
+      const dateForGrid = isSameMonthAndYear(proposedDateForGrid, new Date())
+        ? new Date()
+        : proposedDateForGrid;
+      // this.changeDateForGrid(dateForGrid);
+
+      return (
+        <>
+          <MonthPicker
+            dateForGrid={dateForGrid}
+            changeDateForGrid={this.changeDateForGrid}
+          />
+          <MonthlyGrid
+            activities={this.state.activities}
+            categories={categories}
+            dateForGrid={dateForGrid}
+            updateDay={this.updateDay}
+            handleActivitySubmit={this.handleActivitySubmit}
+            handleDeleteActivity={this.handleDeleteActivity}
+            theme={theme}
+            bulletSize={theme.bulletSizes.monthlyGrid}
+          />
+        </>
+      );
+    } else if (renderComponent === 'daily') {
+      const dateForGrid = new Date(
+        `${params.year}/${params.month}/${params.day}`
+      );
+      // this.changeDateForGrid(dateForGrid);
+
+      return (
+        <DailyPage
           activities={this.state.activities}
-          categories={categories}
-          dateForGrid={this.state.dateForGrid}
+          dayId={dateForGrid.toDateString()}
           updateDay={this.updateDay}
-          handleActivitySubmit={this.handleActivitySubmit}
-          handleDeleteActivity={this.handleDeleteActivity}
-          theme={theme}
-          bulletSize={theme.bulletSizes.monthlyGrid}
+          bulletSize={theme.bulletSizes.dailyPage}
         />
+      );
+    } else if (renderComponent === 'activities') {
+      return (
         <ManageActivities
           activities={this.state.activities}
           categories={categories}
@@ -166,14 +200,18 @@ class App extends React.Component {
           handleDeleteActivity={this.handleDeleteActivity}
           handleActivitySubmit={this.handleActivitySubmit}
         />
-        <DailyPage
-          activities={this.state.activities}
-          dayId={'Tue Feb 05 2019'}
-          updateDay={this.updateDay}
-          bulletSize={theme.bulletSizes.dailyPage}
-        />
-      </React.Fragment>
-    );
+      );
+    }
+    return <PageNotFound />;
+  };
+
+  render() {
+    // Get params from Router
+    const params = this.props.match.params;
+
+    const renderComponent = this.props.renderComponent;
+
+    return this.createRender(renderComponent, params, categories, theme);
   }
 }
 

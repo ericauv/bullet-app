@@ -26,6 +26,8 @@ const DailyPageDateHeader = styled.h1`
   border-bottom: 2px solid black;
   width: 100%;
   text-align: center;
+  user-select: none;
+  cursor:pointer;
 `;
 class DailyPage extends React.Component {
   state = { dayId: null };

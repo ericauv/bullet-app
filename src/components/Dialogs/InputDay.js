@@ -23,7 +23,7 @@ class InputDay extends React.Component {
     quantTarget: PropTypes.number,
     unit: PropTypes.string,
     notes: PropTypes.string,
-    activityId: PropTypes.string,
+    activityId: PropTypes.number,
     activityName: PropTypes.string,
     dayId: PropTypes.string,
     updateDay: PropTypes.func,
@@ -40,7 +40,7 @@ class InputDay extends React.Component {
   }
 
   componentDidUpdate() {
-    // TODO
+    // TODO fix bug
     const opening = () =>
       this.state.open === true
         ? this.setState({

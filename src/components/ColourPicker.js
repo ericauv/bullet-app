@@ -17,7 +17,7 @@ class ColourPicker extends React.Component {
   };
 
   static propTypes = {
-    colours: PropTypes.arrayOf(PropTypes.string),
+    colours: PropTypes.shape(),
     checkedColour: PropTypes.string,
     handleColourChange: PropTypes.func
   };
