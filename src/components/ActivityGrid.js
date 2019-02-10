@@ -71,8 +71,6 @@ class ActivityGrid extends React.Component {
   }
 
   generateFutureBullets(dateForGrid) {
-    console.log(`dateForGrid:${dateForGrid}`);
-
     if (compareMonthsTrinary(dateForGrid, new Date()) === -1) {
       // dateForGrid month is before today's month, don't generate any future bullets
       return null;

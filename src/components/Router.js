@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import React from 'react';
 import App from './App';
+import Nav from './Nav';
 import PageNotFound from './PageNotFound';
 
 const Router = () => {
@@ -22,15 +23,28 @@ const Router = () => {
         />
         <Route
           path="/monthly/:year/:month/"
-          render={props => <App renderComponent="monthly" {...props} />}
+          render={props => (
+            <>
+              <Nav />
+              <App renderComponent="monthly" {...props} />{' '}
+            </>
+          )}
         />
         <Route
           path="/daily/:year/:month/:day"
-          render={props => <App renderComponent="daily" {...props} />}
+          render={props => (
+            <>
+              <Nav /> <App renderComponent="daily" {...props} />
+            </>
+          )}
         />
         <Route
           path="/activities/"
-          render={props => <App renderComponent="activities" {...props} />}
+          render={props => (
+            <>
+              <Nav /> <App renderComponent="activities" {...props} />
+            </>
+          )}
         />
         {/* TODO in App: Have 'not found' routing for invalid days/months/years*/}
         <Route component={PageNotFound} />

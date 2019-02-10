@@ -160,8 +160,6 @@ class App extends React.Component {
         (a, b) => {
           const aDateCreated = new Date(a);
           const bDateCreated = new Date(b.dateCreated);
-          console.log(`a:${aDateCreated}`);
-          console.log(bDateCreated);
 
           return aDateCreated > bDateCreated
             ? bDateCreated.toDateString()
@@ -169,8 +167,6 @@ class App extends React.Component {
         },
         new Date()
       );
-      console.log(earliestDateCreated);
-
       return (
         <>
           <MonthPicker
@@ -217,8 +213,6 @@ class App extends React.Component {
   };
 
   render() {
-    console.log(this.props);
-
     // Get params from Router
     const params = this.props.match.params;
 

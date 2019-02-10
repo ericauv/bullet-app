@@ -41,7 +41,7 @@ class MonthPicker extends React.Component {
       <>
         {months.map(month => {
           return (
-            <div style={{ height: '20px' }}>
+            <div key={month} style={{ height: '20px' }}>
               <Link
                 to={`/monthly/${month.getFullYear()}/${month.getMonth() + 1}`}
               >{`${month.toLocaleString('en-us', {
