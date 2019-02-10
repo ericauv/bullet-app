@@ -25,7 +25,7 @@ const Router = () => {
           path="/monthly/:year/:month/"
           render={props => (
             <>
-              <Nav />
+              <Nav title="Monthly" />
               <App renderComponent="monthly" {...props} />{' '}
             </>
           )}
@@ -34,7 +34,7 @@ const Router = () => {
           path="/daily/:year/:month/:day"
           render={props => (
             <>
-              <Nav /> <App renderComponent="daily" {...props} />
+              <Nav title="Daily" /> <App renderComponent="daily" {...props} />
             </>
           )}
         />
@@ -42,7 +42,8 @@ const Router = () => {
           path="/activities/"
           render={props => (
             <>
-              <Nav /> <App renderComponent="activities" {...props} />
+              <Nav title="Manage Activities" />{' '}
+              <App renderComponent="activities" {...props} />
             </>
           )}
         />

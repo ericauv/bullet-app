@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import SimpleMenu from './SimpleMenu';
 
 class Nav extends React.Component {
-  static propTypes = {};
+  static propTypes = { title: PropTypes.string };
 
   render() {
     return (
@@ -14,7 +14,7 @@ class Nav extends React.Component {
         <AppBar position="static">
           <Toolbar>
             <SimpleMenu />
-            <h1>Daily</h1>
+            <h1>{this.props.title}</h1>
             <Button>Login</Button>
           </Toolbar>
         </AppBar>
