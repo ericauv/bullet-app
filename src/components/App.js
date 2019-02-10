@@ -140,8 +140,6 @@ class App extends React.Component {
   };
 
   createRender = (renderComponent, params, categories, theme) => {
-    console.log(params);
-
     if (renderComponent === 'monthly' || renderComponent === 'daily') {
       // Check that the passed date was valid
       //TODO: Validate Entered URL Date
@@ -157,13 +155,28 @@ class App extends React.Component {
       const dateForGrid = isSameMonthAndYear(proposedDateForGrid, new Date())
         ? new Date()
         : proposedDateForGrid;
-      // this.changeDateForGrid(dateForGrid);
+
+      const earliestDateCreated = Object.values(this.state.activities).reduce(
+        (a, b) => {
+          const aDateCreated = new Date(a);
+          const bDateCreated = new Date(b.dateCreated);
+          console.log(`a:${aDateCreated}`);
+          console.log(bDateCreated);
+
+          return aDateCreated > bDateCreated
+            ? bDateCreated.toDateString()
+            : aDateCreated.toDateString();
+        },
+        new Date()
+      );
+      console.log(earliestDateCreated);
 
       return (
         <>
           <MonthPicker
             dateForGrid={dateForGrid}
             changeDateForGrid={this.changeDateForGrid}
+            earliestDateCreated={earliestDateCreated}
           />
           <MonthlyGrid
             activities={this.state.activities}
@@ -181,8 +194,6 @@ class App extends React.Component {
       const dateForGrid = new Date(
         `${params.year}/${params.month}/${params.day}`
       );
-      // this.changeDateForGrid(dateForGrid);
-
       return (
         <DailyPage
           activities={this.state.activities}
@@ -206,6 +217,8 @@ class App extends React.Component {
   };
 
   render() {
+    console.log(this.props);
+
     // Get params from Router
     const params = this.props.match.params;
 

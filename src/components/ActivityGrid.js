@@ -60,7 +60,7 @@ class ActivityGrid extends React.Component {
       bullets.push(
         <Bullet
           key={`${activity.id}_${dateString}_dead`}
-          dayId={new Date(dateString)}
+          dayId={new Date(dateString).toDateString()}
           isBeforeCreationDate={true}
           isAfterToday={false}
           bulletSize={this.props.bulletSize || 22}
@@ -89,7 +89,7 @@ class ActivityGrid extends React.Component {
       bullets.push(
         <Bullet
           key={`${this.props.activity.id}_${dateString}_future`}
-          dayId={new Date(dateString)}
+          dayId={new Date(dateString).toDateString()}
           isBeforeCreationDate={false}
           isAfterToday={true}
           bulletSize={this.props.bulletSize || 22}
