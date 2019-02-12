@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import DailyActivity from './DailyActivity';
-import { dateAdd } from './Helper';
+import { dateAdd } from '../Helper';
 const DailyPageTag = styled.div`
   border: 1px solid black;
 `;

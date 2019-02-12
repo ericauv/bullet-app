@@ -8,8 +8,18 @@ const NotesTag = styled.div`
   position: absolute;
   left: 100%;
   top: -30%;
-  /* transform: translateY(${props => `${-0.2 * props.bulletSize || -5}px`}; */
 `;
+
+// Tracks the length of a press/click on Bullet
+let counter = 0;
+
+// The max length of a 'click'
+const clickBound = 25;
+
+// The minimum length of a 'hold'
+const holdBound = 35;
+
+let intervalId = null;
 
 class Bullet extends React.Component {
   state = {
@@ -96,15 +106,78 @@ class Bullet extends React.Component {
     }
   }
 
-  handleClick = () => {
-    // Open the dialog to update the day
-    this.handleOpenDialog();
+  /* Determine Hold vs. Click press */
+  pressingDown = e => {
+    // Increment counter every 10 milliseconds
+    intervalId = setInterval(this.timer, 10);
+    e.preventDefault();
   };
 
-  handleOpenDialog = () => {
+  timer = () => {
+    if (counter < holdBound) {
+      // Increment the amount of time the user has held the bullet
+      counter++;
+    } else {
+      // The user has held for the duration of a hold press
+      this.firePressEvent(counter);
+      counter = 0;
+    }
+  };
+
+  notPressingDown = () => {
+    if (intervalId) {
+      // Only perform actions if the user had pressed a bullet
+      // Stop the press timer from running
+      clearInterval(intervalId);
+      // Fire the event corresponding to the length of the press
+      this.firePressEvent(counter);
+      // Reset the press counter to 0
+      counter = 0;
+      intervalId = null;
+    }
+  };
+
+  firePressEvent = counter => {
+    if (intervalId) {
+      // Stop running the timer function
+      clearInterval(intervalId);
+    }
+    if (counter > 0 && counter <= clickBound) {
+      // Fire the click event
+      this.handleClickPress();
+    } else if (counter >= holdBound) {
+      // Fire the hold event
+      this.handleHoldPress();
+    }
+  };
+
+  /* Actions */
+  handleClickPress = () => {
+    // Fill or Unfill the day
+    const activity = { ...this.props.activity };
+    const dayId = this.props.dayId;
+    const day = { ...activity.days[dayId] };
+    // Open the dialog to update the day
+    this.props.updateDay(
+      activity.id,
+      dayId,
+      this.determineQuantToFill(activity.quantTarget, day.quantFilled),
+      day.notes
+    );
+  };
+
+  determineQuantToFill = (quantTarget, quantFilled) => {
+    // Return 0 if the day has some quantFilled, return the activity's quantTarget if the day has no quantFilled
+    return quantFilled > 0 ? 0 : quantTarget;
+  };
+
+  handleHoldPress = () => {
+    // Open the day fill dialog
     this.setState({ dialogIsOpen: true });
   };
+
   handleCloseDialog = () => {
+    // Close the day fill dialog
     this.setState({ dialogIsOpen: false });
   };
 
@@ -119,7 +192,13 @@ class Bullet extends React.Component {
       dayIdComparedToActivityLiveRange === 0 && activity.days[dayId].notes;
     return (
       <div>
-        <BulletTag onClick={this.handleClick}>
+        <BulletTag
+          onMouseDown={this.pressingDown}
+          onMouseUp={this.notPressingDown}
+          onMouseLeave={this.notPressingDown}
+          onTouchStart={this.pressingDown}
+          onTouchEnd={this.notPressingDown}
+        >
           {showNotes ? (
             <NotesTag bulletSize={this.props.bulletSize}>
               <div

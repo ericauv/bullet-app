@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import Bullet from './Bullet';
+import Bullet from '../Bullet';
 import DailyActivityDetails from './DailyActivityDetails';
 
 const DailyActivityTag = styled.div`
@@ -10,7 +10,7 @@ const DailyActivityTag = styled.div`
   justify-items: center;
   box-shadow: 2px 2px black;
   margin-bottom: 20px;
-  border: 1px dashed black;
+  border: 1px solid black;
   &:hover {
     transform: scale(1.05);
     transition: 0.3s;

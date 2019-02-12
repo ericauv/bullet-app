@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import DateHeaderGrid from './DateHeaderGrid';
 import ActivityGrid from './ActivityGrid';
-import EditActivity from './Dialogs/EditActivity';
-import { compareMonthsTrinary } from './Helper';
+import EditActivity from '../Dialogs/EditActivity';
+import { compareMonthsTrinary } from '../Helper';
 
 /* Styling */
 const MonthlyGridTag = styled.div`

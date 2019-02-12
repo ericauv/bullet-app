@@ -1,8 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
-import { isSameMonthAndYear, dateAdd } from './Helper';
+import { isSameMonthAndYear, dateAdd } from '../Helper';
 import { Link } from 'react-router-dom';
+
+const MonthPickerTag = styled.div`
+  margin-top: 20px;
+  margin-bottom: 20px;
+`;
 
 class MonthPicker extends React.Component {
   static propTypes = {
@@ -38,7 +44,7 @@ class MonthPicker extends React.Component {
     const months = [...this.populateMonths()];
 
     return (
-      <>
+      <MonthPickerTag>
         {months.map(month => {
           return (
             <div key={month} style={{ height: '20px' }}>
@@ -50,19 +56,7 @@ class MonthPicker extends React.Component {
             </div>
           );
         })}
-        {/* <Button name="2018/11/01" onClick={this.handleClick}>
-          November 2018
-        </Button>
-        <Button name="2018/12/01" onClick={this.handleClick}>
-          December 2018
-        </Button>
-        <Button name="2019/01/01" onClick={this.handleClick}>
-          January 2019
-        </Button>
-        <Button name="2019/02/01" onClick={this.handleClick}>
-          February 2019
-        </Button> */}
-      </>
+      </MonthPickerTag>
     );
   }
 }

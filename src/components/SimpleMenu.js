@@ -12,7 +12,9 @@ const LinkTagStyle = {
   display: 'inline-block',
   height: '100%',
   width: '100%',
-  padding: '16px'
+  padding: '16px',
+  textDecoration: 'none',
+  color: 'black'
 };
 const MenuItemStyle = {
   paddingLeft: '0',

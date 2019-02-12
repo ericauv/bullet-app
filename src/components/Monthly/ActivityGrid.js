@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import EditActivity from './Dialogs/EditActivity';
-import DeleteActivity from './Dialogs/DeleteActivity';
-import Bullet from './Bullet';
+import EditActivity from '../Dialogs/EditActivity';
+import DeleteActivity from '../Dialogs/DeleteActivity';
+import Bullet from '../Bullet';
 import {
   daysInMonth,
   sortedDaysArrayFromDaysKeys,
   isSameMonthAndYear,
   compareMonthsTrinary
-} from './Helper';
+} from '../Helper';
 
 class ActivityGrid extends React.Component {
   state = {};

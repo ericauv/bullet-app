@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import base from '../base';
-import MonthlyGrid from './MonthlyGrid';
-import MonthPicker from './MonthPicker';
+import MonthlyGrid from './Monthly/MonthlyGrid';
+import MonthPickerGrid from './Monthly/MonthPickerGrid';
 import {
   dateDiff,
   sortedDaysArrayFromDaysKeys,
   isSameMonthAndYear
 } from './Helper';
 import ManageActivities from './ManageActivities';
-import DailyPage from './DailyPage';
+import DailyPage from './Daily/DailyPage';
 import PageNotFound from './PageNotFound';
 const theme = {
   colours: {
@@ -169,7 +169,7 @@ class App extends React.Component {
       );
       return (
         <>
-          <MonthPicker
+          <MonthPickerGrid
             dateForGrid={dateForGrid}
             changeDateForGrid={this.changeDateForGrid}
             earliestDateCreated={earliestDateCreated}
