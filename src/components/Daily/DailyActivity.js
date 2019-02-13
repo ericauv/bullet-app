@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Bullet from '../Bullet';
+import EditActivity from '../Dialogs/EditActivity';
 import DailyActivityDetails from './DailyActivityDetails';
 
 const DailyActivityTag = styled.div`
@@ -30,7 +31,11 @@ class DailyActivity extends React.Component {
     activities: PropTypes.shape(),
     dayId: PropTypes.string,
     updateDay: PropTypes.func,
-    bulletSize: PropTypes.number
+    bulletSize: PropTypes.number,
+    isAddActivity: PropTypes.bool,
+    categories: PropTypes.arrayOf(PropTypes.string),
+    handleActivitySubmit: PropTypes.func,
+    theme: PropTypes.shape()
   };
 
   render() {
@@ -40,18 +45,38 @@ class DailyActivity extends React.Component {
     return (
       <DailyActivityTag>
         <DailyActivityNameTag>{activity.name}</DailyActivityNameTag>
-        <Bullet
-          key={`${activity.id}_${dayId}_Daily`}
-          activity={activity}
-          dayId={dayId}
-          updateDay={this.props.updateDay}
-          bulletSize={this.props.bulletSize || 30}
-        />
-        <DailyActivityDetails
-          key={`${activity.id}_${dayId}_Details`}
-          activity={activity}
-          dayId={dayId}
-        />
+        {this.props.isAddActivity ? (
+          <>
+            <EditActivity
+              isAddActivity={true}
+              categories={this.props.categories}
+              handleActivitySubmit={this.props.handleActivitySubmit}
+              colours={this.props.theme.colours}
+            />
+            <DailyActivityDetails
+              isAddActivity
+              key={`${activity.id}_${dayId}_Details`}
+              activity={activity}
+              dayId={dayId}
+            />
+          </>
+        ) : (
+          <>
+            <Bullet
+              key={`${activity.id}_${dayId}_Daily`}
+              activity={activity}
+              dayId={dayId}
+              updateDay={this.props.updateDay}
+              bulletSize={this.props.bulletSize || 30}
+            />
+            <DailyActivityDetails
+              isAddActivity={false}
+              key={`${activity.id}_${dayId}_Details`}
+              activity={activity}
+              dayId={dayId}
+            />
+          </>
+        )}
       </DailyActivityTag>
     );
   }

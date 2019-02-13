@@ -50,7 +50,8 @@ class MonthlyGrid extends React.Component {
     handleActivitySubmit: PropTypes.func,
     deleteActivityWithId: PropTypes.func,
     categories: PropTypes.arrayOf(PropTypes.string),
-    bulletSize: PropTypes.number
+    bulletSize: PropTypes.number,
+    theme: PropTypes.shape()
   };
 
   render() {

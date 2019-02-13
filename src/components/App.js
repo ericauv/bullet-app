@@ -196,6 +196,9 @@ class App extends React.Component {
           dayId={dateForGrid.toDateString()}
           updateDay={this.updateDay}
           bulletSize={theme.bulletSizes.dailyPage}
+          categories={categories}
+          handleActivitySubmit={this.handleActivitySubmit}
+          theme={theme}
         />
       );
     } else if (renderComponent === 'activities') {

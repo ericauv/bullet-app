@@ -15,27 +15,39 @@ class DailyActivityDetails extends React.Component {
   static propTypes = {
     activity: PropTypes.shape(),
     dayId: PropTypes.string,
-    updateDay: PropTypes.func
+    updateDay: PropTypes.func,
+    isAddActivity: PropTypes.bool
   };
 
   render() {
-    const activity = { ...this.props.activity };
-    const dayId = this.props.dayId;
-    const dayIdComparedToActivityLiveRange = compareDayIdToActivityLiveRange(
-      activity.dateCreated,
-      dayId
-    );
-    const day =
-      dayIdComparedToActivityLiveRange === 0 ? activity.days[dayId] : null;
-
+    let activity, dayId, dayIdComparedToActivityLiveRange, day;
+    if (this.props.isAddActivity === false) {
+      activity = { ...this.props.activity };
+      dayId = this.props.dayId;
+      dayIdComparedToActivityLiveRange = compareDayIdToActivityLiveRange(
+        activity.dateCreated,
+        dayId
+      );
+      day =
+        dayIdComparedToActivityLiveRange === 0 ? activity.days[dayId] : null;
+    }
     return (
       <DailyActivityDetailsTag>
-        <div>
-          {day
-            ? `${day.quantFilled}/${activity.quantTarget} ${activity.unit}`
-            : 'Not a valid date for this activity.'}
-        </div>
-        <div>{day ? day.notes : 'Not a valid date for this activity.'}</div>
+        {this.props.isAddActivity === true ? (
+          <>
+            <div>Create New Activity</div>
+            <div>Create New Activity</div>
+          </>
+        ) : (
+          <>
+            <div>
+              {day
+                ? `${day.quantFilled}/${activity.quantTarget} ${activity.unit}`
+                : 'Not a valid date for this activity.'}
+            </div>
+            <div>{day ? day.notes : 'Not a valid date for this activity.'}</div>
+          </>
+        )}
       </DailyActivityDetailsTag>
     );
   }

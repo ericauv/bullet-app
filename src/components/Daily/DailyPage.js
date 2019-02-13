@@ -35,7 +35,10 @@ class DailyPage extends React.Component {
     activities: PropTypes.shape(),
     dayId: PropTypes.string,
     updateDay: PropTypes.func,
-    bulletSize: PropTypes.number
+    bulletSize: PropTypes.number,
+    categories: PropTypes.arrayOf(PropTypes.string),
+    handleActivitySubmit: PropTypes.func,
+    theme: PropTypes.shape()
   };
 
   componentWillMount() {
@@ -74,9 +77,20 @@ class DailyPage extends React.Component {
                 dayId={dayId}
                 updateDay={this.props.updateDay}
                 bulletSize={this.props.bulletSize || 30}
+                theme={this.props.theme}
               />
             );
           })}
+          {/* Add Activity */}
+          <DailyActivity
+            key={'addActivityDaily'}
+            dayId={new Date().toDateString()}
+            updateDay={this.props.updateDay}
+            isAddActivity={true}
+            categories={this.props.categories}
+            handleActivitySubmit={this.props.handleActivitySubmit}
+            theme={this.props.theme}
+          />
         </DailyPageGridTag>
       </DailyPageTag>
     );
