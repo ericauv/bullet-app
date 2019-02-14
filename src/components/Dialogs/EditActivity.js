@@ -202,7 +202,7 @@ class EditActivity extends React.Component {
       ? this.props.fab
         ? null
         : 'Add Activity'
-      : 'Edit Activity';
+      : null;
     const { name, quantTarget, unit, desc } = this.props.activity
       ? { ...this.props.activity }
       : '';
