@@ -5,6 +5,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
+import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import PropTypes from 'prop-types';
@@ -44,7 +45,8 @@ class EditActivity extends React.Component {
     activity: PropTypes.shape(),
     isAddActivity: PropTypes.bool,
     categories: PropTypes.arrayOf(PropTypes.string),
-    handleActivitySubmit: PropTypes.func
+    handleActivitySubmit: PropTypes.func,
+    fab: PropTypes.bool
   };
 
   componentWillMount() {
@@ -186,12 +188,20 @@ class EditActivity extends React.Component {
 
   render() {
     const buttonIcon = this.props.isAddActivity ? (
-      <AddIcon fontSize="small" />
+      this.props.fab ? (
+        <Fab color="primary" aria-label="Add">
+          <AddIcon />
+        </Fab>
+      ) : (
+        <AddIcon fontSize="small" />
+      )
     ) : (
       <EditIcon fontSize="small" />
     );
     const buttonLabel = this.props.isAddActivity
-      ? 'Add Activity'
+      ? this.props.fab
+        ? null
+        : 'Add Activity'
       : 'Edit Activity';
     const { name, quantTarget, unit, desc } = this.props.activity
       ? { ...this.props.activity }
@@ -213,7 +223,7 @@ class EditActivity extends React.Component {
           style={buttonStyle}
         >
           {buttonIcon}
-          {this.props.isAddActivity ? 'Add Activity' : null}
+          {buttonLabel}
         </Button>
         <Dialog
           open={this.state.open}

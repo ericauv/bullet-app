@@ -78,6 +78,7 @@ class DailyPage extends React.Component {
                 updateDay={this.props.updateDay}
                 bulletSize={this.props.bulletSize || 30}
                 theme={this.props.theme}
+                isAddActivity={false}
               />
             );
           })}

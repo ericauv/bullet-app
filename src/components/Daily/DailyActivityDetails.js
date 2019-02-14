@@ -35,8 +35,9 @@ class DailyActivityDetails extends React.Component {
       <DailyActivityDetailsTag>
         {this.props.isAddActivity === true ? (
           <>
-            <div>Create New Activity</div>
-            <div>Create New Activity</div>
+            <div>
+              <h4>Create New Activity</h4>
+            </div>
           </>
         ) : (
           <>

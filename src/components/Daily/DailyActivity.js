@@ -48,6 +48,7 @@ class DailyActivity extends React.Component {
         {this.props.isAddActivity ? (
           <>
             <EditActivity
+              fab={true}
               isAddActivity={true}
               categories={this.props.categories}
               handleActivitySubmit={this.props.handleActivitySubmit}
