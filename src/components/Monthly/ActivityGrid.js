@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import EditActivity from '../Dialogs/EditActivity';
-import DeleteActivity from '../Dialogs/DeleteActivity';
+import ActivityName from '../ActivityName';
 import Bullet from '../Bullet';
 import {
   daysInMonth,
@@ -29,9 +27,11 @@ class ActivityGrid extends React.Component {
     dateForGrid: PropTypes.instanceOf(Date),
     updateDay: PropTypes.func,
     handleActivitySubmit: PropTypes.func,
-    categories: PropTypes.arrayOf(PropTypes.string),
+    handleDeleteActivity: PropTypes.func,
     GridTag: PropTypes.shape(),
-    bulletSize: PropTypes.number
+    bulletSize: PropTypes.number,
+    categories: PropTypes.arrayOf(PropTypes.string),
+    colours: PropTypes.shape()
   };
 
   generateDeadBullets(activity, dateForGrid) {
@@ -98,58 +98,19 @@ class ActivityGrid extends React.Component {
   }
 
   render() {
-    const ActivityNameTag = styled.div`
-      display: grid;
-      background-color: rgb(${this.props.activity.colour});
-      background-size: 10%;
-      ${this.props.activity.colour === this.props.colours.black
-        ? `color:white;`
-        : null}
-      border-radius: 2px 2px 2px 2px;
-      @media only screen and (min-width: 1101px) {
-        padding-left: 5px;
-        padding-right: 5px;
-        margin-right: 5px;
-        grid-template-columns: minmax(90px, 3fr) 1fr 1fr;
-        -webkit-align-items: center;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        align-items: center;
-        max-width: 100%;
-      }
-      @media only screen and (max-width: 1100px) {
-        padding-top: 5px;
-        padding-bottom: 5px;
-        margin-bottom: 5px;
-        writing-mode: vertical-lr;
-        grid-template-columns: minmax(90px, 3fr) 1fr 1fr;
-        align-items: center;
-        justify-items: start;
-      }
-    `;
     const activity = this.props.activity;
 
     const sortedDays = sortedDaysArrayFromDaysKeys(Object.keys(activity.days));
     const GridTag = this.props.GridTag;
     return (
       <GridTag>
-        <ActivityNameTag>
-          <span>{this.props.activity.name}</span>
-          <EditActivity
-            activity={this.props.activity}
-            categories={this.props.categories}
-            handleActivitySubmit={this.props.handleActivitySubmit}
-            isAddActivity={false}
-            style={{ maxWidth: '100%' }}
-            colours={this.props.colours}
-          />
-          <DeleteActivity
-            activity={this.props.activity}
-            categories={this.props.categories}
-            showTextInButton={false}
-            handleDeleteActivity={this.props.handleDeleteActivity}
-          />
-        </ActivityNameTag>
+        <ActivityName
+          activity={activity}
+          colours={this.props.colours}
+          categories={this.props.categories}
+          handleActivitySubmit={this.props.handleActivitySubmit}
+          handleDeleteActivity={this.props.handleDeleteActivity}
+        />
         {// Render 'dead' bullets prior to activity's start date
         this.generateDeadBullets(this.props.activity, this.props.dateForGrid)}
         {// Render Bullets for fillable days
