@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Bullet from '../Bullet';
 import EditActivity from '../Dialogs/EditActivity';
 import DailyActivityDetails from './DailyActivityDetails';
-
+import ActivityName from '../ActivityName';
 const DailyActivityTag = styled.div`
   display: grid;
   grid-template-rows: minmax(30px, 1fr) minmax(40px, 1fr) minmax(50px, 2fr);
@@ -35,6 +35,7 @@ class DailyActivity extends React.Component {
     isAddActivity: PropTypes.bool,
     categories: PropTypes.arrayOf(PropTypes.string),
     handleActivitySubmit: PropTypes.func,
+    handleDeleteActivity: PropTypes.func,
     theme: PropTypes.shape()
   };
 
@@ -44,9 +45,9 @@ class DailyActivity extends React.Component {
 
     return (
       <DailyActivityTag>
-        <DailyActivityNameTag>{activity.name}</DailyActivityNameTag>
         {this.props.isAddActivity ? (
           <>
+            <DailyActivityNameTag>Create Activity</DailyActivityNameTag>
             <EditActivity
               fab={true}
               isAddActivity={true}
@@ -63,6 +64,13 @@ class DailyActivity extends React.Component {
           </>
         ) : (
           <>
+            <ActivityName
+              activity={activity}
+              colours={this.props.theme.colours}
+              categories={this.props.categories}
+              handleActivitySubmit={this.props.handleActivitySubmit}
+              handleDeleteActivity={this.props.handleDeleteActivity}
+            />
             <Bullet
               key={`${activity.id}_${dayId}_Daily`}
               activity={activity}

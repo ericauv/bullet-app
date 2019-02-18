@@ -38,6 +38,7 @@ class DailyPage extends React.Component {
     bulletSize: PropTypes.number,
     categories: PropTypes.arrayOf(PropTypes.string),
     handleActivitySubmit: PropTypes.func,
+    handleDeleteActivity: PropTypes.func,
     theme: PropTypes.shape()
   };
 
@@ -79,6 +80,9 @@ class DailyPage extends React.Component {
                 bulletSize={this.props.bulletSize || 30}
                 theme={this.props.theme}
                 isAddActivity={false}
+                categories={this.props.categories}
+                handleActivitySubmit={this.props.handleActivitySubmit}
+                handleDeleteActivity={this.props.handleDeleteActivity}
               />
             );
           })}

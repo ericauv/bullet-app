@@ -198,6 +198,7 @@ class App extends React.Component {
           bulletSize={theme.bulletSizes.dailyPage}
           categories={categories}
           handleActivitySubmit={this.handleActivitySubmit}
+          handleDeleteActivity={this.handleDeleteActivity}
           theme={theme}
         />
       );
