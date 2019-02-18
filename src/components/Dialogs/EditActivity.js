@@ -187,44 +187,50 @@ class EditActivity extends React.Component {
   }
 
   render() {
-    const buttonIcon = this.props.isAddActivity ? (
-      this.props.fab ? (
-        <Fab color="primary" aria-label="Add">
-          <AddIcon />
-        </Fab>
-      ) : (
-        <AddIcon fontSize="small" />
-      )
-    ) : (
-      <EditIcon fontSize="small" />
-    );
+    const buttonStyle = {
+      minWidth: '20px',
+      minHeight: '20px'
+    };
     const buttonLabel = this.props.isAddActivity
       ? this.props.fab
         ? null
         : 'Add Activity'
       : null;
+    const buttonIcon = this.props.fab ? (
+      <Fab
+        aria-label={buttonLabel}
+        color="primary"
+        onClick={this.handleClickOpen}
+        style={buttonStyle}
+      >
+        <AddIcon />
+      </Fab>
+    ) : (
+      <Button
+        aria-label={buttonLabel}
+        color="primary"
+        onClick={this.handleClickOpen}
+        style={buttonStyle}
+      >
+        {this.props.isAddActivity ? (
+          <AddIcon fontSize="small" />
+        ) : (
+          <EditIcon fontSize="small" />
+        )}
+        {buttonLabel}
+      </Button>
+    );
+
     const { name, quantTarget, unit, desc } = this.props.activity
       ? { ...this.props.activity }
       : '';
     const { nameIsValid, quantTargetIsValid, unitIsValid, categoryIsValid } = {
       ...this.state.activityValidator
     };
-    const buttonStyle = {
-      minWidth: '20px',
-      minHeight: '20px'
-    };
 
     return (
       <div>
-        <Button
-          aria-label={buttonLabel}
-          color="primary"
-          onClick={this.handleClickOpen}
-          style={buttonStyle}
-        >
-          {buttonIcon}
-          {buttonLabel}
-        </Button>
+        {buttonIcon}
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}

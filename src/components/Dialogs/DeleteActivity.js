@@ -61,7 +61,7 @@ class DeleteActivity extends React.Component {
                 Cancel
               </Button>
               <Button
-                variant="raised"
+                variant="contained"
                 onClick={this.handleDelete}
                 color="primary"
                 type="submit"

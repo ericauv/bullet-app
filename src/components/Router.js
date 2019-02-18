@@ -3,6 +3,7 @@ import React from 'react';
 import App from './App';
 import Nav from './Nav';
 import PageNotFound from './PageNotFound';
+const today = new Date();
 
 const Router = () => {
   return (
@@ -12,7 +13,6 @@ const Router = () => {
           exact
           path="/"
           render={() => {
-            const today = new Date();
             return (
               <Redirect
                 to={`/daily/${today.getFullYear()}/${today.getMonth() +
