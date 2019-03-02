@@ -59,6 +59,7 @@ class ActivityGrid extends React.Component {
       const dateString = `'${gridYear}/${gridMonth}/${i}'`;
       bullets.push(
         <Bullet
+          activity={this.props.activity}
           key={`${activity.id}_${dateString}_dead`}
           dayId={new Date(dateString).toDateString()}
           isBeforeCreationDate={true}
@@ -86,6 +87,7 @@ class ActivityGrid extends React.Component {
       const dateString = `'${gridYear}/${gridMonth}/${i}'`;
       bullets.push(
         <Bullet
+          activity={this.props.activity}
           key={`${this.props.activity.id}_${dateString}_future`}
           dayId={new Date(dateString).toDateString()}
           isBeforeCreationDate={false}
