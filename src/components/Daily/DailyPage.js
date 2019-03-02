@@ -21,13 +21,13 @@ const DailyPageDateGridTag = styled.div`
     );
 `;
 const DailyPageDateHeader = styled.h1`
-  padding-top:5%
-  padding-bottom:5%
+  padding-top: 5%;
+  padding-bottom: 5%;
   border-bottom: 2px solid black;
   width: 100%;
   text-align: center;
   user-select: none;
-  cursor:pointer;
+  cursor: pointer;
 `;
 class DailyPage extends React.Component {
   state = { dayId: null };
@@ -49,12 +49,12 @@ class DailyPage extends React.Component {
   }
 
   changeDay = newDay => () => {
-    this.setState({ dayId: newDay });
+    this.setState({ dayId: new Date(newDay) });
   };
 
   render() {
     const activities = { ...this.props.activities };
-    const dayId = this.state.dayId;
+    const dayId = this.state.dayId.toDateString(); // TODO CHANGE THIS BACK MOST LIKELY
     const prevDayId = dateAdd('d', dayId, -1).toDateString();
     const nextDayId = dateAdd('d', dayId, 1).toDateString();
 

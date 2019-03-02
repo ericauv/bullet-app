@@ -156,6 +156,7 @@ class App extends React.Component {
         ? new Date()
         : proposedDateForGrid;
 
+      // Used to determine which Month Picker months to generate
       const earliestDateCreated = Object.values(this.state.activities).reduce(
         (a, b) => {
           const aDateCreated = new Date(a);
@@ -176,9 +177,9 @@ class App extends React.Component {
           />
           <MonthlyGrid
             activities={this.state.activities}
-            categories={categories}
             dateForGrid={dateForGrid}
             updateDay={this.updateDay}
+            categories={categories}
             handleActivitySubmit={this.handleActivitySubmit}
             handleDeleteActivity={this.handleDeleteActivity}
             theme={theme}
@@ -187,19 +188,17 @@ class App extends React.Component {
         </>
       );
     } else if (renderComponent === 'daily') {
-      const dateForGrid = new Date(
-        `${params.year}/${params.month}/${params.day}`
-      );
+      const dayId = new Date(`${params.year}/${params.month}/${params.day}`);
       return (
         <DailyPage
           activities={this.state.activities}
-          dayId={dateForGrid.toDateString()}
+          dayId={dayId}
           updateDay={this.updateDay}
-          bulletSize={theme.bulletSizes.dailyPage}
           categories={categories}
           handleActivitySubmit={this.handleActivitySubmit}
           handleDeleteActivity={this.handleDeleteActivity}
           theme={theme}
+          bulletSize={theme.bulletSizes.dailyPage}
         />
       );
     } else if (renderComponent === 'activities') {

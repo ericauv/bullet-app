@@ -23,7 +23,12 @@ let intervalId = null;
 
 class Bullet extends React.Component {
   state = {
-    dialogIsOpen: false
+    dialogIsOpen: false,
+    dayExists: this.props.activity.days[this.props.dayId] || null,
+    dayType: this.determineDayType(
+      this.props.activity.dateCreated,
+      this.props.dayId
+    )
   };
   static propTypes = {
     activity: PropTypes.shape(),
@@ -33,77 +38,28 @@ class Bullet extends React.Component {
     updateDay: PropTypes.func,
     bulletSize: PropTypes.number
   };
+  componentDidMount() {
+    // Create the day data if the day data doesn't exist
+    if (this.state.dayType === 0 && !this.state.dayExists) {
+      this.setState(
+        { dayExists: true },
+        this.updateDay(this.props.activity.id, this.props.dayId, 0, '')
+      );
+    }
+  }
 
-  determineBulletType() {
+  determineDayType() {
+    // If the type of day was passed down as a prop, use it for dayType
     if (this.props.isAfterToday) {
       return 1;
     } else if (this.props.isBeforeCreationDate) {
       return -1;
-    } else
+    } // Calculate the day type since it was not passed as a prop
+    else
       return compareDayIdToActivityLiveRange(
         this.props.activity.dateCreated,
         this.props.dayId
       );
-  }
-
-  styleBullet(dayIdComparedToActivityLiveRange, dayId) {
-    // All Bullet
-    const bullet = `
-    position:relative;
-    width:${`${this.props.bulletSize || 22}px`};
-    height:${`${this.props.bulletSize || 22}px`};
-    max-width:100%;
-    max-height:100%;
-    border: 1px solid;
-    border-radius: ${this.props.bulletSize * 0.09 || 2}px ${this.props
-      .bulletSize * 0.09 || 2}px ${this.props.bulletSize * 0.09 || 2}px ${this
-      .props.bulletSize * 0.09 || 2}px;
-        `;
-
-    if (dayIdComparedToActivityLiveRange === 0) {
-      // Live Bullet
-      return styled.div`
-                            ${bullet}
-                            background-color: ${`rgba(${
-                              this.props.activity.colour
-                            },${parseFloat(
-                              this.props.activity.days[dayId].quantFilled
-                            ) / parseFloat(this.props.activity.quantTarget)})`};
-                            &:hover {
-                              cursor: pointer;
-                              transform:scale(1.15);
-                              transition: all 0.2s;
-                            }
-                            `;
-    } else if (dayIdComparedToActivityLiveRange < 0) {
-      // Dead Bullet (before creation date)
-      return styled.div`
-        ${bullet}
-        background:   /* On "top" */
-                            repeating-linear-gradient(
-                              45deg,
-                              transparent,
-                              transparent 10px,
-                              #ccc 10px,
-                              #ccc 20px
-                            ),
-                            /* on "bottom" */
-                            linear-gradient(
-                              to bottom,
-                              black,
-                              #999
-                            );
-        opacity: 0.2;
-      `;
-    } else {
-      // Future Bullet (after today)
-      return styled.div`
-        ${bullet}
-        background: transparent;
-        border: dashed 1px;
-        opacity: 0.3;
-      `;
-    }
   }
 
   /* Determine Hold vs. Click press */
@@ -182,56 +138,164 @@ class Bullet extends React.Component {
   };
 
   render() {
+    const dayExists = this.state.dayExists;
+    const dayType = this.state.dayType;
     const activity = { ...this.props.activity };
     const dayId = this.props.dayId;
-    const dayIdComparedToActivityLiveRange = this.determineBulletType();
+    const showNotes = dayType === 0 && dayExists && activity.days[dayId].notes;
 
-    // Style the bullet tag based on if it is dead, future, or live bullet
-    const BulletTag = this.styleBullet(dayIdComparedToActivityLiveRange, dayId);
-    const showNotes =
-      dayIdComparedToActivityLiveRange === 0 && activity.days[dayId].notes;
-    return (
-      <div>
-        <BulletTag
-          onMouseDown={this.pressingDown}
-          onMouseUp={this.notPressingDown}
-          onMouseLeave={this.notPressingDown}
-          onTouchStart={this.pressingDown}
-          onTouchEnd={this.notPressingDown}
-        >
-          {showNotes ? (
-            <NotesTag bulletSize={this.props.bulletSize}>
-              <div
-                style={{
-                  border: '1px solid black',
-                  width: '10px',
-                  height: '10px',
-                  fontSize: '8px',
-                  textAlign: 'center',
-                  borderRadius: '50% 50% 50% 50%'
-                }}
-              >
-                i
-              </div>
-            </NotesTag>
-          ) : null}
-        </BulletTag>
-        {dayIdComparedToActivityLiveRange === 0 ? (
-          <InputDay
-            open={this.state.dialogIsOpen}
-            quantFilled={activity.days[dayId].quantFilled}
-            quantTarget={activity.quantTarget}
-            unit={activity.unit}
-            notes={activity.days[dayId].notes}
-            activityId={activity.id}
-            activityName={activity.name}
-            dayId={dayId}
-            updateDay={this.props.updateDay}
-            handleCloseDialog={this.handleCloseDialog}
-          />
-        ) : null}
-      </div>
-    );
+    const DayTag = `
+        position: relative;
+        width: ${`${this.props.bulletSize || 22}px`};
+        height: ${`${this.props.bulletSize || 22}px`};
+        max-width: 100%;
+        max-height: 100%;
+        border: 1px solid;
+        border-radius: ${this.props.bulletSize * 0.09 || 2}px
+          ${this.props.bulletSize * 0.09 || 2}px
+          ${this.props.bulletSize * 0.09 || 2}px
+          ${this.props.bulletSize * 0.09 || 2}px;
+      `;
+    const DeadDayTag = styled.div`
+      ${DayTag}
+      background:   /* On "top" */ repeating-linear-gradient(
+          45deg,
+          transparent,
+          transparent 10px,
+          #ccc 10px,
+          #ccc 20px
+        ),
+        /* on "bottom" */ linear-gradient(to bottom, black, #999);
+      opacity: 0.2;
+    `;
+    const FutureDayTag = styled.div`
+      ${DayTag}
+      background: transparent;
+      border: dashed 1px;
+      opacity: 0.3;
+    `;
+
+    /* Return Based on Day Type */
+    if (dayType === 0) {
+      // Active Day
+      if (dayExists) {
+        const ActiveDayTag = styled.div`
+    ${DayTag}
+          background-color: ${`rgba(${this.props.activity.colour},${parseFloat(
+            this.props.activity.days[dayId].quantFilled
+          ) / parseFloat(this.props.activity.quantTarget)})`};
+          &:hover {
+            cursor: pointer;
+            transform: scale(1.15);
+            transition: all 0.2s;
+          }
+        `;
+        // Day Exists
+        return (
+          <div>
+            <ActiveDayTag
+              onMouseDown={this.pressingDown}
+              onMouseUp={this.notPressingDown}
+              onMouseLeave={this.notPressingDown}
+              onTouchStart={this.pressingDown}
+              onTouchEnd={this.notPressingDown}
+            >
+              {showNotes ? (
+                <NotesTag bulletSize={this.props.bulletSize}>
+                  <div
+                    style={{
+                      border: '1px solid black',
+                      width: '10px',
+                      height: '10px',
+                      fontSize: '8px',
+                      textAlign: 'center',
+                      borderRadius: '50% 50% 50% 50%'
+                    }}
+                  >
+                    i
+                  </div>
+                </NotesTag>
+              ) : null}
+            </ActiveDayTag>
+            <InputDay
+              open={this.state.dialogIsOpen}
+              quantFilled={activity.days[dayId].quantFilled}
+              quantTarget={activity.quantTarget}
+              unit={activity.unit}
+              notes={activity.days[dayId].notes}
+              activityId={activity.id}
+              activityName={activity.name}
+              dayId={dayId}
+              updateDay={this.props.updateDay}
+              handleCloseDialog={this.handleCloseDialog}
+            />
+          </div>
+        );
+        // Day Doesn't Exist
+      } else return <DayTag />;
+    }
+    // Dead Day (before creation date)
+    else if (dayType === -1) {
+      return <DeadDayTag />;
+    }
+    // Future Day (After today)
+    else if (dayType === 1) {
+      return <FutureDayTag />;
+    }
   }
 }
+
 export default Bullet;
+
+// render() {
+//   const activity = { ...this.props.activity };
+//   const dayId = this.props.dayId;
+//   const dayIdComparedToActivityLiveRange = this.determineBulletType();
+
+//   // Style the bullet tag based on if it is dead, future, or live bullet
+//   const BulletTag = this.styleBullet(dayIdComparedToActivityLiveRange, dayId);
+//   const showNotes =
+//     dayIdComparedToActivityLiveRange === 0 && activity.days[dayId].notes;
+//   return (
+//     <div>
+//       <BulletTag
+//         onMouseDown={this.pressingDown}
+//         onMouseUp={this.notPressingDown}
+//         onMouseLeave={this.notPressingDown}
+//         onTouchStart={this.pressingDown}
+//         onTouchEnd={this.notPressingDown}
+//       >
+//         {showNotes ? (
+//           <NotesTag bulletSize={this.props.bulletSize}>
+//             <div
+//               style={{
+//                 border: '1px solid black',
+//                 width: '10px',
+//                 height: '10px',
+//                 fontSize: '8px',
+//                 textAlign: 'center',
+//                 borderRadius: '50% 50% 50% 50%'
+//               }}
+//             >
+//               i
+//             </div>
+//           </NotesTag>
+//         ) : null}
+//       </BulletTag>
+//       {dayIdComparedToActivityLiveRange === 0 ? (
+//         <InputDay
+//           open={this.state.dialogIsOpen}
+//           quantFilled={activity.days[dayId].quantFilled}
+//           quantTarget={activity.quantTarget}
+//           unit={activity.unit}
+//           notes={activity.days[dayId].notes}
+//           activityId={activity.id}
+//           activityName={activity.name}
+//           dayId={dayId}
+//           updateDay={this.props.updateDay}
+//           handleCloseDialog={this.handleCloseDialog}
+//         />
+//       ) : null}
+//     </div>
+//   );
+// }
